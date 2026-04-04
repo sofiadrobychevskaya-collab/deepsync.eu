@@ -416,11 +416,13 @@
     <script>
         // --- DOWNLOAD & MODAL LOGIC ---
         let isRegistered = false;
+        // Прямая ссылка на экспорт вашей таблицы в Excel
+        const excelDownloadURL = 'https://docs.google.com/spreadsheets/d/1jTxd0akJnaqF4voBSjQsRV9zwLRYCJezR-Yxv9g0QFk/export?format=xlsx';
 
         function handleDownload() {
             if (isRegistered) {
                 // Если уже регистрировался в этой сессии - качаем сразу
-                window.location.href = 'database.xlsx'; 
+                window.location.href = excelDownloadURL; 
             } else {
                 // Показываем окно регистрации
                 document.getElementById('registrationModal').style.display = 'flex';
@@ -460,7 +462,7 @@
                 closeModal();
                 alert('Registration successful! Your download is starting now.');
                 // Запускаем скачивание файла
-                window.location.href = 'database.xlsx'; 
+                window.location.href = excelDownloadURL; 
             })
             .catch(error => {
                 console.error('Error!', error.message);
