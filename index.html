@@ -155,7 +155,8 @@
         <div class="container">
             <div class="hero-content reveal">
                 <h1>Secure Equity-Free EU Funding for DeepTech</h1>
-                <p>We engineer the scientific and political ecosystem required to secure multi-million euro equity-free capital for breakthrough innovators.</p>
+                <!-- ОБНОВЛЕННЫЙ ТЕКСТ ЗДЕСЬ -->
+                <p>We connect Europe's most ambitious innovators directly with EU institutions — navigating the ecosystem so your technology gets the recognition and funding it deserves.</p>
                 <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
                     <a href="#contact" class="btn btn-gold">Request Strategy Session <i class="fas fa-arrow-right"></i></a>
                     <a href="#database" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">Cascade Funding Database</a>
@@ -164,6 +165,7 @@
         </div>
     </header>
 
+    <!-- NEW CASCADE FUNDING SECTION -->
     <section id="database" class="database-section">
         <div class="container">
             <div class="db-card reveal">
@@ -186,6 +188,7 @@
         </div>
     </section>
 
+    <!-- REGISTRATION MODAL -->
     <div id="registrationModal" class="modal-overlay">
         <div class="modal-card">
             <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
@@ -221,6 +224,7 @@
         </div>
     </section>
 
+    <!-- SERVICES SECTION -->
     <section id="services" class="services-section">
         <div class="container">
             <div class="services-intro reveal">
@@ -311,7 +315,7 @@
         </div>
     </section>
 
-    <!-- NETWORK SECTION - ALL PARTNERS RESTORED -->
+    <!-- NETWORK SECTION RESTORED -->
     <section id="network" class="network-section">
         <div class="container">
             <h2 style="text-align: center; font-size: clamp(28px, 5vw, 42px); margin-bottom: 60px;" class="reveal">Network Intelligence</h2>
@@ -403,16 +407,14 @@
             btn.innerText = 'Sending...';
             btn.disabled = true;
 
-            // ВАШ НОВЫЙ URL (Version 4)
             const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbwGqnv6UtLY_7R3h0pKrcuki8Ra9pgIIMfOkVNKrqwkD2JBmDI5EB3azHdmQntPxTc/exec';
             
-            // Самый надежный способ передачи: через URL (GET)
-            const finalURL = scriptURL + 
+            const queryURL = scriptURL + 
                 '?name=' + encodeURIComponent(document.getElementById('regName').value) +
                 '&email=' + encodeURIComponent(document.getElementById('regEmail').value) +
                 '&org=' + encodeURIComponent(document.getElementById('regOrg').value);
 
-            fetch(finalURL, { method: 'GET', mode: 'no-cors' })
+            fetch(queryURL, { method: 'GET', mode: 'no-cors' })
             .then(() => {
                 isRegistered = true;
                 closeModal();
@@ -420,7 +422,7 @@
                 window.location.href = excelDownloadURL; 
             })
             .catch(() => {
-                alert('Error. Please try again.');
+                alert('Connection error. Try again.');
                 btn.innerText = 'Complete & Download';
                 btn.disabled = false;
             });
