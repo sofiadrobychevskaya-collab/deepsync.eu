@@ -164,6 +164,7 @@
         </div>
     </header>
 
+    <!-- NEW CASCADE FUNDING SECTION -->
     <section id="database" class="database-section">
         <div class="container">
             <div class="db-card reveal">
@@ -186,6 +187,7 @@
         </div>
     </section>
 
+    <!-- REGISTRATION MODAL -->
     <div id="registrationModal" class="modal-overlay">
         <div class="modal-card">
             <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
@@ -221,6 +223,7 @@
         </div>
     </section>
 
+    <!-- SERVICES SECTION -->
     <section id="services" class="services-section">
         <div class="container">
             <div class="services-intro reveal">
@@ -255,7 +258,7 @@
                                 <p class="tl-phase">Before the call drops</p>
                                 <h4 class="tl-title">We read the room in Brussels</h4>
                                 <p class="tl-body">We follow the trail of policy signals so by the time a topic goes live, you've already been building toward it for months.</p>
-                                <div class="tl-tags"><span class="tl-tag">Work programme monitoring</span></div>
+                                <div class="tl-tags"><span class="tl-tag">Work programme monitoring</span><span class="tl-tag">Regulatory intelligence</span></div>
                             </div>
                         </div>
                         <div class="tl-item">
@@ -263,7 +266,8 @@
                             <div class="tl-content">
                                 <p class="tl-phase">Shaping the strategy</p>
                                 <h4 class="tl-title">We map who matters for your project</h4>
-                                <p class="tl-body">We identify exactly who needs to see your project succeed, and we plan around that — not around the template.</p>
+                                <p class="tl-body">Every EU call has a political context. We identify exactly who needs to see your project succeed, and we plan around that — not around the template.</p>
+                                <div class="tl-tags"><span class="tl-tag">Stakeholder mapping</span><span class="tl-tag">Call alignment strategy</span></div>
                             </div>
                         </div>
                         <div class="tl-item">
@@ -271,7 +275,8 @@
                             <div class="tl-content">
                                 <p class="tl-phase">Building the consortium</p>
                                 <h4 class="tl-title">We bring the right Brussels voices in</h4>
-                                <p class="tl-body">We bring Brussels-based policy advisors and associations in as active members. That's what moves Impact scores.</p>
+                                <p class="tl-body">We bring Brussels-based policy advisors and associations in as active members. That's what moves Impact scores. Evaluators can tell the difference.</p>
+                                <div class="tl-tags"><span class="tl-tag">Policy advisor placement</span><span class="tl-tag">Consortium credibility</span></div>
                             </div>
                         </div>
                         <div class="tl-item">
@@ -279,13 +284,14 @@
                             <div class="tl-content">
                                 <p class="tl-phase">Proposal & beyond</p>
                                 <h4 class="tl-title">We make sure the right people hear you</h4>
-                                <p class="tl-body">We craft the messages that land with evaluators, coordinate engagement with policymakers, and keep you audit-ready.</p>
+                                <p class="tl-body">We craft the messages that land with evaluators, coordinate engagement with policymakers, and keep you audit-ready throughout the full lifecycle.</p>
+                                <div class="tl-tags"><span class="tl-tag">Strategic communications</span><span class="tl-tag">Regulatory compliance</span></div>
                             </div>
                         </div>
                     </div>
 
                     <div class="pa-outcome-box">
-                        <p><strong>The result isn't just a funded project.</strong> It's a position inside the European policy ecosystem.</p>
+                        <p><strong>The result isn't just a funded project.</strong> It's a position inside the European policy ecosystem — with relationships and credibility that compound over time.</p>
                         <a href="#contact" class="btn btn-gold" style="padding: 14px 28px; font-size: 13px;">Talk to us →</a>
                     </div>
                 </div>
@@ -294,7 +300,7 @@
                     <div class="funding-grid">
                         <div>
                             <h3 style="font-size: 32px; margin-bottom: 20px; color: var(--primary);">EU Funding Excellence</h3>
-                            <p style="color: var(--muted); font-size: 17px; margin-bottom: 30px;">We provide the technical and scientific backbone for multi-partner projects.</p>
+                            <p style="color: var(--muted); font-size: 17px; margin-bottom: 30px;">We provide the technical and scientific backbone for multi-partner projects, ensuring every box is checked and every milestone reached.</p>
                         </div>
                         <ul class="funding-list">
                             <li><i class="fas fa-check-circle"></i> Project management & compliance</li>
@@ -308,6 +314,7 @@
         </div>
     </section>
 
+    <!-- NETWORK SECTION -->
     <section id="network" class="network-section">
         <div class="container">
             <h2 style="text-align: center; font-size: clamp(28px, 5vw, 42px); margin-bottom: 60px;" class="reveal">Network Intelligence</h2>
@@ -395,27 +402,26 @@
 
         function submitRegistration(e) {
             e.preventDefault();
-            
-            // НОВЫЙ URL ИЗ ВАШЕГО ПОСЛЕДНЕГО СООБЩЕНИЯ (v3)
-            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbyZaTwLlAodDXIu2tEryu6_m8oqFkDSBZy4Dld4qzsJ_GXDM6uvIGqWBBk4pg-wkecQ/exec';
-            
             const btn = e.target.querySelector('button');
             btn.innerText = 'Sending...';
             btn.disabled = true;
 
-            const formData = new URLSearchParams();
-            formData.append('name', document.getElementById('regName').value);
-            formData.append('email', document.getElementById('regEmail').value);
-            formData.append('org', document.getElementById('regOrg').value);
+            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbyZaTwLlAodDXIu2tEryu6_m8oqFkDSBZy4Dld4qzsJ_GXDM6uvIGqWBBk4pg-wkecQ/exec';
+            
+            // Фикс передачи данных: добавляем их прямо в URL (GET запрос через fetch)
+            const finalURL = scriptURL + 
+                '?name=' + encodeURIComponent(document.getElementById('regName').value) +
+                '&email=' + encodeURIComponent(document.getElementById('regEmail').value) +
+                '&org=' + encodeURIComponent(document.getElementById('regOrg').value);
 
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+            fetch(finalURL, { method: 'GET', mode: 'no-cors' })
             .then(() => {
                 isRegistered = true;
                 closeModal();
-                alert('Registration successful! Your download is starting now.');
+                alert('Registration successful! Download starting.');
                 window.location.href = excelDownloadURL; 
             })
-            .catch(error => {
+            .catch(() => {
                 alert('Error. Please try again.');
                 btn.innerText = 'Complete & Download';
                 btn.disabled = false;
