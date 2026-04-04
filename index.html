@@ -24,7 +24,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.5; overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+        h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
         .numbers { font-family: 'Space Grotesk', sans-serif; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
         
@@ -32,7 +32,6 @@
         .btn-gold { background: var(--gold); color: var(--navy); }
         .btn-gold:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(255, 204, 0, 0.4); }
 
-        /* Announcement Bar */
         #announcement-bar { background: var(--gold); color: var(--navy); padding: 12px; text-align: center; font-weight: 700; font-size: 13px; position: relative; z-index: 1100; text-transform: uppercase; letter-spacing: 0.5px; }
         #announcement-bar a { color: var(--navy); text-decoration: underline; margin-left: 5px; }
 
@@ -50,12 +49,12 @@
         #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.3; pointer-events: none; }
 
         /* SERVICES SECTION */
-        .services-section { padding: 120px 0; background: var(--bg); text-align: center; }
-        .services-intro { max-width: 900px; margin: 0 auto 60px; }
+        .services-section { padding: 120px 0; background: var(--bg); }
+        .services-intro { max-width: 900px; margin: 0 auto 60px; text-align: center; }
         .services-intro h2 { font-size: 48px; color: var(--primary); margin-bottom: 24px; }
         .services-intro p { font-size: 18px; color: var(--muted); line-height: 1.6; }
 
-        .services-tabs-container { background: var(--white); border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); display: flex; overflow: hidden; max-width: 600px; margin: 0 auto; }
+        .services-tabs-container { background: var(--white); border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); display: flex; overflow: hidden; max-width: 600px; margin: 0 auto; border: 1px solid rgba(0,0,0,0.05); }
         .service-tab { flex: 1; padding: 30px 20px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; border-right: 1px solid #f0f0f0; }
         .service-tab:last-child { border-right: none; }
         .service-tab i { font-size: 28px; color: var(--primary); opacity: 0.6; }
@@ -63,12 +62,31 @@
         .service-tab.active { background: var(--primary); }
         .service-tab.active i, .service-tab.active span { color: var(--white); opacity: 1; }
 
-        .tab-content-display { max-width: 900px; margin: 40px auto 0; text-align: left; background: var(--white); padding: 50px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .tab-content-display { max-width: 1000px; margin: 40px auto 0; background: var(--white); padding: 60px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .content-panel { display: none; }
-        .content-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; animation: fadeIn 0.5s ease; }
-        .content-panel ul { list-style: none; }
-        .content-panel li { margin-bottom: 12px; font-size: 16px; font-weight: 500; display: flex; align-items: center; gap: 12px; color: var(--navy); }
-        .content-panel li i { color: var(--gold); font-size: 14px; }
+        .content-panel.active { display: block; animation: fadeIn 0.5s ease; }
+
+        /* Public Affairs Timeline Style */
+        .pa-timeline { display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
+        .tl-item { display: grid; grid-template-columns: 64px 1fr; gap: 0 32px; position: relative; }
+        .tl-item:not(:last-child)::after { content: ''; position: absolute; left: 31px; top: 48px; bottom: 0; width: 1px; background: #ddd8d0; }
+        .tl-num { width: 36px; height: 36px; border-radius: 50%; background: var(--navy); color: var(--gold); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; margin-top: 8px; }
+        .tl-content { padding-bottom: 56px; }
+        .tl-phase { font-size: 11px; text-transform: uppercase; color: #b08a2e; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+        .tl-title { font-size: 22px; color: var(--navy); margin-bottom: 12px; }
+        .tl-body { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 700px; }
+        .tl-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+        .tl-tag { font-size: 12px; padding: 6px 14px; border-radius: 20px; background: #ece8e0; color: #4b5563; font-weight: 600; }
+
+        .pa-outcome-box { margin-top: 40px; padding: 40px; background: var(--navy); border-radius: 20px; display: flex; justify-content: space-between; align-items: center; gap: 30px; flex-wrap: wrap; color: #fff; }
+        .pa-outcome-box p { font-size: 17px; max-width: 600px; color: #d1d5db; }
+        .pa-outcome-box strong { color: #fff; }
+
+        /* EU Funding Style */
+        .funding-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .funding-list { list-style: none; }
+        .funding-list li { margin-bottom: 20px; font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 15px; color: var(--navy); }
+        .funding-list li i { color: var(--gold); font-size: 18px; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -89,14 +107,14 @@
         .contact { padding: 120px 0; }
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
         .contact-links a { display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--navy); font-weight: 700; margin-bottom: 20px; font-size: 18px; transition: 0.3s; }
-        
         footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 60px 0; text-align: center; }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 992px) {
-            .stats-grid, .contact-grid, .content-panel.active { grid-template-columns: 1fr; }
+            .stats-grid, .contact-grid, .funding-grid { grid-template-columns: 1fr; }
+            .pa-outcome-box { flex-direction: column; text-align: center; }
             .hero { padding: 80px 0 120px; text-align: center; }
             .nav-links { display: none; }
         }
@@ -173,31 +191,87 @@
             </div>
 
             <div class="tab-content-display reveal">
-                <!-- Public Affairs -->
+                <!-- Public Affairs Timeline -->
                 <div id="pa-content" class="content-panel active">
-                    <div>
-                        <h3 style="font-size: 24px; margin-bottom: 20px; color: var(--primary);">Brussels Insider Intelligence</h3>
-                        <p style="color: var(--muted); font-size: 16px;">We turn regulatory proximity into strategic opportunities, ensuring your technology is aligned with EU policy priorities before calls are published.</p>
+                    <div style="border-bottom: 1px solid #eee; padding-bottom: 30px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
+                        <div>
+                            <h3 style="font-size: 32px; color: var(--navy);">Public Affairs</h3>
+                            <p style="color: #b08a2e; font-weight: 700; font-size: 12px; text-transform: uppercase; margin-top: 10px;">Brussels · EU Institutions · Member States</p>
+                        </div>
+                        <p style="max-width: 400px; color: var(--muted); font-size: 15px;">Most organisations approach EU funding as a paperwork problem. We approach it as a political one.</p>
                     </div>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Policy advocacy & engagement</li>
-                        <li><i class="fas fa-check-circle"></i> Legislative process navigation</li>
-                        <li><i class="fas fa-check-circle"></i> Position papers & briefs</li>
-                    </ul>
+
+                    <div class="pa-timeline">
+                        <div class="tl-item">
+                            <div class="tl-num">1</div>
+                            <div class="tl-content">
+                                <p class="tl-phase">Before the call drops</p>
+                                <h4 class="tl-title">We read the room in Brussels</h4>
+                                <p class="tl-body">EU work programmes don't appear out of nowhere. We follow the trail of policy signals so by the time a topic goes live, you've already been building toward it for months.</p>
+                                <div class="tl-tags">
+                                    <span class="tl-tag">Work programme monitoring</span>
+                                    <span class="tl-tag">Regulatory intelligence</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-num">2</div>
+                            <div class="tl-content">
+                                <p class="tl-phase">Shaping the strategy</p>
+                                <h4 class="tl-title">We map who matters for your project</h4>
+                                <p class="tl-body">Every EU call has a political context. We identify exactly who needs to see your project succeed, and we plan around that — not around the template.</p>
+                                <div class="tl-tags">
+                                    <span class="tl-tag">Stakeholder mapping</span>
+                                    <span class="tl-tag">Call alignment strategy</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-num">3</div>
+                            <div class="tl-content">
+                                <p class="tl-phase">Building the consortium</p>
+                                <h4 class="tl-title">We bring the right Brussels voices in</h4>
+                                <p class="tl-body">We bring Brussels-based policy advisors and associations in as active members. That's what moves Impact scores. Evaluators can tell the difference.</p>
+                                <div class="tl-tags">
+                                    <span class="tl-tag">Policy advisor placement</span>
+                                    <span class="tl-tag">Consortium credibility</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-num">4</div>
+                            <div class="tl-content">
+                                <p class="tl-phase">Proposal & beyond</p>
+                                <h4 class="tl-title">We make sure the right people hear you</h4>
+                                <p class="tl-body">We craft the messages that land with evaluators, coordinate engagement with policymakers, and keep you audit-ready throughout the full lifecycle.</p>
+                                <div class="tl-tags">
+                                    <span class="tl-tag">Strategic communications</span>
+                                    <span class="tl-tag">Regulatory compliance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pa-outcome-box">
+                        <p><strong>The result isn't just a funded project.</strong> It's a position inside the European policy ecosystem — with relationships and credibility that compound over time.</p>
+                        <a href="#contact" class="btn btn-gold" style="padding: 14px 28px; font-size: 13px;">Talk to us →</a>
+                    </div>
                 </div>
 
                 <!-- EU Funding -->
                 <div id="funding-content" class="content-panel">
-                    <div>
-                        <h3 style="font-size: 24px; margin-bottom: 20px; color: var(--primary);">Lifecycle Grant Excellence</h3>
-                        <p style="color: var(--muted); font-size: 16px;">From identifying the right call to final reporting, we provide the technical and scientific backbone for multi-partner projects.</p>
+                    <div class="funding-grid">
+                        <div>
+                            <h3 style="font-size: 32px; margin-bottom: 20px; color: var(--primary);">EU Funding Excellence</h3>
+                            <p style="color: var(--muted); font-size: 17px; margin-bottom: 30px;">We provide the technical and scientific backbone for multi-partner projects, ensuring every box is checked and every milestone reached.</p>
+                        </div>
+                        <ul class="funding-list">
+                            <li><i class="fas fa-check-circle"></i> Project management & compliance</li>
+                            <li><i class="fas fa-check-circle"></i> Consortium building</li>
+                            <li><i class="fas fa-check-circle"></i> Proposal Writing</li>
+                            <li><i class="fas fa-check-circle"></i> Reports & Audits</li>
+                        </ul>
                     </div>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Project management & compliance</li>
-                        <li><i class="fas fa-check-circle"></i> Consortium building</li>
-                        <li><i class="fas fa-check-circle"></i> Proposal Writing</li>
-                        <li><i class="fas fa-check-circle"></i> Reports & Audits</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -220,6 +294,7 @@
                 <div class="partner-pill">Karolinska Institute 🇸🇪</div>
                 <div class="partner-pill">University of Thessaly 🇬🇷</div>
                 <div class="partner-pill">Holbæk Hospital 🇩🇰</div>
+                <div class="partner-pill">Slagelse Hospital 🇩🇰</div>
                 <div class="partner-pill">Durham University 🇬🇧</div>
                 <div class="partner-pill">Oulu University 🇫🇮</div>
                 <div class="partner-pill">Hospital del Mar 🇪🇸</div>
@@ -282,13 +357,9 @@
         function openService(evt, serviceName) {
             let i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("content-panel");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
+            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
             tablinks = document.getElementsByClassName("service-tab");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
+            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
             document.getElementById(serviceName).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
