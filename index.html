@@ -250,7 +250,6 @@
             </div>
 
             <div class="tab-content-display reveal">
-                <!-- Public Affairs Timeline -->
                 <div id="pa-content" class="content-panel active">
                     <div style="border-bottom: 1px solid #eee; padding-bottom: 30px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
                         <div>
@@ -259,7 +258,6 @@
                         </div>
                         <p style="max-width: 400px; color: var(--muted); font-size: 15px;">Most organisations approach EU funding as a paperwork problem. We approach it as a political one.</p>
                     </div>
-
                     <div class="pa-timeline">
                         <div class="tl-item">
                             <div class="tl-num">1</div>
@@ -310,14 +308,12 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="pa-outcome-box">
                         <p><strong>The result isn't just a funded project.</strong> It's a position inside the European policy ecosystem — with relationships and credibility that compound over time.</p>
                         <a href="#contact" class="btn btn-gold" style="padding: 14px 28px; font-size: 13px;">Talk to us →</a>
                     </div>
                 </div>
 
-                <!-- EU Funding -->
                 <div id="funding-content" class="content-panel">
                     <div class="funding-grid">
                         <div>
@@ -336,12 +332,10 @@
         </div>
     </section>
 
-    <!-- NETWORK SECTION -->
     <section id="network" class="network-section">
         <div class="container">
             <h2 style="text-align: center; font-size: 42px; margin-bottom: 60px;" class="reveal">Network Intelligence</h2>
         </div>
-        
         <div class="marquee reveal">
             <div class="marquee-content">
                 <div class="partner-pill">RWTH Aachen University 🇩🇪</div>
@@ -362,7 +356,6 @@
                 <div class="partner-pill">MEET Battery Research Center 🇩🇪</div>
             </div>
         </div>
-
         <div class="marquee reveal">
             <div class="marquee-content" style="animation-direction: reverse;">
                 <div class="partner-pill">Pedro Nunes Institute 🇵🇹</div>
@@ -407,7 +400,6 @@
 
     <footer>
         <div class="container">
-            <!-- Путь исправлен под ваш GitHub -->
             <img src="whitepng.png" alt="DeepSync" style="height: 35px; margin-bottom: 20px;">
             <p>© 2025 DeepSync Innovation Strategy.</p>
         </div>
@@ -421,10 +413,8 @@
 
         function handleDownload() {
             if (isRegistered) {
-                // Если уже регистрировался в этой сессии - качаем сразу
                 window.location.href = excelDownloadURL; 
             } else {
-                // Показываем окно регистрации
                 document.getElementById('registrationModal').style.display = 'flex';
             }
         }
@@ -436,8 +426,8 @@
         function submitRegistration(e) {
             e.preventDefault();
             
-            // ВАШ URL ИЗ GOOGLE APPS SCRIPT
-            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbyLX2zOMZ4laXQmFzj6Rq12pzlrsqLbuN1L8Lbi5Is2WDDourgSpKRBx1NdGWA1w5m5/exec';
+            // ОБНОВЛЕННЫЙ URL ИЗ ВАШЕГО ПОСЛЕДНЕГО СООБЩЕНИЯ
+            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbzBOdqGuyMtZgC2br_W32O-NdsdOnAKF1RYDdQc6f1dyI-1Tao09zAbeeNwAKaYqW0U/exec';
             
             const btn = e.target.querySelector('button');
             const originalText = btn.innerText;
@@ -452,7 +442,7 @@
             // Отправка в Google Sheet
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors', // Позволяет отправлять данные в Google без ошибок CORS
+                mode: 'no-cors',
                 cache: 'no-cache',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: formData.toString()
