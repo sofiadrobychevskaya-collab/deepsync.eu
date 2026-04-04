@@ -112,19 +112,59 @@
         .modal-card h3 { font-size: 28px; margin-bottom: 10px; }
         .modal-card input { width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid #ddd; font-family: var(--font-main); font-size: 16px; outline: none; }
 
-        /* Services */
+        /* --- ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ SERVICES (КАК НА СКРИНЕ 1) --- */
         .services-section { padding: 120px 0; }
-        .services-intro h2 { font-size: clamp(32px, 5vw, 48px); color: var(--primary); margin-bottom: 24px; text-align: center; }
+        .services-intro h2 { 
+            font-size: clamp(48px, 8vw, 72px); 
+            color: var(--primary); 
+            margin-bottom: 40px; 
+            text-align: center; 
+            font-weight: 800;
+        }
 
-        .services-tabs-container { background: var(--white); border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); display: flex; overflow: hidden; max-width: 600px; margin: 0 auto; border: 1px solid rgba(0,0,0,0.05); }
-        .service-tab { flex: 1; padding: 30px 20px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; border: none; background: transparent; font-family: var(--font-main); }
-        .service-tab.active { background: var(--primary); color: white; }
-        .service-tab.active i, .service-tab.active span { color: var(--white); }
-        .service-tab span { font-weight: 800; font-size: 16px; }
+        .services-tabs-container { 
+            background: #F4F7FD; 
+            border-radius: 28px; 
+            padding: 10px; 
+            display: flex; 
+            max-width: 750px; 
+            margin: 0 auto; 
+            border: 1px solid #E5E9F2;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .service-tab { 
+            flex: 1; 
+            padding: 18px 30px; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            display: flex; 
+            flex-direction: row; /* Горизонтально */
+            align-items: center; 
+            justify-content: center;
+            gap: 14px; 
+            border: none; 
+            background: transparent; 
+            font-family: var(--font-main); 
+            border-radius: 20px;
+            color: #5A6A85;
+            white-space: nowrap;
+        }
+
+        .service-tab i { font-size: 22px; opacity: 0.9; }
+        .service-tab span { font-weight: 700; font-size: 18px; }
+
+        .service-tab.active { 
+            background: #003399; /* Насыщенный синий */
+            color: white !important; 
+            box-shadow: 0 10px 25px rgba(0, 51, 153, 0.25);
+        }
+        .service-tab.active i { color: white; opacity: 1; }
 
         .tab-content-display { max-width: 1100px; margin: 40px auto 0; background: var(--white); padding: 60px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .content-panel { display: none; }
         .content-panel.active { display: block; animation: fadeIn 0.5s ease; }
+        /* -------------------------------------------------------- */
 
         /* EU Roadmap */
         .lc-phase-group { margin-bottom: 50px; width: 100%; }
@@ -281,13 +321,13 @@
         </div>
     </div>
 
-    <!-- SERVICES SECTION -->
+    <!-- SERVICES SECTION (ОБНОВЛЕННЫЙ КУСОК) -->
     <section id="services" class="services-section">
         <div class="container">
-            <div class="services-intro reveal"><h2>Our Expertise</h2></div>
+            <div class="services-intro reveal"><h2>Our Services</h2></div>
             <div class="services-tabs-container reveal">
                 <button class="service-tab active" onclick="openService(event, 'pa-content')">
-                    <i class="fas fa-chart-bar"></i><span>Public Affairs</span>
+                    <i class="fas fa-university"></i><span>Public Affairs</span>
                 </button>
                 <button class="service-tab" onclick="openService(event, 'funding-content')">
                     <i class="fas fa-coins"></i><span>EU Funding</span>
