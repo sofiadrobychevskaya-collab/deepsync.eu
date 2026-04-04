@@ -20,6 +20,7 @@
             --muted: #5A6A85;
             --white: #FFFFFF;
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --border: #E5E9F2;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -75,10 +76,23 @@
         .service-tab.active { background: var(--primary); }
         .service-tab.active i, .service-tab.active span { color: var(--white); opacity: 1; }
 
-        .tab-content-display { max-width: 1000px; margin: 40px auto 0; background: var(--white); padding: 60px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .tab-content-display { max-width: 1100px; margin: 40px auto 0; background: var(--white); padding: 60px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .content-panel { display: none; }
         .content-panel.active { display: block; animation: fadeIn 0.5s ease; }
 
+        /* --- EU LIFECYCLE HORIZONTAL ROADMAP --- */
+        .lc-phase-group { margin-bottom: 50px; }
+        .lc-phase-label { font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; color: #003399; background: #EBF1FF; padding: 5px 12px; border-radius: 4px; display: inline-block; margin-bottom: 25px; }
+        .lc-row { display: flex; flex-direction: row; justify-content: space-between; position: relative; width: 100%; }
+        /* Тонкая горизонтальная линия */
+        .lc-row::after { content: ''; position: absolute; top: 11px; left: 20px; right: 20px; height: 1px; background: #003399; opacity: 0.2; z-index: 1; }
+        .lc-step { flex: 1; position: relative; z-index: 2; padding: 30px 10px 0 0; }
+        /* Кружок на линии */
+        .lc-step::before { content: ''; position: absolute; top: 6px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--white); border: 2px solid #003399; transition: 0.3s; }
+        .lc-step h4 { font-family: 'Inter', sans-serif; font-size: 16px; color: var(--navy); margin-bottom: 4px; text-align: left; }
+        .lc-step p { font-size: 13px; color: var(--muted); line-height: 1.4; text-align: left; }
+
+        /* Public Affairs Timeline */
         .pa-timeline { display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
         .tl-item { display: grid; grid-template-columns: 40px 1fr; gap: 0 20px; position: relative; }
         .tl-item:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 40px; bottom: 0; width: 1px; background: #ddd8d0; }
@@ -92,11 +106,6 @@
 
         .pa-outcome-box { margin-top: 40px; padding: 40px; background: var(--navy); border-radius: 20px; display: flex; justify-content: space-between; align-items: center; gap: 30px; flex-wrap: wrap; color: #fff; }
         .pa-outcome-box p { font-size: 17px; max-width: 600px; color: #d1d5db; }
-
-        .funding-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .funding-list { list-style: none; }
-        .funding-list li { margin-bottom: 20px; font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 15px; color: var(--navy); }
-        .funding-list li i { color: var(--gold); font-size: 18px; }
 
         .stats { padding: 100px 0; border-bottom: 1px solid #eee; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
@@ -118,13 +127,16 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 992px) {
-            .stats-grid, .contact-grid, .db-card, .funding-grid { grid-template-columns: 1fr; flex-direction: column; text-align: center; }
+            .stats-grid, .contact-grid, .db-card, .lc-row { grid-template-columns: 1fr; flex-direction: column; text-align: center; }
+            .lc-row::after { display: none; }
+            .lc-step { padding: 0 0 30px 0; }
+            .lc-step::before { left: 50%; margin-left: -6px; top: -20px; }
+            .lc-step h4, .lc-step p { text-align: center; }
             .db-card { padding: 40px 24px; }
             .tab-content-display { padding: 40px 24px; margin-top: 20px; }
             .pa-outcome-box { flex-direction: column; text-align: center; padding: 30px 20px; }
             .hero { padding: 80px 0 100px; text-align: center; }
             .nav-links { display: none; }
-            .service-tab { padding: 20px 10px; }
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -155,7 +167,6 @@
         <div class="container">
             <div class="hero-content reveal">
                 <h1>Secure Equity-Free EU Funding for DeepTech</h1>
-                <!-- ОБНОВЛЕННЫЙ ТЕКСТ ЗДЕСЬ -->
                 <p>We connect Europe's most ambitious innovators directly with EU institutions — navigating the ecosystem so your technology gets the recognition and funding it deserves.</p>
                 <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
                     <a href="#contact" class="btn btn-gold">Request Strategy Session <i class="fas fa-arrow-right"></i></a>
@@ -244,6 +255,7 @@
             </div>
 
             <div class="tab-content-display reveal">
+                <!-- Public Affairs Content -->
                 <div id="pa-content" class="content-panel active">
                     <div style="border-bottom: 1px solid #eee; padding-bottom: 30px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
                         <div>
@@ -297,25 +309,42 @@
                     </div>
                 </div>
 
+                <!-- EU Funding Content (ROADMAP INTEGRATED) -->
                 <div id="funding-content" class="content-panel">
-                    <div class="funding-grid">
-                        <div>
-                            <h3 style="font-size: 32px; margin-bottom: 20px; color: var(--primary);">EU Funding Excellence</h3>
-                            <p style="color: var(--muted); font-size: 17px; margin-bottom: 30px;">We provide the technical and scientific backbone for multi-partner projects, ensuring every box is checked and every milestone reached.</p>
+                    <h3 style="margin-bottom:30px; color:var(--navy);">EU Funding Lifecycle</h3>
+                    
+                    <div class="lc-phase-group">
+                        <div class="lc-phase-label">Phase 1: Positioning</div>
+                        <div class="lc-row">
+                            <div class="lc-step"><h4>Strategy Call</h4><p>Tech-to-priority mapping</p></div>
+                            <div class="lc-step"><h4>Grant Matching</h4><p>Targeted call selection</p></div>
+                            <div class="lc-step"><h4>Consortium</h4><p>EU-wide partner securing</p></div>
                         </div>
-                        <ul class="funding-list">
-                            <li><i class="fas fa-check-circle"></i> Project management & compliance</li>
-                            <li><i class="fas fa-check-circle"></i> Consortium building</li>
-                            <li><i class="fas fa-check-circle"></i> Proposal Writing</li>
-                            <li><i class="fas fa-check-circle"></i> Reports & Audits</li>
-                        </ul>
+                    </div>
+
+                    <div class="lc-phase-group">
+                        <div class="lc-phase-label">Phase 2: Application</div>
+                        <div class="lc-row">
+                            <div class="lc-step"><h4>Proposal Writing</h4><p>Drafting & Approval</p></div>
+                            <div class="lc-step"><h4>EU Submission</h4><p>Commission portal management</p></div>
+                            <div class="lc-step"><h4>Evaluation Support</h4><p>Review & rebuttal support</p></div>
+                        </div>
+                    </div>
+
+                    <div class="lc-phase-group">
+                        <div class="lc-phase-label">Phase 3: Execution</div>
+                        <div class="lc-row">
+                            <div class="lc-step"><h4>Grant Awarded</h4><p>Equity-free capital secured</p></div>
+                            <div class="lc-step"><h4>Project Management</h4><p>Reports and audits</p></div>
+                            <div class="lc-step" style="visibility:hidden;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- NETWORK SECTION RESTORED -->
+    <!-- NETWORK SECTION FULL LIST -->
     <section id="network" class="network-section">
         <div class="container">
             <h2 style="text-align: center; font-size: clamp(28px, 5vw, 42px); margin-bottom: 60px;" class="reveal">Network Intelligence</h2>
@@ -422,7 +451,7 @@
                 window.location.href = excelDownloadURL; 
             })
             .catch(() => {
-                alert('Connection error. Try again.');
+                alert('Error. Please try again.');
                 btn.innerText = 'Complete & Download';
                 btn.disabled = false;
             });
