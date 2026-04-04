@@ -164,7 +164,6 @@
         </div>
     </header>
 
-    <!-- NEW CASCADE FUNDING SECTION -->
     <section id="database" class="database-section">
         <div class="container">
             <div class="db-card reveal">
@@ -187,7 +186,6 @@
         </div>
     </section>
 
-    <!-- REGISTRATION MODAL -->
     <div id="registrationModal" class="modal-overlay">
         <div class="modal-card">
             <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
@@ -223,7 +221,6 @@
         </div>
     </section>
 
-    <!-- SERVICES SECTION -->
     <section id="services" class="services-section">
         <div class="container">
             <div class="services-intro reveal">
@@ -257,7 +254,7 @@
                             <div class="tl-content">
                                 <p class="tl-phase">Before the call drops</p>
                                 <h4 class="tl-title">We read the room in Brussels</h4>
-                                <p class="tl-body">We follow the trail of policy signals so by the time a topic goes live, you've already been building toward it for months.</p>
+                                <p class="tl-body">EU work programmes don't appear out of nowhere. We follow the trail of policy signals so by the time a topic goes live, you've already been building toward it for months.</p>
                                 <div class="tl-tags"><span class="tl-tag">Work programme monitoring</span><span class="tl-tag">Regulatory intelligence</span></div>
                             </div>
                         </div>
@@ -314,7 +311,7 @@
         </div>
     </section>
 
-    <!-- NETWORK SECTION -->
+    <!-- NETWORK SECTION - ALL PARTNERS RESTORED -->
     <section id="network" class="network-section">
         <div class="container">
             <h2 style="text-align: center; font-size: clamp(28px, 5vw, 42px); margin-bottom: 60px;" class="reveal">Network Intelligence</h2>
@@ -406,9 +403,10 @@
             btn.innerText = 'Sending...';
             btn.disabled = true;
 
-            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbyZaTwLlAodDXIu2tEryu6_m8oqFkDSBZy4Dld4qzsJ_GXDM6uvIGqWBBk4pg-wkecQ/exec';
+            // ВАШ НОВЫЙ URL (Version 4)
+            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbwGqnv6UtLY_7R3h0pKrcuki8Ra9pgIIMfOkVNKrqwkD2JBmDI5EB3azHdmQntPxTc/exec';
             
-            // Фикс передачи данных: добавляем их прямо в URL (GET запрос через fetch)
+            // Самый надежный способ передачи: через URL (GET)
             const finalURL = scriptURL + 
                 '?name=' + encodeURIComponent(document.getElementById('regName').value) +
                 '&email=' + encodeURIComponent(document.getElementById('regEmail').value) +
