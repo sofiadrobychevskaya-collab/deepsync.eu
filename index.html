@@ -32,6 +32,7 @@
         .numbers { font-family: 'Space Grotesk', sans-serif; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .section-padding { padding: 100px 0; }
+        
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2rem; border-radius: 8px; font-weight: 700; text-decoration: none; cursor: pointer; transition: var(--transition); border: none; gap: 10px; font-size: 15px; }
         .btn-gold { background-color: var(--accent-gold); color: var(--dark-navy); }
         .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3); }
@@ -45,10 +46,18 @@
         /* --- Navigation --- */
         nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; color: var(--primary-blue); font-weight: 800; display: flex; align-items: center; gap: 8px; }
-        .logo span { color: var(--accent-gold); font-size: 12px; }
+        
+        .logo img {
+            height: 48px; /* Оптимальная высота твоего логотипа */
+            width: auto;
+            display: block;
+            transition: var(--transition);
+        }
+        .logo:hover img { transform: scale(1.05); }
+
         .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 14px; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 14px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary-blue); }
 
         /* --- Hero --- */
         .hero { background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%); color: var(--white); padding: 120px 0; position: relative; overflow: hidden; }
@@ -67,15 +76,15 @@
         .services { background: var(--bg-light); }
         .section-header { text-align: center; margin-bottom: 60px; }
         .section-header h2 { font-size: 42px; color: var(--dark-navy); }
-        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
         .service-card { background: var(--white); padding: 40px; border-radius: 15px; border-left: 5px solid var(--primary-blue); transition: var(--transition); height: 100%; }
-        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,51,153,0.1); }
         .service-icon { font-size: 32px; color: var(--primary-blue); background: var(--bg-light); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin-bottom: 20px; }
 
         /* --- Programs Grid --- */
         .programs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .program-card { border: 1px solid #E5E9F2; padding: 30px; border-radius: 12px; background: #fff; transition: var(--transition); }
-        .program-card:hover { border-color: var(--primary-blue); }
+        .program-card { border: 1px solid #E5E9F2; padding: 30px; border-radius: 12px; background: #fff; transition: var(--transition); position: relative; }
+        .program-card:hover { border-color: var(--primary-blue); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         .prog-badge { background: var(--accent-gold); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; color: var(--dark-navy); display: inline-block; margin-bottom: 15px; }
 
         /* --- Partner Marquee --- */
@@ -86,12 +95,12 @@
 
         /* --- Testimonials --- */
         .testimonials { background: var(--bg-light); }
-        .testi-slider { position: relative; max-width: 800px; margin: 0 auto; height: 350px; }
+        .testi-slider { position: relative; max-width: 800px; margin: 0 auto; min-height: 300px; }
         .testi-card { background: #fff; padding: 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: absolute; top: 0; left: 0; width: 100%; opacity: 0; transition: 0.5s; pointer-events: none; text-align: center; }
         .testi-card.active { opacity: 1; pointer-events: all; }
-        .testi-text { font-size: 20px; font-style: italic; margin-bottom: 25px; line-height: 1.5; }
+        .testi-text { font-size: 20px; font-style: italic; margin-bottom: 25px; line-height: 1.5; color: var(--text-dark); }
         .testi-meta { font-weight: 700; color: var(--primary-blue); }
-        .outcome { background: var(--success-green); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-top: 10px; }
+        .outcome { background: var(--success-green); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-top: 10px; font-weight: 600; }
 
         /* --- Eligibility --- */
         .elig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
@@ -102,11 +111,11 @@
         .elig-box li { margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start; }
 
         /* --- Contact --- */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; }
         .contact-form { background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit; font-size: 15px; }
         .contact-info-panel { background: var(--dark-navy); color: #fff; padding: 40px; border-radius: 20px; }
 
         /* --- Animations --- */
@@ -117,8 +126,9 @@
         @media (max-width: 992px) {
             .hero-grid, .stats-grid, .services-grid, .programs-grid, .elig-grid, .contact-grid { grid-template-columns: 1fr; }
             .hero { text-align: center; }
-            .hero-btns { justify-content: center; }
+            .hero-btns { justify-content: center; flex-direction: column; }
             .nav-links { display: none; }
+            .testi-slider { min-height: 450px; }
         }
     </style>
 </head>
@@ -128,35 +138,34 @@
         📢 New Grant Calls Open — EIC Accelerator 2025 | Horizon Europe → <a href="https://t.me/+i5CWWcCyqfA3MTAy" target="_blank">Join Telegram Channel</a>
     </div>
 
-   <nav>
-    <div class="container nav-flex">
-        <a href="#" class="logo">
-            <!-- Мы указываем имя файла, который ты загрузишь в GitHub -->
-            <img src="logo-black.png" alt="DeepSync Logo">
-        </a>
-        <div class="nav-links">
-            <a href="#about">Who We Are</a>
-            <a href="#services">Services</a>
-            <a href="#programs">Programs</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#contact" class="btn btn-gold" style="padding: 10px 20px;">Book Consultation</a>
+    <nav>
+        <div class="container nav-flex">
+            <a href="#" class="logo">
+                <img src="logo-black.png" alt="DeepSync Logo">
+            </a>
+            <div class="nav-links">
+                <a href="#about">Who We Are</a>
+                <a href="#services">Services</a>
+                <a href="#programs">Programs</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#contact" class="btn btn-gold" style="padding: 10px 20px;">Book Consultation</a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <header class="hero">
         <canvas id="hero-stars"></canvas>
         <div class="container hero-grid">
             <div class="reveal">
                 <h1>Secure Equity-Free EU Funding for Your DeepTech</h1>
-                <p>We connect breakthrough innovators with Horizon Europe, EIC, and EIT — handling everything from discovery to submission with a 90% success rate.</p>
+                <p>We connect breakthrough innovators with Horizon Europe, EIC, and EIT — handling everything from discovery to submission with a 90% eligibility success rate.</p>
                 <div class="hero-btns">
                     <a href="#contact" class="btn btn-gold">Book Free Strategy Session</a>
                     <a href="#programs" class="btn btn-outline">See Grant Programs →</a>
                 </div>
             </div>
             <div class="hero-map reveal">
-                <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.2;">
+                <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.25;">
                     <path d="M150 100 L200 50 L300 80 L400 50 L450 150 L400 300 L250 350 L100 300 Z" stroke="white" stroke-width="2"/>
                     <circle cx="200" cy="150" r="5" fill="#FFCC00"><animate attributeName="r" values="3;7;3" dur="2s" repeatCount="indefinite" /></circle>
                     <circle cx="300" cy="180" r="5" fill="#FFCC00"><animate attributeName="r" values="3;7;3" dur="2.5s" repeatCount="indefinite" /></circle>
@@ -192,7 +201,7 @@
             <div class="contact-grid">
                 <div class="reveal">
                     <h2>Your Expert Bridge to EU Funding</h2>
-                    <p style="margin: 20px 0; font-size: 18px; color: var(--text-muted);">DeepSync helps DeepTech startups secure equity-free capital. With over 10 years of experience, we specialize in navigating the complexity of EU grant programs.</p>
+                    <p style="margin: 20px 0; font-size: 18px; color: var(--text-muted);">DeepSync helps DeepTech startups and innovation-driven organizations secure equity-free capital. We specialize in navigating the complexity of EU grant programs and building international consortia.</p>
                     <ul style="list-style: none;">
                         <li style="margin-bottom: 15px; display: flex; gap: 10px;">
                             <i class="fas fa-certificate" style="color: var(--primary-blue);"></i>
@@ -200,18 +209,22 @@
                         </li>
                         <li style="margin-bottom: 15px; display: flex; gap: 10px;">
                             <i class="fas fa-network-wired" style="color: var(--primary-blue);"></i>
-                            <strong>50+ Pre-vetted Consortium Partners</strong>
+                            <strong>50+ Pre-vetted Consortium Partners ready to join</strong>
                         </li>
                         <li style="display: flex; gap: 10px;">
                             <i class="fas fa-check-double" style="color: var(--primary-blue);"></i>
-                            <strong>End-to-end support from discovery to audit</strong>
+                            <strong>End-to-end support from discovery through audit</strong>
                         </li>
                     </ul>
                 </div>
                 <div class="reveal">
-                    <div style="background: var(--bg-light); padding: 40px; border-radius: 20px; border-left: 8px solid var(--primary-blue);">
-                        <h4 style="margin-bottom: 15px;">Horizon Europe Certified</h4>
-                        <p style="font-size: 14px;">Our team holds official certifications for EU innovation funding management, ensuring your proposal meets the highest institutional standards.</p>
+                    <div style="background: var(--bg-light); padding: 40px; border-radius: 20px; border-left: 8px solid var(--primary-blue); box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                        <h4 style="margin-bottom: 15px; color: var(--primary-blue);">Certified Credentials</h4>
+                        <p style="font-size: 14px; margin-bottom: 20px;">Our consultants are officially recognized by European funding bodies, providing a higher success rate than generic business advisors.</p>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <span style="background: #fff; padding: 5px 10px; border-radius: 5px; font-size: 11px; font-weight: 700;">Horizon Europe Certified</span>
+                            <span style="background: #fff; padding: 5px 10px; border-radius: 5px; font-size: 11px; font-weight: 700;">EIC Partner</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -222,33 +235,33 @@
         <div class="container">
             <div class="section-header reveal">
                 <h2>End-to-End EU Grant Support</h2>
-                <p>We handle every stage so you can focus on building your product.</p>
+                <p>We handle the bureaucracy so you can focus on building breakthrough technology.</p>
             </div>
             <div class="services-grid">
                 <div class="service-card reveal">
                     <div class="service-icon"><i class="fas fa-search"></i></div>
-                    <h3>Grant Discovery</h3>
-                    <p>We identify the most relevant EU grant programs for your technology and development stage.</p>
+                    <h3>EU Grant Discovery</h3>
+                    <p>We identify the most relevant EU grant programs (EIC, Horizon, Cascade) for your sector and development stage.</p>
                 </div>
                 <div class="service-card reveal">
                     <div class="service-icon"><i class="fas fa-bullseye"></i></div>
-                    <h3>Strategy Session</h3>
-                    <p>1:1 consultation to assess eligibility and ideal timing for EIC or Horizon submissions.</p>
+                    <h3>1:1 Strategy Session</h3>
+                    <p>Dedicated consultation to assess your eligibility, readiness, and ideal timing for submission across programs.</p>
                 </div>
                 <div class="service-card reveal">
                     <div class="service-icon"><i class="fas fa-users"></i></div>
                     <h3>Consortium Building</h3>
-                    <p>Instant access to 50+ European universities and R&D centers to form a fundable team.</p>
+                    <p>Connect with our network of 50+ European universities, R&D centers, and industry leaders to form a winning team.</p>
                 </div>
                 <div class="service-card reveal">
                     <div class="service-icon"><i class="fas fa-pen-nib"></i></div>
-                    <h3>Proposal Writing</h3>
-                    <p>Complete support from structuring to final submission and compliance checks.</p>
+                    <h3>Proposal Support</h3>
+                    <p>From writing and structuring to final submission — our team ensures your proposal is complete and compliant.</p>
                 </div>
                 <div class="service-card reveal">
                     <div class="service-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Post-Funding</h3>
-                    <p>Support with project execution, milestone reporting, and official grant audits.</p>
+                    <h3>Post-Funding Support</h3>
+                    <p>We support project execution, milestone reporting, and grant audits to keep your funding secure.</p>
                 </div>
             </div>
         </div>
@@ -263,32 +276,32 @@
                 <div class="program-card reveal">
                     <span class="prog-badge">Up to €17.5M</span>
                     <h3>EIC Accelerator</h3>
-                    <p>For breakthrough innovators scaling up. Grant + Equity options available.</p>
+                    <p>For breakthrough innovators scaling up. Covers Pathfinder, Transition, and Accelerator scale-ups.</p>
                 </div>
                 <div class="program-card reveal">
                     <span class="prog-badge">Up to €3M</span>
                     <h3>EIT Communities</h3>
-                    <p>Sector-specific grants for Health, Climate, Digital, and Manufacturing.</p>
+                    <p>Sector-specific grants for Health, Climate, Digital, Manufacturing, and Food sectors.</p>
                 </div>
                 <div class="program-card reveal">
                     <span class="prog-badge">Avg. €2.5M</span>
                     <h3>Horizon Europe</h3>
-                    <p>Flagship R&D program. Collaborative grants for clusters 1-6.</p>
+                    <p>Flagship R&D program. Collaborative grants across clusters 1-6 (Digital, Climate, Energy).</p>
                 </div>
                 <div class="program-card reveal">
                     <span class="prog-badge">€50K - €200K</span>
                     <h3>Cascade Funding</h3>
-                    <p>Fast-track grants for SMEs in specialized tech domains.</p>
+                    <p>Fast-track grants for SMEs delivered through open calls under larger Horizon projects.</p>
                 </div>
                 <div class="program-card reveal">
                     <span class="prog-badge">Cross-Border</span>
                     <h3>Eureka Network</h3>
-                    <p>International collaborative funding for applied technology development.</p>
+                    <p>International collaborative funding for applied technology development across Eureka member countries.</p>
                 </div>
                 <div class="program-card reveal">
-                    <span class="prog-badge">Research Focus</span>
-                    <h3>ERC Grants</h3>
-                    <p>European Research Council grants for early-stage deep science ventures.</p>
+                    <span class="prog-badge">Early Stage</span>
+                    <h3>ERC & National</h3>
+                    <p>Grants for researchers and early-stage deep science ventures through the European Research Council.</p>
                 </div>
             </div>
         </div>
@@ -296,18 +309,18 @@
 
     <div class="marquee reveal">
         <div class="marquee-content">
-            <span>🇩🇪 RWTH Aachen</span><span>🇸🇪 Lund University</span><span>🇬🇷 University of Thessaly</span><span>🇵🇹 Pedro Nunes Institute</span><span>🇮🇹 University of Bologna</span><span>🇫🇮 Oulu University</span><span>🇩🇪 MEET Battery Center</span><span>🇪🇪 Tartu University</span><span>🇩🇪 RWTH Aachen</span><span>🇸🇪 Lund University</span><span>🇬🇷 University of Thessaly</span><span>🇵🇹 Pedro Nunes Institute</span><span>🇮🇹 University of Bologna</span><span>🇫🇮 Oulu University</span><span>🇩🇪 MEET Battery Center</span><span>🇪🇪 Tartu University</span>
+            <span>🇩🇪 RWTH Aachen</span><span>🇸🇪 Lund University</span><span>🇬🇷 University of Thessaly</span><span>🇵🇹 Pedro Nunes Institute</span><span>🇮🇹 University of Bologna</span><span>🇫🇮 Oulu University</span><span>🇩🇪 MEET Battery Center</span><span>🇪🇪 Tartu University</span><span>🇵🇹 Coimbra University</span><span>🇩🇰 Holbæk Hospital</span><span>🇩🇪 RWTH Aachen</span><span>🇸🇪 Lund University</span><span>🇬🇷 University of Thessaly</span><span>🇵🇹 Pedro Nunes Institute</span><span>🇮🇹 University of Bologna</span><span>🇫🇮 Oulu University</span>
         </div>
     </div>
 
     <section id="testimonials" class="section-padding testimonials">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Trusted by Innovators</h2>
+                <h2>Trusted by Innovators Across Europe</h2>
             </div>
             <div class="testi-slider reveal">
                 <div class="testi-card active">
-                    <p class="testi-text">"We built a 3-country, 7-partner consortium in just a few weeks. Special attention was given to the eligibility check. The project passed the stage!"</p>
+                    <p class="testi-text">"We built a 7-partner consortium in just a few weeks. Special attention was given to the eligibility check. The project passed the stage!"</p>
                     <div class="testi-meta">Heartery 🇩🇰</div>
                     <div class="outcome">Final Evaluation Stage ✅</div>
                 </div>
@@ -321,9 +334,14 @@
                     <div class="testi-meta">Soula 🇨🇾</div>
                     <div class="outcome">€1.5M Secured ✅</div>
                 </div>
+                <div class="testi-card">
+                    <p class="testi-text">"DeepSync managed the whole process from Consortium Building to delivering the application from A to Z."</p>
+                    <div class="testi-meta">Instituto Pedro Nunes 🇵🇹</div>
+                    <div class="outcome">Full-Cycle Management ✅</div>
+                </div>
             </div>
             <div style="text-align: center; margin-top: 20px;">
-                <button onclick="changeTesti()" class="btn btn-gold" style="padding: 10px 15px;">Next Success Story <i class="fas fa-chevron-right"></i></button>
+                <button onclick="changeTesti()" class="btn btn-gold" style="padding: 10px 15px;">Read Next Story <i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
     </section>
@@ -337,19 +355,19 @@
                 <div class="elig-box perfect">
                     <h3>✅ Perfect Fit</h3>
                     <ul>
-                        <li><i class="fas fa-check text-green"></i> DeepTech, AgriTech, HealthTech founders</li>
-                        <li><i class="fas fa-check text-green"></i> Startups at TRL 4 or higher</li>
+                        <li><i class="fas fa-check text-green"></i> DeepTech, AgriTech, HealthTech, IoT, Climate founders</li>
+                        <li><i class="fas fa-check text-green"></i> Startups at TRL 4 or higher (prototype validated)</li>
                         <li><i class="fas fa-check text-green"></i> Seeking funding without equity loss</li>
-                        <li><i class="fas fa-check text-green"></i> R&D components or EU ambitions</li>
+                        <li><i class="fas fa-check text-green"></i> European market expansion ambitions</li>
                     </ul>
                 </div>
                 <div class="elig-box not-fit">
-                    <h3>❌ Not a Fit</h3>
+                    <h3>❌ Not the Right Fit</h3>
                     <ul>
-                        <li><i class="fas fa-times" style="color:red"></i> No innovation or R&D component</li>
-                        <li><i class="fas fa-times" style="color:red"></i> Pre-idea or TRL 1-3 stage</li>
-                        <li><i class="fas fa-times" style="color:red"></i> Outside EU / Associated countries</li>
-                        <li><i class="fas fa-times" style="color:red"></i> Need pure commercial revenue loans</li>
+                        <li><i class="fas fa-times" style="color:red"></i> No innovation or R&D component in your product</li>
+                        <li><i class="fas fa-times" style="color:red"></i> Pre-idea or TRL 1-3 stage with no prototype</li>
+                        <li><i class="fas fa-times" style="color:red"></i> Located outside EU/Associated countries</li>
+                        <li><i class="fas fa-times" style="color:red"></i> Need revenue-based loans, not grants</li>
                     </ul>
                 </div>
             </div>
@@ -360,37 +378,40 @@
         <div class="container contact-grid">
             <div class="reveal">
                 <h2>Book Your Free Strategy Session</h2>
-                <p style="margin: 20px 0;">30 minutes. No commitment. We'll assess your eligibility and identify the best programs.</p>
+                <p style="margin: 20px 0;">30 minutes. No commitment. We'll assess your eligibility, identify programs, and outline a clear path to EU funding.</p>
                 <div class="contact-info-panel">
-                    <h4>Direct Contact</h4>
-                    <p style="margin: 15px 0;"><i class="fab fa-telegram"></i> Sonya: <a href="https://t.me/sofia_fbs" style="color: var(--accent-gold);">@sofia_fbs</a></p>
-                    <p><i class="fab fa-telegram"></i> Nick: <a href="https://t.me/belpulp" style="color: var(--accent-gold);">@belpulp</a></p>
-                    <hr style="margin: 20px 0; opacity: 0.2;">
-                    <p><i class="fas fa-broadcast-tower"></i> <a href="https://t.me/+i5CWWcCyqfA3MTAy" style="color: var(--white);">Join Grant Alerts Channel</a></p>
+                    <h4 style="margin-bottom: 20px;">Connect Directly</h4>
+                    <p style="margin: 15px 0;"><i class="fab fa-telegram"></i> Sonya: <a href="https://t.me/sofia_fbs" target="_blank" style="color: var(--accent-gold);">@sofia_fbs</a></p>
+                    <p><i class="fab fa-telegram"></i> Nick: <a href="https://t.me/belpulp" target="_blank" style="color: var(--accent-gold);">@belpulp</a></p>
+                    <hr style="margin: 25px 0; opacity: 0.2;">
+                    <p><i class="fas fa-broadcast-tower"></i> <a href="https://t.me/+i5CWWcCyqfA3MTAy" target="_blank" style="color: var(--white); font-weight: 700;">Join Grant Calls Channel →</a></p>
+                    <p style="font-size: 12px; margin-top: 10px; opacity: 0.6;">2,400+ Members Already Inside</p>
                 </div>
             </div>
             <div class="contact-form reveal">
-                <form onsubmit="alert('Thank you! We will contact you shortly.'); return false;">
+                <form onsubmit="alert('Request sent! Our team will contact you within 24 hours.'); return false;">
                     <div class="form-group">
                         <label>Full Name</label>
                         <input type="text" placeholder="John Doe" required>
                     </div>
                     <div class="form-group">
-                        <label>Company Email</label>
-                        <input type="email" placeholder="john@startup.com" required>
+                        <label>Company / Organization</label>
+                        <input type="text" placeholder="Startup Name" required>
                     </div>
                     <div class="form-group">
-                        <label>Tech Domain</label>
-                        <select>
+                        <label>Technology Domain</label>
+                        <select required>
+                            <option value="">Select Domain...</option>
                             <option>DeepTech / Hardware</option>
-                            <option>HealthTech</option>
+                            <option>HealthTech / Life Sciences</option>
                             <option>AgriTech / Climate</option>
                             <option>Cybersecurity / AI</option>
+                            <option>IoT / Manufacturing</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Project Brief</label>
-                        <textarea rows="4" placeholder="Tell us about your innovation"></textarea>
+                        <label>Brief Project Description</label>
+                        <textarea rows="4" placeholder="Tell us about your innovation" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-gold" style="width: 100%;">Request Free Consultation</button>
                 </form>
@@ -398,11 +419,15 @@
         </div>
     </section>
 
-    <footer style="background: var(--dark-navy); color: rgba(255,255,255,0.6); padding: 60px 0; text-align: center; font-size: 14px;">
+    <footer style="background: var(--dark-navy); color: rgba(255,255,255,0.6); padding: 80px 0 40px; text-align: center;">
         <div class="container">
-            <p>DEEPSYNC — EU Grants & Innovation Strategy</p>
-            <p style="margin: 10px 0;">© 2025 All Rights Reserved.</p>
-            <p style="font-size: 11px; max-width: 600px; margin: 0 auto;">DeepSync is an independent consulting firm and is not an official EU institution. EU grant program details are subject to change by the European Commission.</p>
+            <img src="logo-white.png" alt="DeepSync Logo" style="height: 42px; margin-bottom: 30px;">
+            <p style="font-weight: 700; color: #fff; margin-bottom: 10px;">DeepSync — EU Grants & Innovation Strategy</p>
+            <p>© 2025 All Rights Reserved.</p>
+            <div style="margin: 30px 0; display: flex; justify-content: center; gap: 20px; font-size: 12px; font-weight: 700;">
+                <span>HORIZON EUROPE</span><span>EIC</span><span>EIT</span><span>ERASMUS+</span>
+            </div>
+            <p style="font-size: 11px; max-width: 700px; margin: 0 auto; line-height: 1.8; opacity: 0.4;">DeepSync is an independent consulting firm and is not an official EU institution. EU grant program details are subject to change by the European Commission. Privacy Policy | Terms of Service</p>
         </div>
     </footer>
 
