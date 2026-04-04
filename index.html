@@ -81,7 +81,7 @@
 
         .pa-timeline { display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
         .tl-item { display: grid; grid-template-columns: 40px 1fr; gap: 0 20px; position: relative; }
-        .tl-item:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 48px; bottom: 0; width: 1px; background: #ddd8d0; }
+        .tl-item:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 40px; bottom: 0; width: 1px; background: #ddd8d0; }
         .tl-num { width: 36px; height: 36px; border-radius: 50%; background: var(--navy); color: var(--gold); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; margin-top: 8px; }
         .tl-content { padding-bottom: 56px; }
         .tl-phase { font-size: 11px; text-transform: uppercase; color: #b08a2e; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
@@ -382,6 +382,7 @@
     </footer>
 
     <script>
+        // --- DOWNLOAD & MODAL LOGIC ---
         let isRegistered = false;
         const excelDownloadURL = 'https://docs.google.com/spreadsheets/d/1jTxd0akJnaqF4voBSjQsRV9zwLRYCJezR-Yxv9g0QFk/export?format=xlsx';
 
@@ -394,7 +395,10 @@
 
         function submitRegistration(e) {
             e.preventDefault();
-            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbzBOdqGuyMtZgC2br_W32O-NdsdOnAKF1RYDdQc6f1dyI-1Tao09zAbeeNwAKaYqW0U/exec';
+            
+            // НОВЫЙ URL ИЗ ВАШЕГО ПОСЛЕДНЕГО СООБЩЕНИЯ (v3)
+            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbyZaTwLlAodDXIu2tEryu6_m8oqFkDSBZy4Dld4qzsJ_GXDM6uvIGqWBBk4pg-wkecQ/exec';
+            
             const btn = e.target.querySelector('button');
             btn.innerText = 'Sending...';
             btn.disabled = true;
