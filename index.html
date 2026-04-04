@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -31,8 +31,6 @@
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 18px 36px; border-radius: 12px; font-weight: 700; text-decoration: none; cursor: pointer; transition: var(--transition); border: none; font-size: 16px; gap: 12px; }
         .btn-gold { background: var(--gold); color: var(--navy); }
         .btn-gold:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(255, 204, 0, 0.4); }
-        .btn-outline { border: 2px solid rgba(255,255,255,0.3); color: var(--white); background: transparent; }
-        .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
 
         /* Announcement Bar */
         #announcement-bar { background: var(--gold); color: var(--navy); padding: 12px; text-align: center; font-weight: 700; font-size: 13px; position: relative; z-index: 1100; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -49,57 +47,57 @@
         .hero-content { position: relative; z-index: 2; max-width: 850px; }
         .hero h1 { font-size: clamp(44px, 7vw, 76px); margin-bottom: 32px; }
         .hero p { font-size: 20px; opacity: 0.8; margin-bottom: 48px; max-width: 650px; line-height: 1.6; }
-        .hero-btns { display: flex; gap: 20px; }
         #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.3; pointer-events: none; }
 
-        .strategy { margin-top: -80px; position: relative; z-index: 3; }
-        .strategy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .strat-card { background: var(--white); padding: 48px; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); transition: var(--transition); border: 1px solid rgba(0,0,0,0.05); }
-        .strat-card:hover { transform: translateY(-10px); border-color: var(--gold); }
-        .strat-card i { font-size: 32px; color: var(--primary); margin-bottom: 24px; display: block; }
-        .strat-card h3 { font-size: 24px; margin-bottom: 16px; color: var(--navy); }
-        .strat-card p { color: var(--muted); font-size: 15px; }
+        /* SERVICES SECTION */
+        .services-section { padding: 120px 0; background: var(--bg); text-align: center; }
+        .services-intro { max-width: 900px; margin: 0 auto 60px; }
+        .services-intro h2 { font-size: 48px; color: var(--primary); margin-bottom: 24px; }
+        .services-intro p { font-size: 18px; color: var(--muted); line-height: 1.6; }
 
+        .services-tabs-container { background: var(--white); border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); display: flex; overflow: hidden; max-width: 600px; margin: 0 auto; }
+        .service-tab { flex: 1; padding: 30px 20px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; border-right: 1px solid #f0f0f0; }
+        .service-tab:last-child { border-right: none; }
+        .service-tab i { font-size: 28px; color: var(--primary); opacity: 0.6; }
+        .service-tab span { font-weight: 700; font-size: 17px; color: var(--navy); }
+        .service-tab.active { background: var(--primary); }
+        .service-tab.active i, .service-tab.active span { color: var(--white); opacity: 1; }
+
+        .tab-content-display { max-width: 900px; margin: 40px auto 0; text-align: left; background: var(--white); padding: 50px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .content-panel { display: none; }
+        .content-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; animation: fadeIn 0.5s ease; }
+        .content-panel ul { list-style: none; }
+        .content-panel li { margin-bottom: 12px; font-size: 16px; font-weight: 500; display: flex; align-items: center; gap: 12px; color: var(--navy); }
+        .content-panel li i { color: var(--gold); font-size: 14px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Stats Bar */
         .stats { padding: 100px 0; border-bottom: 1px solid #eee; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; text-align: center; }
         .stat-item h4 { font-size: 48px; color: var(--primary); margin-bottom: 8px; }
-        .stat-item p { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 700; line-height: 1.4; }
+        .stat-item p { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 700; }
 
+        /* Network Marquee */
         .network-section { padding: 100px 0; background: #fff; overflow: hidden; }
-        .marquee { display: flex; overflow: hidden; user-select: none; gap: 20px; margin-bottom: 20px; }
+        .marquee { display: flex; overflow: hidden; gap: 20px; margin-bottom: 20px; }
         .marquee-content { display: flex; flex-shrink: 0; gap: 20px; min-width: 100%; animation: scroll 60s linear infinite; }
-        .marquee-reverse .marquee-content { animation-direction: reverse; }
         .partner-pill { background: var(--bg); padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 600; white-space: nowrap; border: 1px solid rgba(0,0,0,0.05); color: var(--navy); }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        .programs { background: var(--bg); padding: 100px 0; }
-        .section-header { margin-bottom: 60px; text-align: center; }
-        .section-header h2 { font-size: 42px; margin-bottom: 16px; }
-        .prog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .prog-pill { background: var(--white); padding: 24px; border-radius: 16px; display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; }
-        .prog-pill:hover { border-color: var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .prog-pill div { display: flex; align-items: center; gap: 12px; }
-        .prog-pill strong { font-family: 'Space Grotesk'; font-size: 15px; color: var(--navy); }
-        .prog-pill small { font-size: 11px; color: var(--muted); font-weight: 500; }
-
+        /* Contact Section */
         .contact { padding: 120px 0; }
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
-        .contact-text h2 { font-size: 48px; margin-bottom: 24px; }
-        .contact-links { margin-top: 40px; }
         .contact-links a { display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--navy); font-weight: 700; margin-bottom: 20px; font-size: 18px; transition: 0.3s; }
-        .contact-links a:hover { color: var(--primary); transform: translateX(10px); }
-
-        footer { background: var(--navy); color: var(--white); padding: 80px 0 40px; text-align: center; }
-        .footer-logo { height: 40px; margin-bottom: 32px; opacity: 0.9; }
-        .footer-meta { font-size: 12px; opacity: 0.4; max-width: 600px; margin: 32px auto 0; line-height: 1.8; }
+        
+        footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 60px 0; text-align: center; }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 992px) {
-            .strategy-grid, .stats-grid, .contact-grid { grid-template-columns: 1fr; }
+            .stats-grid, .contact-grid, .content-panel.active { grid-template-columns: 1fr; }
             .hero { padding: 80px 0 120px; text-align: center; }
-            .hero-btns { justify-content: center; flex-direction: column; }
             .nav-links { display: none; }
         }
     </style>
@@ -116,10 +114,8 @@
                 <img src="logo-black.png" alt="DeepSync Logo">
             </a>
             <div class="nav-links">
-                <a href="#about">Strategy</a>
+                <a href="#services">Services</a>
                 <a href="#network">Network</a>
-                <a href="#programs">Programs</a>
-                <a href="#contact">Contact</a>
                 <a href="#contact" class="btn btn-gold" style="padding: 12px 24px; font-size: 14px;">Book Strategy Session</a>
             </div>
         </div>
@@ -131,35 +127,10 @@
             <div class="hero-content reveal">
                 <h1>Secure Equity-Free EU Funding for DeepTech</h1>
                 <p>We engineer the scientific and political ecosystem required to secure multi-million euro equity-free capital for breakthrough innovators.</p>
-                <div class="hero-btns">
-                    <a href="#contact" class="btn btn-gold">Request Strategy Session <i class="fas fa-arrow-right"></i></a>
-                    <a href="#programs" class="btn btn-outline">Explore Programs</a>
-                </div>
+                <a href="#contact" class="btn btn-gold">Request Strategy Session <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </header>
-
-    <section class="strategy" id="about">
-        <div class="container">
-            <div class="strategy-grid">
-                <div class="strat-card reveal">
-                    <i class="fas fa-layer-group"></i>
-                    <h3>Consortium Architecture</h3>
-                    <p>Building the "Dream Team" of universities and R&D centers that evaluators trust.</p>
-                </div>
-                <div class="strat-card reveal" style="transition-delay: 0.1s;">
-                    <i class="fas fa-landmark"></i>
-                    <h3>Policy Intelligence</h3>
-                    <p>Strategic alignment with Brussels priorities. Where political will and capital meet.</p>
-                </div>
-                <div class="strat-card reveal" style="transition-delay: 0.2s;">
-                    <i class="fas fa-microchip"></i>
-                    <h3>Science Integrity</h3>
-                    <p>DeepTech focus only. Ensuring your breakthrough is scientifically and technically compelling.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section class="stats">
         <div class="container stats-grid">
@@ -182,13 +153,60 @@
         </div>
     </section>
 
+    <!-- SERVICES SECTION -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="services-intro reveal">
+                <h2>Our Services</h2>
+                <p>Organisations across Europe often face increasing complexity making it challenging to keep up with new regulations, opportunities, and innovations. We help them navigate these challenges confidently.</p>
+            </div>
+
+            <div class="services-tabs-container reveal">
+                <div class="service-tab active" onclick="openService(event, 'pa-content')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Public Affairs</span>
+                </div>
+                <div class="service-tab" onclick="openService(event, 'funding-content')">
+                    <i class="fas fa-coins"></i>
+                    <span>EU Funding</span>
+                </div>
+            </div>
+
+            <div class="tab-content-display reveal">
+                <!-- Public Affairs -->
+                <div id="pa-content" class="content-panel active">
+                    <div>
+                        <h3 style="font-size: 24px; margin-bottom: 20px; color: var(--primary);">Brussels Insider Intelligence</h3>
+                        <p style="color: var(--muted); font-size: 16px;">We turn regulatory proximity into strategic opportunities, ensuring your technology is aligned with EU policy priorities before calls are published.</p>
+                    </div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Policy advocacy & engagement</li>
+                        <li><i class="fas fa-check-circle"></i> Legislative process navigation</li>
+                        <li><i class="fas fa-check-circle"></i> Position papers & briefs</li>
+                    </ul>
+                </div>
+
+                <!-- EU Funding -->
+                <div id="funding-content" class="content-panel">
+                    <div>
+                        <h3 style="font-size: 24px; margin-bottom: 20px; color: var(--primary);">Lifecycle Grant Excellence</h3>
+                        <p style="color: var(--muted); font-size: 16px;">From identifying the right call to final reporting, we provide the technical and scientific backbone for multi-partner projects.</p>
+                    </div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Project management & compliance</li>
+                        <li><i class="fas fa-check-circle"></i> Consortium building</li>
+                        <li><i class="fas fa-check-circle"></i> Proposal Writing</li>
+                        <li><i class="fas fa-check-circle"></i> Reports & Audits</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- NETWORK SECTION -->
     <section id="network" class="network-section">
         <div class="container">
-            <div class="section-header reveal">
-                <h2>Network Intelligence</h2>
-                <p style="color: var(--muted);">Strategic access to elite research and policy partners.</p>
-            </div>
+            <h2 style="text-align: center; font-size: 42px; margin-bottom: 60px;" class="reveal">Network Intelligence</h2>
         </div>
         
         <div class="marquee reveal">
@@ -202,69 +220,29 @@
                 <div class="partner-pill">Karolinska Institute 🇸🇪</div>
                 <div class="partner-pill">University of Thessaly 🇬🇷</div>
                 <div class="partner-pill">Holbæk Hospital 🇩🇰</div>
-                <div class="partner-pill">Slagelse Hospital 🇩🇰</div>
-                <div class="partner-pill">Coimbra Hospital (CHUC) 🇵🇹</div>
                 <div class="partner-pill">Durham University 🇬🇧</div>
                 <div class="partner-pill">Oulu University 🇫🇮</div>
                 <div class="partner-pill">Hospital del Mar 🇪🇸</div>
-                <div class="partner-pill">University of Bologna (UNIBO) 🇮🇹</div>
-                <div class="partner-pill">Agricultural University of Athens 🇬🇷</div>
-                <div class="partner-pill">Tartu University 🇪🇪</div>
+                <div class="partner-pill">University of Bologna 🇮🇹</div>
                 <div class="partner-pill">RWTH Aachen University 🇩🇪</div>
                 <div class="partner-pill">MEET Battery Research Center 🇩🇪</div>
-                <div class="partner-pill">HI MS 🇩🇪</div>
-                <div class="partner-pill">HAW Hamburg 🇩🇪</div>
-                <div class="partner-pill">HS Coburg 🇩🇪</div>
             </div>
         </div>
 
-        <div class="marquee marquee-reverse reveal">
-            <div class="marquee-content">
+        <div class="marquee reveal">
+            <div class="marquee-content" style="animation-direction: reverse;">
                 <div class="partner-pill">Pedro Nunes Institute 🇵🇹</div>
                 <div class="partner-pill">Coimbra University 🇵🇹</div>
                 <div class="partner-pill">Riga Tech University 🇱🇻</div>
-                <div class="partner-pill">FCiências.ID 🇵🇹</div>
                 <div class="partner-pill">Polish Association of Universities 🇵🇱</div>
-                <div class="partner-pill">Tallinn University of Technology (TalTech) 🇪🇪</div>
-                <div class="partner-pill">EstoniaTech University 🇪🇪</div>
-                <div class="partner-pill">NOVA National School of Public Health 🇵🇹</div>
-                <div class="partner-pill">INFINEON TECHNOLOGIES AUSTRIA 🇦🇹</div>
+                <div class="partner-pill">Tallinn University (TalTech) 🇪🇪</div>
+                <div class="partner-pill">INFINEON TECHNOLOGIES 🇦🇹</div>
                 <div class="partner-pill">KEMRI 🇰🇪</div>
-                <div class="partner-pill">Yerevan State Medical University 🇦🇲</div>
-                <div class="partner-pill">HES-SO 🇨🇭</div>
                 <div class="partner-pill">ICLEI 🇧🇪</div>
                 <div class="partner-pill">EIT Association 🇪🇺</div>
-                <div class="partner-pill">NET-CARE.CH 🇨🇭</div>
                 <div class="partner-pill">Impact Hub Lisbon 🇵🇹</div>
-                <div class="partner-pill">Danish Hypertension Society 🇩🇰</div>
-                <div class="partner-pill">Danish Heart Foundation 🇩🇰</div>
                 <div class="partner-pill">Pedro Nunes Institute 🇵🇹</div>
                 <div class="partner-pill">Coimbra University 🇵🇹</div>
-                <div class="partner-pill">Riga Tech University 🇱🇻</div>
-                <div class="partner-pill">FCiências.ID 🇵🇹</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="programs" class="programs">
-        <div class="container">
-            <div class="section-header reveal">
-                <h2>Programs We Navigate</h2>
-            </div>
-            <div class="prog-grid">
-                <div class="prog-pill reveal">
-                    <div><i class="fas fa-bolt" style="color:var(--gold)"></i> <strong>EIC Programs</strong></div>
-                </div>
-                <div class="prog-pill reveal">
-                    <div><i class="fas fa-microscope" style="color:var(--primary)"></i> <strong>Horizon Europe (RIA/IA/CSA)</strong></div>
-                </div>
-                <div class="prog-pill reveal">
-                    <div><i class="fas fa-globe-europe" style="color:var(--primary)"></i> <strong>Digital Europe</strong></div>
-                </div>
-                <div class="prog-pill reveal">
-                    <div><i class="fas fa-flag" style="color:var(--primary)"></i> <strong>National Funding</strong></div>
-                    <small>*Linking with our trusted local partners</small>
-                </div>
             </div>
         </div>
     </section>
@@ -274,24 +252,18 @@
             <div class="contact-grid">
                 <div class="contact-text reveal">
                     <h2>Let's build your roadmap.</h2>
-                    <p>Strategic sessions are reserved for DeepTech founders and research organizations looking for long-term EU funding excellence.</p>
+                    <p>Reserved for DeepTech founders and research organizations looking for long-term excellence.</p>
                     <div class="contact-links">
-                        <a href="https://www.linkedin.com/in/sonya-drobychevskaya/" target="_blank">
-                            <i class="fab fa-linkedin"></i> Sonya Drobychevskaya
-                        </a>
-                        <a href="https://www.linkedin.com/in/nikolajmikulich/" target="_blank">
-                            <i class="fab fa-linkedin"></i> Nick Mikulich
-                        </a>
-                        <a href="https://t.me/+i5CWWcCyqfA3MTAy" target="_blank" style="color:var(--primary)">
-                            <i class="fab fa-telegram"></i> Join Strategic Grant Channel
-                        </a>
+                        <a href="https://www.linkedin.com/in/sonya-drobychevskaya/" target="_blank"><i class="fab fa-linkedin"></i> Sonya Drobychevskaya</a>
+                        <a href="https://www.linkedin.com/in/nikolajmikulich/" target="_blank"><i class="fab fa-linkedin"></i> Nick Mikulich</a>
+                        <a href="https://t.me/+i5CWWcCyqfA3MTAy" target="_blank" style="color:var(--primary)"><i class="fab fa-telegram"></i> Grant Alerts Channel</a>
                     </div>
                 </div>
                 <div class="contact-form-wrap reveal">
-                    <form onsubmit="alert('Strategic request sent. We will review your project and contact you.'); return false;" style="background:var(--bg); padding:40px; border-radius:24px;">
+                    <form onsubmit="alert('Strategic request sent.'); return false;" style="background:var(--bg); padding:40px; border-radius:24px;">
                         <input type="text" placeholder="Full Name" required style="width:100%; padding:16px; margin-bottom:16px; border-radius:8px; border:1px solid #ddd;">
-                        <input type="text" placeholder="Organization / Startup" required style="width:100%; padding:16px; margin-bottom:16px; border-radius:8px; border:1px solid #ddd;">
-                        <textarea placeholder="What technology are you architecting?" rows="4" style="width:100%; padding:16px; margin-bottom:16px; border-radius:8px; border:1px solid #ddd; font-family:inherit;"></textarea>
+                        <input type="text" placeholder="Organization" required style="width:100%; padding:16px; margin-bottom:16px; border-radius:8px; border:1px solid #ddd;">
+                        <textarea placeholder="Brief project description" rows="4" style="width:100%; padding:16px; margin-bottom:16px; border-radius:8px; border:1px solid #ddd; font-family:inherit;"></textarea>
                         <button type="submit" class="btn btn-gold" style="width:100%">Book Strategy Session</button>
                     </form>
                 </div>
@@ -301,68 +273,58 @@
 
     <footer>
         <div class="container">
-            <img src="logo-white.png" alt="DeepSync" class="footer-logo">
+            <img src="logo-white.png" alt="DeepSync" style="height: 35px; margin-bottom: 20px;">
             <p>© 2025 DeepSync Innovation Strategy.</p>
-            <p class="footer-meta">
-                DeepSync is an independent strategic consultancy. We provide regulatory intelligence, consortium architecture, and lifecycle grant management. Not an official EU institution.
-            </p>
         </div>
     </footer>
 
     <script>
+        function openService(evt, serviceName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("content-panel");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("service-tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(serviceName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
-                    const target = +entry.target.getAttribute('data-target');
-                    let count = 0;
-                    const update = () => {
-                        const inc = target / 50;
-                        if(count < target) {
-                            count += inc;
-                            entry.target.innerText = Math.ceil(count) + (target === 150 || target === 30 ? '+' : '');
-                            setTimeout(update, 20);
-                        } else { entry.target.innerText = target + (target === 150 || target === 30 ? '+' : ''); }
-                    };
-                    update();
+                    if(entry.target.classList.contains('counter')) {
+                        const target = +entry.target.getAttribute('data-target');
+                        let count = 0;
+                        const update = () => {
+                            const inc = target / 50;
+                            if(count < target) { count += inc; entry.target.innerText = Math.ceil(count) + '+'; setTimeout(update, 20); }
+                            else { entry.target.innerText = target + '+'; }
+                        };
+                        update();
+                    }
+                    entry.target.classList.add('active');
                 }
             });
         });
-        document.querySelectorAll('.counter').forEach(c => observer.observe(c));
-
-        const revealObserver = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(r => revealObserver.observe(r));
+        document.querySelectorAll('.counter, .reveal').forEach(el => observer.observe(el));
 
         const canvas = document.getElementById('hero-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
         function initStars() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            stars = Array(80).fill().map(() => ({
-                x: Math.random()*canvas.width,
-                y: Math.random()*canvas.height,
-                r: Math.random()*1.5,
-                s: Math.random()*0.4
-            }));
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            stars = Array(80).fill().map(() => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, s: Math.random()*0.4 }));
         }
         function animate() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = "#FFCC00";
-            stars.forEach(s => {
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-                ctx.fill();
-                s.y -= s.s;
-                if(s.y < 0) s.y = canvas.height;
-            });
+            ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = "#FFCC00";
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); s.y -= s.s; if(s.y < 0) s.y = canvas.height; });
             requestAnimationFrame(animate);
         }
-        initStars(); animate();
-        window.addEventListener('resize', initStars);
+        initStars(); animate(); window.addEventListener('resize', initStars);
     </script>
 </body>
 </html>
