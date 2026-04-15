@@ -78,6 +78,63 @@
             text-transform: uppercase; 
             letter-spacing: 1px; 
         }
+        /* Контейнер для центрирования или выравнивания (по умолчанию влево) */
+.hero-badge-container {
+    margin-bottom: 35px;
+}
+
+/* Сама оболочка (пилюля) */
+.custom-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #121418; /* Очень темный фон, как на скрине */
+    border: 1.5px solid #8A6D3B; /* Золотисто-коричневая рамка */
+    border-radius: 50px; /* Полное скругление */
+    padding: 8px 28px;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Эмодзи/Иконка */
+.megaphone {
+    font-size: 18px;
+}
+
+/* Золотой текст EU FUNDING RADAR */
+.badge-title {
+    color: #FFCC00;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Ссылка с подчеркиванием */
+.badge-action {
+    color: #FFCC00;
+    text-decoration: underline; /* Подчеркивание как на скрине */
+    text-underline-offset: 4px; /* Отступ подчеркивания */
+    font-size: 14px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.badge-action:hover {
+    opacity: 0.8;
+    text-decoration: none; /* Убираем при наведении для эффекта */
+}
+
+/* Адаптивность для мобилок */
+@media (max-width: 600px) {
+    .custom-badge {
+        padding: 6px 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .badge-title, .badge-action {
+        font-size: 12px;
+    }
+}
 
         nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); padding: 20px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; }
