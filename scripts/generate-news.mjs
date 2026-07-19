@@ -96,7 +96,40 @@ if (!Array.isArray(parsed.items)) {
   process.exit(1);
 }
 
+// Cap on total stored items so the file (and the widget's DOM) don't grow
+// unbounded forever; oldest items fall off once this is exceeded.
+const MAX_ITEMS = 200;
+
 const outPath = path.join(process.cwd(), "data", "news.json");
 await fs.mkdir(path.dirname(outPath), { recursive: true });
-await fs.writeFile(outPath, JSON.stringify(parsed, null, 2));
-console.log(`Wrote ${parsed.items.length} items to ${outPath}`);
+
+let existingItems = [];
+try {
+  const existing = JSON.parse(await fs.readFile(outPath, "utf-8"));
+  if (Array.isArray(existing.items)) existingItems = existing.items;
+} catch {
+  // no existing file yet (first run) — start from an empty history
+}
+
+function itemKey(item) {
+  return (item.source_url || `${item.category}|${item.headline}`).toLowerCase();
+}
+
+const seen = new Set();
+const mergedItems = [];
+for (const item of [...parsed.items, ...existingItems]) {
+  const key = itemKey(item);
+  if (seen.has(key)) continue;
+  seen.add(key);
+  mergedItems.push(item);
+}
+
+const output = {
+  generated_at: new Date().toISOString(),
+  items: mergedItems.slice(0, MAX_ITEMS),
+};
+
+await fs.writeFile(outPath, JSON.stringify(output, null, 2));
+console.log(
+  `Merged ${parsed.items.length} new item(s) with ${existingItems.length} existing; wrote ${output.items.length} total to ${outPath}`
+);
