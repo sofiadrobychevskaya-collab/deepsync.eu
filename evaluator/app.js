@@ -541,8 +541,12 @@ function assessCallRequirements(proposalText, requirements) {
     const keywords = requirementKeywords(requirement.text);
     const matched = keywords.filter(keyword => source.includes(keyword));
     const ratio = keywords.length ? matched.length / Math.min(6, keywords.length) : 0;
-    const status = matched.length >= 3 && ratio >= .5 ? "covered" : matched.length >= 1 ? "partial" : "missing";
     const firstMatch = matched.map(keyword => ({ keyword, index: source.indexOf(keyword) })).filter(item => item.index >= 0).sort((a, b) => a.index - b.index)[0];
+    const evidenceWindow = firstMatch ? source.slice(Math.max(0, firstMatch.index - 280), Math.min(source.length, firstMatch.index + 520)) : "";
+    const commitmentSignal = /\b(will|shall|commit|deliver|implement|launch|allocate|responsible|owner|target|milestone|work package|\bWP\d|task\s*\d|by\s+M\d)\b/i.test(evidenceWindow);
+    const requiredNumbers = [...new Set((requirement.text.match(/\b\d+(?:[.,]\d+)?%?|€\s*\d[\d,.]*|\d[\d,.]*\s*EUR\b/gi) || []).map(value => value.replace(/\s+/g, "").toLowerCase()))];
+    const numberEvidence = !requiredNumbers.length || requiredNumbers.some(value => source.replace(/\s+/g, "").includes(value));
+    const status = matched.length >= 3 && ratio >= .5 && commitmentSignal && numberEvidence ? "covered" : matched.length >= 1 ? "partial" : "missing";
     let evidence = "No explicit matching evidence was detected in the uploaded concept.";
     if (firstMatch) {
       const start = Math.max(0, firstMatch.index - 95);
@@ -553,6 +557,31 @@ function assessCallRequirements(proposalText, requirements) {
     }
     return { ...requirement, keywords, matched, status, covered: status === "covered", evidence };
   });
+}
+
+function explainRequirementSimply(text) {
+  const value = String(text || "");
+  const rules = [
+    [/three open calls|at least one call per year/i, "Run at least three annual open calls and fund at least 20 EdTech startups or SMEs across eligible countries."],
+    [/60%.*financial support|financial support.*60%/i, "Reserve at least 60% of the project budget for FSTP, with up to €150,000 for each selected third party."],
+    [/12-month.*incubation|incubation and acceleration programme/i, "Deliver a 12-month acceleration programme combining mentoring, training, networking and market-access support."],
+    [/short pilots.*real education|real education.*impact assessment/i, "Test selected solutions in real education settings and collect measurable impact evidence."],
+    [/human-centric design|learning design methodologies/i, "Use human-centred and learning-design methods throughout the pilots."],
+    [/European-wide communication|awareness raising/i, "Run EU-wide communication and awareness activities."],
+    [/investor|access.to.market|market support/i, "Show how selected companies will reach customers, investors and the European market."],
+    [/replicat|scalab|uptake/i, "Explain how successful results will be replicated, scaled and adopted beyond the initial pilots."],
+    [/KPI|indicator|measure/i, "Define measurable targets, baselines, owners and evidence sources."],
+    [/open science|FAIR|data management/i, "Explain how data and results will be managed, shared and made reusable."],
+    [/dissemination|communication|exploitation/i, "Show who will use the results and how communication and exploitation will lead to uptake."]
+  ];
+  return rules.find(([pattern]) => pattern.test(value))?.[1] || compactText(value.replace(/\s+/g, " "), 180);
+}
+
+function callFitFeedback(item) {
+  const matched = item.matched.length ? item.matched.slice(0, 5).join(", ") : "";
+  if (item.status === "covered") return `The concept addresses this. Keep the commitment explicit and connect it to an owner, activity, output and KPI.${matched ? ` Signals found: ${matched}.` : ""}`;
+  if (item.status === "partial") return `The idea is mentioned, but the evidence is incomplete. Add a quantified commitment, responsible partner, timing and proof of delivery.${matched ? ` Current signals: ${matched}.` : ""}`;
+  return "No clear evidence was found. Add a direct response explaining what will be done, by whom, by when, for which beneficiaries and how success will be measured.";
 }
 
 async function fetchCallIntelligence(input) {
@@ -700,31 +729,21 @@ function renderCallIntelligence(callData) {
   ].map(([label, value]) => `<div class="call-fact"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
   const coverage = callData.coverage || [];
   const coverageCounts = coverage.reduce((counts, item) => ({ ...counts, [item.status]: (counts[item.status] || 0) + 1 }), {});
+  const order = { missing: 0, partial: 1, covered: 2 };
+  const orderedCoverage = [...coverage].sort((a, b) => order[a.status] - order[b.status]);
   els.requirementCoverage.innerHTML = coverage.length ? `
     <div class="coverage-heading">
-      <div><p class="eyebrow">CALL-TO-CONCEPT COVERAGE</p><h3>What the call asks for — and what your concept proves</h3></div>
+      <div><p class="eyebrow">CALL-TO-CONCEPT FIT</p><h3>Does your concept answer what the Commission wants?</h3></div>
       <div class="coverage-summary"><strong>${Math.round(callData.coverageRate * 100)}%</strong><span>${coverageCounts.covered || 0} covered · ${coverageCounts.partial || 0} partial · ${coverageCounts.missing || 0} gaps</span></div>
     </div>
-    <div class="coverage-grid">${coverage.slice(0, 10).map(item => `
-      <article class="requirement-card ${item.status}">
-        <div class="requirement-card-head"><span class="requirement-status ${item.status}">${item.status === "covered" ? "Covered" : item.status === "partial" ? "Partial evidence" : "Gap"}</span><small>${escapeHtml(item.source)}</small></div>
-        <h4>Official call asks</h4><p>${escapeHtml(compactText(item.text, 360))}</p>
-        <h4>Found in your concept</h4><p class="concept-evidence">${escapeHtml(compactText(item.evidence, 330))}</p>
-        <h4>${item.status === "covered" ? "Evidence to retain" : "What is still needed"}</h4><p>${item.status === "covered"
-          ? `Keep the evidence explicit and connect it to responsible partners, activities, outputs and KPIs. Matched signals: ${escapeHtml(item.matched.join(", "))}.`
-          : `Add an explicit response with responsible partners, activities, outputs, beneficiaries and measurable KPIs.${item.matched.length ? ` Current signals are limited to: ${escapeHtml(item.matched.join(", "))}.` : " No clear call-specific evidence was detected."}`}</p>
+    <div class="fit-table">${orderedCoverage.slice(0, 10).map(item => `
+      <article class="fit-row ${item.status}">
+        <span class="requirement-status ${item.status}">${item.status === "covered" ? "Covered" : item.status === "partial" ? "Partial" : "Gap"}</span>
+        <div class="fit-meaning"><small>${escapeHtml(item.source)}</small><strong>${escapeHtml(explainRequirementSimply(item.text))}</strong><details><summary>View official wording</summary><p>${escapeHtml(compactText(item.text, 520))}</p></details></div>
+        <div class="fit-feedback"><strong>${item.status === "covered" ? "Assessment" : "What is missing"}</strong><p>${escapeHtml(callFitFeedback(item))}</p>${item.status !== "missing" ? `<details><summary>Evidence found in concept</summary><p>${escapeHtml(compactText(item.evidence, 190))}</p></details>` : ""}</div>
       </article>`).join("")}</div>` : `<div class="coverage-unavailable"><strong>Call-to-concept comparison unavailable</strong><p>The official topic record did not expose sufficiently structured Objective, Expected Outcome or Scope text. Open the official topic to verify the requirements.</p></div>`;
-  const policies = callData.policies.length
-    ? `<ul class="policy-links">${callData.policies.map(link => `<li><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a></li>`).join("")}</ul>`
-    : `<div class="call-detail-body">No explicit policy links were extracted from the topic record.</div>`;
-  const detailBlocks = [
-    (callData.expectedOutcome || callData.objective || callData.scope || callData.officialSummary) && `<details><summary>Official call text used for this assessment</summary><div class="call-detail-body">${callData.expectedOutcome ? `<strong>Expected outcomes</strong>\n${escapeHtml(compactText(callData.expectedOutcome, 1200))}\n\n` : ""}${callData.objective ? `<strong>Objective</strong>\n${escapeHtml(compactText(callData.objective, 1200))}\n\n` : ""}${callData.scope ? `<strong>Scope and activities</strong>\n${escapeHtml(compactText(callData.scope, 1500))}` : (!callData.expectedOutcome && !callData.objective ? escapeHtml(compactText(callData.officialSummary, 2400)) : "")}</div></details>`,
-    callData.destination && `<details><summary>EU goal / destination context</summary><div class="call-detail-body">${escapeHtml(compactText(callData.destination, 1600))}</div></details>`,
-    callData.policies.length && `<details><summary>Policies, acts and official links</summary>${policies}</details>`,
-    callData.relatedTopics.length && `<details><summary>Related topics named in the call context</summary><div class="call-detail-body">${callData.relatedTopics.map(code => escapeHtml(code)).join("\n")}</div></details>`,
-    callData.conditions && `<details><summary>Eligibility and topic conditions</summary><div class="call-detail-body">${escapeHtml(compactText(callData.conditions, 1800))}</div></details>`
-  ].filter(Boolean);
-  els.callDetails.innerHTML = detailBlocks.join("");
+  els.callDetails.innerHTML = "";
+  els.callDetails.hidden = true;
 }
 
 function renderDiagnosis(analysis) {
