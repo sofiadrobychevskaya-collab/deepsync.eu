@@ -255,8 +255,8 @@
         .collaboration-proof { width: min(1180px, calc(100% - 40px)); margin: 62px auto 0; padding-top: 38px; border-top: 1px solid #e7ebf3; text-align: center; }
         .collaboration-proof h3 { margin: 0 0 8px; font-size: 24px; }
         .collaboration-proof > p { margin: 0 auto; max-width: 720px; color: var(--muted); line-height: 1.6; }
-        .wordmark-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 24px; }
-        .wordmark { display: grid; place-items: center; min-height: 84px; padding: 16px; border: 1px solid #e4e8f0; border-radius: 12px; background: #fff; color: var(--navy); font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
+        .wordmark-grid { display: flex; gap: 26px; align-items: center; margin-top: 30px; padding: 20px 4px 16px; overflow-x: auto; scrollbar-width: thin; }
+        .wordmark { display: grid; flex: 0 0 auto; place-items: center; min-width: 150px; min-height: 58px; padding: 8px 14px; color: var(--navy); font-size: 17px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
         .wordmark small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
         .collaboration-disclaimer { margin-top: 16px !important; max-width: none !important; font-size: 10px; }
         footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 60px 0; text-align: center; }
@@ -269,7 +269,6 @@
             .program-card { flex-direction: column; text-align: center; }
         }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @media (max-width: 760px) { .wordmark-grid { grid-template-columns: repeat(2, 1fr); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
