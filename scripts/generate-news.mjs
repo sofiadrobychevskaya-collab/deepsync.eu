@@ -50,7 +50,10 @@ Rules:
   reputable trackers (tech.eu, Sifted, Dealroom) for market/funding data.
 - Keep the tone plain and factual — no hype, no marketing language.
 - If you cannot find enough genuinely recent items, return fewer items rather than padding with
-  stale or invented ones.`;
+  stale or invented ones.
+- Do not include any citation markup, footnote markers, or reference tags (e.g. <cite>, [1], or
+  similar) anywhere in the output — write plain prose only, with the real URL going solely in
+  "source_url".`;
 
 const response = await fetch("https://api.anthropic.com/v1/messages", {
   method: "POST",
@@ -61,7 +64,7 @@ const response = await fetch("https://api.anthropic.com/v1/messages", {
   },
   body: JSON.stringify({
     model: "claude-sonnet-5",
-    max_tokens: 4000,
+    max_tokens: 8000,
     system: SYSTEM_PROMPT,
     messages: [
       { role: "user", content: "Build today's Deep-Sync News Wire digest." },
@@ -84,7 +87,13 @@ const textBlocks = (data.content || [])
 
 let parsed;
 try {
-  const clean = textBlocks.replace(/```json|```/g, "").trim();
+  // Strip markdown code fences and any inline web-search citation tags
+  // (e.g. <cite index="7-2,7-3">...</cite>) the model may add despite being
+  // told not to — keep the cited text, drop the tags.
+  const clean = textBlocks
+    .replace(/```json|```/g, "")
+    .replace(/<\/?cite[^>]*>/g, "")
+    .trim();
   parsed = JSON.parse(clean);
 } catch (err) {
   console.error("Failed to parse model output as JSON:\n", textBlocks);
