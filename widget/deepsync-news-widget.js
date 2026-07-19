@@ -21,6 +21,20 @@
     "HORIZON EUROPE",
   ];
 
+  // No real photography per article (content is auto-generated daily, so
+  // there's no specific image to fetch) — instead each category gets its
+  // own icon + gradient treatment for visual variety without depending on
+  // external images.
+  const CATEGORY_MEDIA = {
+    "AI ACT": { icon: "fa-solid fa-microchip", gradient: "linear-gradient(135deg, #0A1628 0%, #1D3A8F 100%)" },
+    "EIC": { icon: "fa-solid fa-rocket", gradient: "linear-gradient(135deg, #0A1628 0%, #0F6B4C 100%)" },
+    "DIGITAL EUROPE": { icon: "fa-solid fa-diagram-project", gradient: "linear-gradient(135deg, #0A1628 0%, #5B2A86 100%)" },
+    "EIT": { icon: "fa-solid fa-lightbulb", gradient: "linear-gradient(135deg, #0A1628 0%, #0E7C86 100%)" },
+    "DEEP TECH": { icon: "fa-solid fa-satellite-dish", gradient: "linear-gradient(135deg, #0A1628 0%, #2C3E50 100%)" },
+    "HORIZON EUROPE": { icon: "fa-solid fa-compass", gradient: "linear-gradient(135deg, #0A1628 0%, #7A5A0A 100%)" },
+  };
+  const DEFAULT_MEDIA = { icon: "fa-solid fa-newspaper", gradient: "linear-gradient(135deg, #0A1628 0%, #1A2E4A 100%)" };
+
   function injectStyles() {
     if (document.getElementById("dsnw-styles")) return;
     const style = document.createElement("style");
@@ -44,8 +58,15 @@
       .dsnw-track::-webkit-scrollbar { display:none; }
       .dsnw-card { scroll-snap-align:start; flex:0 0 calc(33.333% - 16px); min-width:250px;
         box-sizing:border-box; border:1px solid var(--border, #E5E9F2); border-radius: 20px;
-        background: var(--white, #fff); box-shadow: 0 10px 30px rgba(10,22,40,0.05); padding:26px;
+        background: var(--white, #fff); box-shadow: 0 10px 30px rgba(10,22,40,0.05); overflow:hidden;
         display:flex; flex-direction:column; }
+      .dsnw-card-media { height:120px; flex:0 0 auto; position:relative; overflow:hidden;
+        display:flex; align-items:center; justify-content:center; }
+      .dsnw-card-media::after { content:""; position:absolute; inset:0;
+        background-image: radial-gradient(rgba(255,255,255,0.16) 1.5px, transparent 1.5px);
+        background-size: 16px 16px; }
+      .dsnw-card-media i { font-size:32px; color:rgba(255,255,255,0.92); position:relative; z-index:1; }
+      .dsnw-card-body { padding:22px 24px 24px; display:flex; flex-direction:column; flex:1; }
       @media (max-width: 900px) { .dsnw-card { flex:0 0 calc(50% - 12px); } }
       @media (max-width: 600px) { .dsnw-card { flex:0 0 85%; } }
       .dsnw-nav { display:flex; justify-content:flex-end; gap:10px; margin-top:20px; }
@@ -157,28 +178,34 @@
       }
       nav.style.display = "flex";
       items.forEach((item) => {
+        const media = CATEGORY_MEDIA[item.category] || DEFAULT_MEDIA;
         const card = document.createElement("div");
         card.className = "dsnw-card";
         card.innerHTML = `
-          <span class="dsnw-tag">${escapeHtml(item.category || "")}</span>
-          <span class="dsnw-date">${escapeHtml(item.date_label || "")}</span>
-          <div class="dsnw-headline">${escapeHtml(item.headline || "")}</div>
-          <p class="dsnw-body">${escapeHtml(item.body || "")}</p>
-          ${
-            item.what_it_means
-              ? `<div class="dsnw-means">
-                   <span class="dsnw-means-label">WHAT IT MEANS</span>
-                   <p class="dsnw-means-text">${escapeHtml(item.what_it_means)}</p>
-                 </div>`
-              : ""
-          }
-          ${
-            item.source_url
-              ? `<a class="dsnw-source" href="${escapeAttr(item.source_url)}" target="_blank" rel="noopener">
-                   Read: ${escapeHtml(item.source_name || "source")} →
-                 </a>`
-              : ""
-          }
+          <div class="dsnw-card-media" style="background:${media.gradient}">
+            <i class="${media.icon}" aria-hidden="true"></i>
+          </div>
+          <div class="dsnw-card-body">
+            <span class="dsnw-tag">${escapeHtml(item.category || "")}</span>
+            <span class="dsnw-date">${escapeHtml(item.date_label || "")}</span>
+            <div class="dsnw-headline">${escapeHtml(item.headline || "")}</div>
+            <p class="dsnw-body">${escapeHtml(item.body || "")}</p>
+            ${
+              item.what_it_means
+                ? `<div class="dsnw-means">
+                     <span class="dsnw-means-label">WHAT IT MEANS</span>
+                     <p class="dsnw-means-text">${escapeHtml(item.what_it_means)}</p>
+                   </div>`
+                : ""
+            }
+            ${
+              item.source_url
+                ? `<a class="dsnw-source" href="${escapeAttr(item.source_url)}" target="_blank" rel="noopener">
+                     Read: ${escapeHtml(item.source_name || "source")} →
+                   </a>`
+                : ""
+            }
+          </div>
         `;
         track.appendChild(card);
       });
