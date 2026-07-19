@@ -12,6 +12,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const API_KEY = process.env.ANTHROPIC_API_KEY;
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 if (!API_KEY) {
   console.error("Missing ANTHROPIC_API_KEY env var");
   process.exit(1);
@@ -39,6 +40,7 @@ exactly this shape:
       "budget": "<verified topic/call budget and, where relevant, amount per project>",
       "deadline": "<ISO-8601 deadline with Brussels timezone>",
       "deadline_label": "<e.g. 1 Oct 2026>",
+      "cutoffs": ["<all remaining deadline labels when the call has recurring cut-offs>"],
       "summary": "<one plain-English sentence explaining what is funded and for whom>",
       "source_url": "<official European Commission or Funding & Tenders URL>"
     }
@@ -58,7 +60,7 @@ exactly this shape:
 
 Rules:
 - In "calls", include 4 to 10 currently open calls with future deadlines. Use official EU sources only.
-- Never infer a budget or deadline. If either cannot be verified, omit that call.
+- Never infer a budget or deadline. If either cannot be verified, omit that call. For calls with recurring cut-offs, put the nearest future cut-off in "deadline" and list every remaining verified date in "cutoffs".
 - Prioritise recently opened calls and the nearest useful deadlines across Horizon Europe, Digital Europe and EIC.
 - Include 5 to 8 items, ONLY real news you actually found via search. Never invent facts, figures,
   or URLs.
@@ -70,6 +72,23 @@ Rules:
 - Do not include any citation markup, footnote markers, or reference tags (e.g. <cite>, [1], or
   similar) anywhere in the output — write plain prose only, with the real URL going solely in
   "source_url".`;
+
+let telegramContext = "";
+if (TELEGRAM_BOT_TOKEN) {
+  try {
+    const telegramResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?limit=100&allowed_updates=%5B%22channel_post%22%5D`);
+    if (telegramResponse.ok) {
+      const telegramData = await telegramResponse.json();
+      telegramContext = (telegramData.result || [])
+        .map((update) => update.channel_post?.text || update.channel_post?.caption || "")
+        .filter(Boolean)
+        .slice(-30)
+        .join("\n\n--- TELEGRAM POST ---\n\n");
+    }
+  } catch (error) {
+    console.warn("Telegram source unavailable; continuing with official web research.");
+  }
+}
 
 const response = await fetch("https://api.anthropic.com/v1/messages", {
   method: "POST",
@@ -83,7 +102,12 @@ const response = await fetch("https://api.anthropic.com/v1/messages", {
     max_tokens: 8000,
     system: SYSTEM_PROMPT,
     messages: [
-      { role: "user", content: "Build today's Deep-Sync News Wire digest." },
+      {
+        role: "user",
+        content: telegramContext
+          ? `Build today's Deep-Sync News Wire digest. Use the following posts from the private DeepSync funding channel as leads, but verify every call, deadline and budget against an official EU source before including it. Never use Telegram as the final source URL.\n\n${telegramContext}`
+          : "Build today's Deep-Sync News Wire digest."
+      },
     ],
     tools: [{ type: "web_search_20250305", name: "web_search" }],
   }),

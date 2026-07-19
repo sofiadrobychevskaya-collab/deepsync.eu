@@ -9,6 +9,7 @@
       "budget": "€634M programme budget",
       "deadline": "2026-09-02T17:00:00+02:00",
       "deadline_label": "2 Sep 2026",
+      "cutoffs": ["2 Sep 2026", "4 Nov 2026"],
       "summary": "For startups and SMEs bringing a breakthrough innovation from validation to market and international scale.",
       "source_url": "https://eic.ec.europa.eu/funding-opportunities_en"
     },
@@ -20,6 +21,7 @@
       "budget": "€300M · €10–30M per company",
       "deadline": "2026-09-09T17:00:00+02:00",
       "deadline_label": "9 Sep 2026",
+      "cutoffs": ["9 Sep 2026", "25 Nov 2026"],
       "summary": "For high-growth European technology companies preparing an investment round of €50 million or more.",
       "source_url": "https://eic.ec.europa.eu/funding-opportunities_en"
     },

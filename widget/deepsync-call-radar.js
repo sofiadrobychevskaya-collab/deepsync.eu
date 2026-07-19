@@ -33,6 +33,7 @@
       .dscr-facts { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:auto; padding-top:16px; border-top:1px solid #edf0f4; }
       .dscr-fact small { display:block; margin-bottom:4px; color:var(--muted,#5A6A85); font-size:9px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
       .dscr-fact strong { color:var(--navy,#0A1628); font-size:12px; }
+      .dscr-cutoffs { grid-column:1/-1; margin:2px 0 0; color:var(--muted,#5A6A85); font-size:11px; line-height:1.5; }
       .dscr-link { display:inline-flex; margin-top:18px; color:var(--primary,#003399); font-size:12px; font-weight:800; text-decoration:none; }
       .dscr-empty { padding:30px; border-radius:18px; background:white; color:var(--muted,#5A6A85); }
       .dscr-footer { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:22px; color:var(--muted,#5A6A85); font-size:11px; }
@@ -55,7 +56,7 @@
         </div>
         <div class="dscr-filters" role="group" aria-label="Filter funding calls"></div>
         <div class="dscr-grid"></div>
-        <div class="dscr-footer"><span>Data is checked against official EU sources. Always verify conditions before applying.</span><a class="dscr-linkedin" href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener">Get new-call alerts on LinkedIn ↗</a></div>
+        <div class="dscr-footer"><span>Data is checked against official EU sources. Always verify conditions before applying.</span><span><a class="dscr-linkedin" href="https://t.me/+i5CWWcCyqfA3MTAy" target="_blank" rel="noopener">Telegram alerts ↗</a> · <a class="dscr-linkedin" href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener">LinkedIn ↗</a></span></div>
       </div>`;
     const filters = container.querySelector('.dscr-filters');
     const grid = container.querySelector('.dscr-grid');
@@ -68,7 +69,7 @@
           <h3>${esc(call.title)}</h3>
           <p class="dscr-sector">${esc(call.sector)}</p>
           <p class="dscr-summary">${esc(call.summary)}</p>
-          <div class="dscr-facts"><div class="dscr-fact"><small>Budget</small><strong>${esc(call.budget)}</strong></div><div class="dscr-fact"><small>Deadline</small><strong>${esc(call.deadline_label)}</strong></div></div>
+          <div class="dscr-facts"><div class="dscr-fact"><small>Budget</small><strong>${esc(call.budget)}</strong></div><div class="dscr-fact"><small>${call.cutoffs?.length > 1 ? 'Next cut-off' : 'Deadline'}</small><strong>${esc(call.deadline_label)}</strong></div>${call.cutoffs?.length > 1 ? `<p class="dscr-cutoffs"><strong>Remaining 2026 cut-offs:</strong> ${call.cutoffs.map(esc).join(' · ')}</p>` : ''}</div>
           <a class="dscr-link" href="${esc(call.source_url)}" target="_blank" rel="noopener">View official call →</a>
         </article>`).join('') : '<p class="dscr-empty">No open calls in this programme right now.</p>';
     }
