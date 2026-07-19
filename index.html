@@ -250,7 +250,7 @@
         .network-intro p { margin: 0 auto; max-width: 680px; color: var(--muted); font-size: 17px; }
         .network-row-label { width: min(1180px, calc(100% - 40px)); margin: 18px auto 9px; color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
         .marquee { display: flex; overflow: hidden; gap: 20px; margin-bottom: 20px; }
-        .marquee-content { display: flex; gap: 20px; width: max-content; flex-wrap: nowrap; animation: scroll 60s linear infinite; }
+        .marquee-content { display: flex; flex: 0 0 max-content; gap: 20px; width: max-content; min-width: max-content; flex-wrap: nowrap; animation: scroll 90s linear infinite; will-change: transform; }
         .partner-pill { background: var(--bg); padding: 14px 28px; border-radius: 50px; font-size: 14px; font-weight: 700; white-space: nowrap; border: 1px solid rgba(0,0,0,0.05); color: var(--navy); }
         footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 60px 0; text-align: center; }
         @media (max-width: 992px) {
@@ -515,7 +515,6 @@
             <div class="partner-pill">Nokia 🇫🇮</div>
             <div class="partner-pill">Gcore 🇱🇺</div>
             <div class="partner-pill">Vodafone 🇬🇧</div>
-            <div class="partner-pill">CircKit.ai 🇬🇧</div>
             <div class="partner-pill">MeOut Group 🇭🇺</div>
             <div class="partner-pill">Sploro 🇪🇸</div>
         </div></div>
@@ -571,11 +570,16 @@
     </footer>
     <script>
         document.querySelectorAll('.marquee-content').forEach(track => {
+            const direction = track.style.animationDirection;
+            track.style.animation = 'none';
             [...track.children].forEach(partner => {
                 const duplicate = partner.cloneNode(true);
                 duplicate.setAttribute('aria-hidden', 'true');
                 track.appendChild(duplicate);
             });
+            void track.offsetWidth;
+            track.style.animation = '';
+            track.style.animationDirection = direction;
         });
         function openService(evt, name) {
             let i, content = document.getElementsByClassName("content-panel"), tabs = document.getElementsByClassName("service-tab");
