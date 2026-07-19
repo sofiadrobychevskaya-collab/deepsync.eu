@@ -609,11 +609,10 @@ function callFitFeedback(item) {
   return item.status === "covered" ? `Evidence is present. Verify that the final text keeps all of these elements: ${action.replace(/^Add |^Show |^Define |^Set |^Commit /, "")}` : action;
 }
 
-function renderFitRow(item) {
-  return `<article class="fit-row ${item.status}">
-    <span class="requirement-status ${item.status}">${item.status === "covered" ? "Covered" : item.status === "partial" ? "Partial" : "Gap"}</span>
-    <div class="fit-meaning"><small>${escapeHtml(item.source)}</small><strong>${escapeHtml(explainRequirementSimply(item.text))}</strong><details><summary>View source</summary><p>${escapeHtml(compactText(item.text, 520))}</p></details></div>
-    <div class="fit-feedback"><strong>${item.status === "covered" ? "Keep this evidence" : "Improve this"}</strong><p>${escapeHtml(callFitFeedback(item))}</p>${item.status !== "missing" ? `<details><summary>Evidence detected</summary><p>${escapeHtml(compactText(item.evidence, 190))}</p></details>` : ""}</div>
+function renderFitRow(item, index) {
+  return `<article class="fit-action ${item.status}">
+    <span class="fit-action-number">${index + 1}</span>
+    <div><small>${item.status === "covered" ? "KEEP" : "PRIORITY ACTION"}</small><strong>${escapeHtml(explainRequirementSimply(item.text))}</strong><p>${escapeHtml(callFitFeedback(item))}</p></div>
   </article>`;
 }
 
@@ -761,16 +760,21 @@ function renderCallIntelligence(callData) {
     ["Submission", callData.deadlineModel]
   ].map(([label, value]) => `<div class="call-fact"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
   const coverage = callData.coverage || [];
-  const coverageCounts = coverage.reduce((counts, item) => ({ ...counts, [item.status]: (counts[item.status] || 0) + 1 }), {});
   const order = { missing: 0, partial: 1, covered: 2 };
   const orderedCoverage = [...coverage].sort((a, b) => order[a.status] - order[b.status]);
+  const coveragePercent = Math.round(callData.coverageRate * 100);
+  const coverageMessage = coveragePercent >= 75
+    ? "Strong call alignment. Protect the evidence and make ownership explicit."
+    : coveragePercent >= 50
+      ? "The direction fits the call, but important delivery evidence is still missing."
+      : "The concept is relevant, but it does not yet prove how the call requirements will be delivered.";
   els.requirementCoverage.innerHTML = coverage.length ? `
     <div class="coverage-heading">
-      <div><p class="eyebrow">CALL-TO-CONCEPT FIT</p><h3>Does your concept answer what the Commission wants?</h3></div>
-      <div class="coverage-summary"><strong>${Math.round(callData.coverageRate * 100)}%</strong><span>${coverageCounts.covered || 0} covered · ${coverageCounts.partial || 0} partial · ${coverageCounts.missing || 0} gaps</span></div>
+      <div><p class="eyebrow">CALL-TO-CONCEPT FIT</p><h3>${escapeHtml(coverageMessage)}</h3></div>
+      <div class="coverage-summary"><strong>${coveragePercent}%</strong><span>call-fit evidence</span></div>
     </div>
-    <div class="fit-table">${orderedCoverage.slice(0, 5).map(renderFitRow).join("")}</div>
-    ${orderedCoverage.length > 5 ? `<details class="more-requirements"><summary>Show ${orderedCoverage.length - 5} more call requirements</summary><div class="fit-table">${orderedCoverage.slice(5, 10).map(renderFitRow).join("")}</div></details>` : ""}` : `<div class="coverage-unavailable"><strong>Call-to-concept comparison unavailable</strong><p>The official topic record did not expose sufficiently structured Objective, Expected Outcome or Scope text. Open the official topic to verify the requirements.</p></div>`;
+    <p class="priority-intro">Focus on these three changes first:</p>
+    <div class="fit-actions">${orderedCoverage.slice(0, 3).map(renderFitRow).join("")}</div>` : `<div class="coverage-unavailable"><strong>Call-to-concept comparison unavailable</strong><p>Open the official topic to verify the requirements.</p></div>`;
   els.callDetails.innerHTML = "";
   els.callDetails.hidden = true;
 }

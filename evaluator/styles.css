@@ -132,6 +132,14 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
 .coverage-summary strong, .coverage-summary span { display: block; }
 .coverage-summary strong { font: 700 28px "Manrope", sans-serif; color: var(--green-2); }
 .coverage-summary span { color: var(--muted); font-size: 11px; }
+.priority-intro { margin: 8px 0 12px; color: var(--muted); font-size: 13px; }
+.fit-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.fit-action { display: grid; grid-template-columns: 30px 1fr; gap: 11px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); }
+.fit-action-number { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--lime); font-size: 12px; font-weight: 700; }
+.fit-action small, .fit-action strong { display: block; }
+.fit-action small { margin-bottom: 4px; color: var(--green-2); font-size: 9px; font-weight: 700; letter-spacing: .05em; }
+.fit-action strong { font-size: 14px; line-height: 1.35; }
+.fit-action p { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
 .fit-table { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .fit-row { display: grid; grid-template-columns: 76px minmax(240px, 1fr) minmax(280px, 1.15fr); gap: 16px; align-items: start; padding: 14px 16px; border-bottom: 1px solid var(--line); }
 .fit-row:last-child { border-bottom: 0; }
@@ -283,6 +291,7 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
   .coverage-summary { text-align: left; }
   .fit-row { grid-template-columns: 1fr; gap: 8px; }
   .fit-row .requirement-status { width: fit-content; }
+  .fit-actions { grid-template-columns: 1fr; }
   .consortium-profile { grid-template-columns: 1fr; }
   .consortium-profile.compact { grid-template-columns: 1fr; }
   .cordis-search-row { grid-template-columns: 1fr; }
