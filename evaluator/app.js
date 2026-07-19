@@ -519,18 +519,39 @@ function requirementKeywords(value) {
   return [...new Set(String(value).toLowerCase().match(/[a-z][a-z-]{3,}/g) || [])].filter(word => !callStopWords.has(word)).slice(0, 12);
 }
 
-function buildCallRequirements(sections) {
-  const source = [sections["Expected Outcome"], sections["Expected Outcomes"], sections.Objective, sections.Objectives, sections.Scope].filter(Boolean).join("\n");
-  return source.split(/\n+|(?<=[.!?])\s+(?=[A-Z])/).map(item => item.replace(/^[-•\d.)\s]+/, "").trim()).filter(item => item.length >= 55 && item.length <= 520).slice(0, 8);
+function buildCallRequirements(sections, descriptionHtml = "") {
+  const sources = [
+    ["Expected outcome", sections["Expected Outcome"] || sections["Expected Outcomes"]],
+    ["Objective", sections.Objective || sections.Objectives],
+    ["Scope / activity", sections.Scope]
+  ];
+  let requirements = sources.flatMap(([source, value]) => String(value || "").split(/\n+|(?<=[.!?])\s+(?=[A-Z])/).map(item => ({
+    source,
+    text: item.replace(/^[-•\d.)\s]+/, "").trim()
+  }))).filter(item => item.text.length >= 55 && item.text.length <= 520);
+  if (!requirements.length && descriptionHtml) {
+    requirements = htmlToText(descriptionHtml).split(/\n+|(?<=[.!?])\s+(?=[A-Z])/).map(text => ({ source: "Official topic summary", text: text.replace(/^[-•\d.)\s]+/, "").trim() })).filter(item => item.text.length >= 55 && item.text.length <= 520);
+  }
+  return requirements.slice(0, 10);
 }
 
 function assessCallRequirements(proposalText, requirements) {
   const source = proposalText.toLowerCase();
-  return requirements.map(text => {
-    const keywords = requirementKeywords(text);
+  return requirements.map(requirement => {
+    const keywords = requirementKeywords(requirement.text);
     const matched = keywords.filter(keyword => source.includes(keyword));
     const ratio = keywords.length ? matched.length / Math.min(6, keywords.length) : 0;
-    return { text, keywords, matched, covered: matched.length >= 2 && ratio >= .34 };
+    const status = matched.length >= 3 && ratio >= .5 ? "covered" : matched.length >= 1 ? "partial" : "missing";
+    const firstMatch = matched.map(keyword => ({ keyword, index: source.indexOf(keyword) })).filter(item => item.index >= 0).sort((a, b) => a.index - b.index)[0];
+    let evidence = "No explicit matching evidence was detected in the uploaded concept.";
+    if (firstMatch) {
+      const start = Math.max(0, firstMatch.index - 95);
+      const end = Math.min(proposalText.length, firstMatch.index + firstMatch.keyword.length + 170);
+      evidence = proposalText.slice(start, end).replace(/\s+/g, " ").trim();
+      if (start > 0) evidence = `…${evidence}`;
+      if (end < proposalText.length) evidence = `${evidence}…`;
+    }
+    return { ...requirement, keywords, matched, status, covered: status === "covered", evidence };
   });
 }
 
@@ -569,21 +590,22 @@ async function fetchCallIntelligence(input) {
     conditions: htmlToText(conditionsHtml),
     policies: extractOfficialLinks(`${descriptionHtml} ${destinationHtml} ${conditionsHtml}`),
     relatedTopics,
-    requirements: buildCallRequirements(sections)
+    officialSummary: htmlToText(descriptionHtml),
+    requirements: buildCallRequirements(sections, descriptionHtml)
   };
 }
 
 function applyCallAssessment(analysis, proposalText, callData) {
   if (!callData) return;
   callData.coverage = assessCallRequirements(proposalText, callData.requirements);
-  const covered = callData.coverage.filter(item => item.covered).length;
-  callData.coverageRate = callData.coverage.length ? covered / callData.coverage.length : 0;
+  const coveragePoints = callData.coverage.reduce((sum, item) => sum + (item.status === "covered" ? 1 : item.status === "partial" ? .45 : 0), 0);
+  callData.coverageRate = callData.coverage.length ? coveragePoints / callData.coverage.length : 0;
   const firstCriterion = Object.keys(analysis.scores)[0];
   if (callData.coverage.length) {
     const callScore = Math.max(2.5, Math.min(4.8, 2.6 + callData.coverageRate * 2.2));
     analysis.scores[firstCriterion] = Math.round((analysis.scores[firstCriterion] * .55 + callScore * .45) * 10) / 10;
   }
-  const missing = callData.coverage.filter(item => !item.covered);
+  const missing = callData.coverage.filter(item => item.status !== "covered");
   missing.slice(0, 3).forEach((requirement, index) => analysis.findings.unshift({
     id: `call-gap-${index}`,
     criterion: firstCriterion,
@@ -677,21 +699,29 @@ function renderCallIntelligence(callData) {
     ["Submission", callData.deadlineModel]
   ].map(([label, value]) => `<div class="call-fact"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
   const coverage = callData.coverage || [];
-  els.requirementCoverage.innerHTML = coverage.length ? `<h3>Why the call-fit assessment looks this way</h3>${coverage.slice(0, 6).map(item => `
-    <div class="requirement-row"><span class="requirement-status ${item.covered ? "" : "missing"}">${item.covered ? "Evidence detected" : "Evidence missing"}</span><p>${escapeHtml(compactText(item.text, 310))}</p></div>`).join("")}` : "";
+  const coverageCounts = coverage.reduce((counts, item) => ({ ...counts, [item.status]: (counts[item.status] || 0) + 1 }), {});
+  els.requirementCoverage.innerHTML = coverage.length ? `
+    <div class="coverage-heading">
+      <div><p class="eyebrow">CALL-TO-CONCEPT COVERAGE</p><h3>What the call asks for — and what your concept proves</h3></div>
+      <div class="coverage-summary"><strong>${Math.round(callData.coverageRate * 100)}%</strong><span>${coverageCounts.covered || 0} covered · ${coverageCounts.partial || 0} partial · ${coverageCounts.missing || 0} gaps</span></div>
+    </div>
+    <div class="coverage-grid">${coverage.slice(0, 10).map(item => `
+      <article class="requirement-card ${item.status}">
+        <div class="requirement-card-head"><span class="requirement-status ${item.status}">${item.status === "covered" ? "Covered" : item.status === "partial" ? "Partial evidence" : "Gap"}</span><small>${escapeHtml(item.source)}</small></div>
+        <h4>Official call asks</h4><p>${escapeHtml(compactText(item.text, 360))}</p>
+        <h4>Found in your concept</h4><p class="concept-evidence">${escapeHtml(compactText(item.evidence, 330))}</p>
+        <h4>${item.status === "covered" ? "Evidence to retain" : "What is still needed"}</h4><p>${item.status === "covered"
+          ? `Keep the evidence explicit and connect it to responsible partners, activities, outputs and KPIs. Matched signals: ${escapeHtml(item.matched.join(", "))}.`
+          : `Add an explicit response with responsible partners, activities, outputs, beneficiaries and measurable KPIs.${item.matched.length ? ` Current signals are limited to: ${escapeHtml(item.matched.join(", "))}.` : " No clear call-specific evidence was detected."}`}</p>
+      </article>`).join("")}</div>` : `<div class="coverage-unavailable"><strong>Call-to-concept comparison unavailable</strong><p>The official topic record did not expose sufficiently structured Objective, Expected Outcome or Scope text. Open the official topic to verify the requirements.</p></div>`;
   const policies = callData.policies.length
     ? `<ul class="policy-links">${callData.policies.map(link => `<li><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a></li>`).join("")}</ul>`
     : `<div class="call-detail-body">No explicit policy links were extracted from the topic record.</div>`;
-  const related = callData.relatedTopics.length
-    ? `<div class="call-detail-body">${callData.relatedTopics.map(code => escapeHtml(code)).join("\n")}</div>`
-    : `<div class="call-detail-body">No related topic identifiers were explicitly referenced.</div>`;
   const detailBlocks = [
-    callData.expectedOutcome && `<details><summary>Expected outcomes</summary><div class="call-detail-body">${escapeHtml(compactText(callData.expectedOutcome, 1600))}</div></details>`,
-    callData.objective && `<details><summary>What the Commission wants</summary><div class="call-detail-body">${escapeHtml(compactText(callData.objective, 1600))}</div></details>`,
-    callData.scope && `<details><summary>Scope and activities</summary><div class="call-detail-body">${escapeHtml(compactText(callData.scope, 1800))}</div></details>`,
+    (callData.expectedOutcome || callData.objective || callData.scope || callData.officialSummary) && `<details><summary>Official call text used for this assessment</summary><div class="call-detail-body">${callData.expectedOutcome ? `<strong>Expected outcomes</strong>\n${escapeHtml(compactText(callData.expectedOutcome, 1200))}\n\n` : ""}${callData.objective ? `<strong>Objective</strong>\n${escapeHtml(compactText(callData.objective, 1200))}\n\n` : ""}${callData.scope ? `<strong>Scope and activities</strong>\n${escapeHtml(compactText(callData.scope, 1500))}` : (!callData.expectedOutcome && !callData.objective ? escapeHtml(compactText(callData.officialSummary, 2400)) : "")}</div></details>`,
     callData.destination && `<details><summary>EU goal / destination context</summary><div class="call-detail-body">${escapeHtml(compactText(callData.destination, 1600))}</div></details>`,
     callData.policies.length && `<details><summary>Policies, acts and official links</summary>${policies}</details>`,
-    callData.relatedTopics.length && `<details><summary>Related topics named in the call context</summary>${related}</details>`,
+    callData.relatedTopics.length && `<details><summary>Related topics named in the call context</summary><div class="call-detail-body">${callData.relatedTopics.map(code => escapeHtml(code)).join("\n")}</div></details>`,
     callData.conditions && `<details><summary>Eligibility and topic conditions</summary><div class="call-detail-body">${escapeHtml(compactText(callData.conditions, 1800))}</div></details>`
   ].filter(Boolean);
   els.callDetails.innerHTML = detailBlocks.join("");
