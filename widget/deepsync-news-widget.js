@@ -37,18 +37,31 @@
         border: 1px solid #8a806a; background: transparent; color:#1c1a16; padding: 6px 12px;
         cursor:pointer; }
       .dsnw-filter.active { background:#1c1a16; color:#f2ede1; border-color:#1c1a16; }
-      .dsnw-card { border-bottom: 1px solid #c9c0a8; padding: 20px 0; }
+      .dsnw-carousel { position: relative; }
+      .dsnw-track { display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory;
+        scroll-behavior:smooth; padding-bottom:4px; scrollbar-width:none; -ms-overflow-style:none; }
+      .dsnw-track::-webkit-scrollbar { display:none; }
+      .dsnw-card { scroll-snap-align:start; flex:0 0 calc(33.333% - 14px); min-width:240px;
+        box-sizing:border-box; border:1px solid #c9c0a8; background:#faf7ee; padding:20px;
+        display:flex; flex-direction:column; }
+      @media (max-width: 900px) { .dsnw-card { flex:0 0 calc(50% - 10px); } }
+      @media (max-width: 600px) { .dsnw-card { flex:0 0 85%; } }
+      .dsnw-nav { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
+      .dsnw-nav-btn { width:36px; height:36px; border:1px solid #8a806a; background:transparent;
+        color:#1c1a16; font-family:'Courier New', monospace; font-size:16px; cursor:pointer; }
+      .dsnw-nav-btn:disabled { opacity:0.3; cursor:default; }
+      .dsnw-nav-btn:not(:disabled):hover { background:#1c1a16; color:#f2ede1; border-color:#1c1a16; }
       .dsnw-tag { display:inline-block; font-family:'Courier New', monospace; font-size: 11px;
         letter-spacing: 1px; border: 1px solid #8a806a; padding: 3px 8px; margin-right: 10px; }
       .dsnw-date { font-family:'Courier New', monospace; font-size: 11px; color:#5c5647; }
-      .dsnw-headline { font-size: 22px; font-weight: bold; margin: 10px 0 8px; line-height: 1.25; }
-      .dsnw-body { font-size: 15px; line-height: 1.55; margin: 0 0 12px; }
-      .dsnw-means { border-left: 3px solid #b5502d; background:#faf7ee; padding: 12px 16px; margin: 0 0 12px; }
+      .dsnw-headline { font-size: 20px; font-weight: bold; margin: 10px 0 8px; line-height: 1.25; }
+      .dsnw-body { font-size: 14px; line-height: 1.5; margin: 0 0 12px; }
+      .dsnw-means { border-left: 3px solid #b5502d; background:#fff; padding: 12px 16px; margin: 0 0 12px; }
       .dsnw-means-label { font-family:'Courier New', monospace; font-size: 11px; letter-spacing: 1px;
         color:#b5502d; font-weight:bold; display:block; margin-bottom: 4px; }
       .dsnw-means-text { font-style: italic; font-size: 14px; margin: 0; }
       .dsnw-source { font-family:'Courier New', monospace; font-size: 12px; color:#b5502d;
-        text-decoration: underline; }
+        text-decoration: underline; margin-top: auto; }
       .dsnw-empty, .dsnw-error { font-family:'Courier New', monospace; font-size: 13px; padding: 20px 0; }
     `;
     document.head.appendChild(style);
@@ -83,18 +96,58 @@
     });
     wrap.appendChild(filters);
 
-    const cardsHost = document.createElement("div");
-    wrap.appendChild(cardsHost);
+    const carousel = document.createElement("div");
+    carousel.className = "dsnw-carousel";
+
+    const track = document.createElement("div");
+    track.className = "dsnw-track";
+    carousel.appendChild(track);
+
+    const nav = document.createElement("div");
+    nav.className = "dsnw-nav";
+    const prevBtn = document.createElement("button");
+    prevBtn.type = "button";
+    prevBtn.className = "dsnw-nav-btn";
+    prevBtn.setAttribute("aria-label", "Previous");
+    prevBtn.textContent = "←";
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "dsnw-nav-btn";
+    nextBtn.setAttribute("aria-label", "Next");
+    nextBtn.textContent = "→";
+    nav.appendChild(prevBtn);
+    nav.appendChild(nextBtn);
+    carousel.appendChild(nav);
+
+    wrap.appendChild(carousel);
+
+    function updateNavButtons() {
+      const maxScroll = track.scrollWidth - track.clientWidth - 1;
+      prevBtn.disabled = track.scrollLeft <= 0;
+      nextBtn.disabled = maxScroll <= 0 || track.scrollLeft >= maxScroll;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      track.scrollBy({ left: -track.clientWidth, behavior: "smooth" });
+    });
+    nextBtn.addEventListener("click", () => {
+      track.scrollBy({ left: track.clientWidth, behavior: "smooth" });
+    });
+    track.addEventListener("scroll", updateNavButtons);
+    window.addEventListener("resize", updateNavButtons);
 
     function renderCards() {
-      cardsHost.innerHTML = "";
+      track.innerHTML = "";
+      track.scrollLeft = 0;
       const items = (data.items || []).filter(
         (item) => activeCategory === "ALL" || item.category === activeCategory
       );
       if (items.length === 0) {
-        cardsHost.innerHTML = `<p class="dsnw-empty">No items in this category yet.</p>`;
+        track.innerHTML = `<p class="dsnw-empty">No items in this category yet.</p>`;
+        nav.style.display = "none";
         return;
       }
+      nav.style.display = "flex";
       items.forEach((item) => {
         const card = document.createElement("div");
         card.className = "dsnw-card";
@@ -119,8 +172,9 @@
               : ""
           }
         `;
-        cardsHost.appendChild(card);
+        track.appendChild(card);
       });
+      requestAnimationFrame(updateNavButtons);
     }
 
     renderCards();
