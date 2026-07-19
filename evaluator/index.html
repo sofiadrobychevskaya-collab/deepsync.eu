@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DeepSync EU proposal readiness evaluator beta">
+  <title>DeepSync Proposal Evaluator · Beta</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%229%22 fill=%22%2317231f%22/><text x=%2216%22 y=%2222%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2218%22 font-weight=%22700%22 fill=%22%23dfff73%22>D</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="../" aria-label="DeepSync home">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span>DeepSync <small class="beta-badge">Beta</small></span>
+      </a>
+      <span class="privacy-note"><span class="privacy-dot"></span> Private local analysis</span>
+    </header>
+
+    <section class="hero" id="intro">
+      <p class="eyebrow">EU PROPOSAL INTELLIGENCE</p>
+      <h1>See your proposal through an evaluator's eyes.</h1>
+      <p class="hero-copy">Upload a Horizon Europe, Digital Europe or EIC proposal. DeepSync checks its logic against recurring European Commission evaluation patterns and shows what to strengthen before submission.</p>
+
+      <form class="upload-card" id="evaluation-form">
+        <div class="form-row">
+          <label>
+            <span>Programme</span>
+            <select id="programme" name="programme">
+              <option value="horizon">Horizon Europe RIA / IA</option>
+              <option value="horizon-csa">Horizon Europe CSA</option>
+              <option value="digital">Digital Europe</option>
+              <option value="eic">EIC Accelerator Open</option>
+            </select>
+          </label>
+          <label>
+            <span>Call identifier <small>(optional)</small></span>
+            <input id="call-id" name="callId" type="text" placeholder="e.g. HORIZON-CL4-2026-04">
+          </label>
+        </div>
+
+        <label class="dropzone" id="dropzone" for="proposal-file">
+          <input id="proposal-file" type="file" accept="application/pdf,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx">
+          <span class="upload-icon" aria-hidden="true">↑</span>
+          <strong id="file-title">Drop your Part B proposal here</strong>
+          <span id="file-subtitle">or click to choose a PDF or DOCX · max 50 MB</span>
+        </label>
+
+        <div class="consent-row">
+          <p>Your document is processed in this browser. Proposal contents are not stored or sent to DeepSync.</p>
+          <button class="primary-button" id="analyse-button" type="submit" disabled>Analyse proposal <span aria-hidden="true">→</span></button>
+        </div>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+      </form>
+
+      <p class="beta-disclaimer">Beta diagnostic for early testing. It supports proposal review but does not replace expert assessment or predict the Commission's decision.</p>
+    </section>
+
+    <section class="loading-view" id="loading-view" hidden aria-live="polite">
+      <div class="loader-ring"></div>
+      <p class="eyebrow">EVALUATING PROPOSAL</p>
+      <h2 id="loading-title">Reading proposal structure…</h2>
+      <div class="progress-track"><span id="progress-bar"></span></div>
+      <p id="loading-detail">Locating Excellence, Impact and Implementation sections</p>
+    </section>
+
+    <section class="results" id="results" hidden>
+      <div class="results-heading">
+        <div>
+          <p class="eyebrow">MOCK EVALUATION SUMMARY</p>
+          <h1 id="proposal-title">Proposal analysis</h1>
+          <p id="proposal-meta"></p>
+        </div>
+        <div class="result-actions">
+          <button class="secondary-button" id="print-report" type="button">Save report as PDF</button>
+          <button class="secondary-button" id="new-analysis" type="button">New analysis</button>
+        </div>
+      </div>
+
+      <div class="score-panel">
+        <div class="total-score">
+          <span>Estimated total</span>
+          <strong><span id="total-score">—</span><small>/15</small></strong>
+          <p id="score-confidence">Pattern-based diagnostic</p>
+        </div>
+        <div class="criterion-scores" id="criterion-scores"></div>
+      </div>
+
+      <div class="results-layout">
+        <aside class="summary-panel">
+          <p class="eyebrow">EVALUATOR SIGNALS</p>
+          <div class="summary-stat">
+            <strong id="critical-count">0</strong>
+            <span>priority improvements</span>
+          </div>
+          <div class="summary-stat">
+            <strong id="strength-count">0</strong>
+            <span>positive signals</span>
+          </div>
+          <hr>
+          <p class="small-copy">This is a readiness diagnostic, not a prediction of the Commission's final decision.</p>
+        </aside>
+
+        <div class="findings-panel">
+          <div class="tabs" role="tablist" aria-label="Evaluation findings">
+            <button class="tab active" type="button" role="tab" aria-selected="true" data-filter="all">All findings</button>
+            <button class="tab" type="button" role="tab" aria-selected="false" data-filter="priority">Priority</button>
+            <button class="tab" type="button" role="tab" aria-selected="false" data-filter="strength">Strengths</button>
+          </div>
+          <div id="findings-list"></div>
+        </div>
+      </div>
+      <div class="feedback-bar">
+        <div><strong>Help us improve the beta</strong><span>Tell us what was useful, unclear or missing.</span></div>
+        <a class="secondary-button feedback-link" id="feedback-link" href="mailto:sofia@deep-sync.eu?subject=DeepSync%20Evaluator%20Beta%20Feedback">Send feedback</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
