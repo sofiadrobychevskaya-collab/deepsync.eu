@@ -48,6 +48,7 @@ exactly this shape:
       "type": "<short action or funding type>",
       "sector": "<short sector label>",
       "sector_tags": ["<1 to 3 concise user-facing sector tags>"],
+      "audiences": ["<one or more of: Startups | Scaleups | Industry | Public sector | Research | Ecosystem builders>"],
       "title": "<official or concise call title>",
       "budget": "<verified topic/call budget and, where relevant, amount per project>",
       "deadline": "<ISO-8601 deadline with Brussels timezone>",
@@ -72,7 +73,7 @@ exactly this shape:
 
 Rules:
 - In "calls", include 4 to 10 currently open calls with future deadlines. Use official EU sources only.
-- Add "EIT" for EIT opportunities and "CASCADE FUNDING" for FSTP, open-call and cascade-funding opportunities, regardless of their parent programme.
+- Add "EIT" for EIT opportunities. Add "CASCADE FUNDING" only when a startup or SME can apply directly to the displayed opportunity and receive funding. Do not label calls that fund an intermediary, accelerator, consortium or infrastructure as Cascade Funding.
 - Never infer a budget or deadline. If either cannot be verified, omit that call. For calls with recurring cut-offs, put the nearest future cut-off in "deadline" and list every remaining verified date in "cutoffs".
 - Prioritise recently opened calls and the nearest useful deadlines across Horizon Europe, Digital Europe and EIC.
 - Include 5 to 8 items, ONLY real news you actually found via search. Never invent facts, figures,

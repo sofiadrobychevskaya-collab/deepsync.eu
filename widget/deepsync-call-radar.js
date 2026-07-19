@@ -23,9 +23,12 @@
       .dscr-filter { flex:0 0 auto; padding:9px 14px; border:1px solid #dfe4eb; border-radius:999px; background:white; color:var(--muted,#5A6A85); font:700 11px var(--font-main,'Manrope',sans-serif); cursor:pointer; }
       .dscr-filter.active { border-color:var(--navy,#0A1628); background:var(--navy,#0A1628); color:white; }
       .dscr-sector-row { display:flex; align-items:center; gap:8px; margin:-6px 0 22px; overflow-x:auto; scrollbar-width:none; }
+      .dscr-audience-row { display:flex; align-items:center; gap:8px; margin:-10px 0 22px; overflow-x:auto; scrollbar-width:none; }
       .dscr-sector-label { flex:0 0 auto; margin-right:3px; color:var(--muted,#5A6A85); font-size:10px; font-weight:850; letter-spacing:.08em; text-transform:uppercase; }
       .dscr-sector-filter { flex:0 0 auto; padding:7px 11px; border:0; border-radius:7px; background:#e7ebf2; color:var(--muted,#5A6A85); font:750 10px var(--font-main,'Manrope',sans-serif); cursor:pointer; }
       .dscr-sector-filter.active { background:var(--primary,#003399); color:white; }
+      .dscr-audience-filter { flex:0 0 auto; padding:7px 11px; border:1px solid #dfe4eb; border-radius:7px; background:white; color:var(--muted,#5A6A85); font:750 10px var(--font-main,'Manrope',sans-serif); cursor:pointer; }
+      .dscr-audience-filter.active { border-color:var(--navy,#0A1628); background:var(--navy,#0A1628); color:white; }
       .dscr-grid { display:grid; grid-template-rows:repeat(2,auto); grid-auto-flow:column; grid-auto-columns:calc(50% - 7px); gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:1px 1px 8px; scrollbar-width:none; }
       .dscr-grid::-webkit-scrollbar { display:none; }
       .dscr-card { display:flex; flex-direction:column; min-height:290px; padding:24px; border:1px solid #e0e5ec; border-radius:22px; background:white; box-shadow:0 10px 30px rgba(15,31,55,.04); }
@@ -35,6 +38,8 @@
       .dscr-days { padding:6px 9px; border-radius:999px; background:#eef3ff; color:var(--primary,#003399); font-size:10px; font-weight:800; }
       .dscr-card h3 { margin:0 0 10px; color:var(--navy,#0A1628); font-size:20px; line-height:1.3; }
       .dscr-sector { margin:0 0 16px; color:var(--muted,#5A6A85); font-size:12px; font-weight:700; }
+      .dscr-for { margin:-7px 0 14px; color:#39465a; font-size:11px; line-height:1.45; }
+      .dscr-for strong { color:var(--navy,#0A1628); }
       .dscr-summary { margin:0 0 20px; color:#39465a; font-size:14px; line-height:1.6; }
       .dscr-facts { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:auto; padding-top:16px; border-top:1px solid #edf0f4; }
       .dscr-fact small { display:block; margin-bottom:4px; color:var(--muted,#5A6A85); font-size:9px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
@@ -65,14 +70,17 @@
         </div>
         <div class="dscr-filters" role="group" aria-label="Filter funding calls"></div>
         <div class="dscr-sector-row" role="group" aria-label="Filter calls by sector"></div>
+        <div class="dscr-audience-row" role="group" aria-label="Filter calls by applicant type"></div>
         <div class="dscr-grid"></div>
         <div class="dscr-controls"><span class="dscr-updated">Showing two rows · use arrows for more calls</span><div class="dscr-arrows"><button type="button" class="dscr-arrow dscr-prev" aria-label="Previous calls">←</button><button type="button" class="dscr-arrow dscr-next" aria-label="Next calls">→</button></div></div>
         <div class="dscr-footer"><span>Data is checked against official EU sources. Always verify conditions before applying.</span><a class="dscr-linkedin" href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener">Follow all new calls on LinkedIn →</a></div>
       </div>`;
     const filters = container.querySelector('.dscr-filters');
     const sectorFilters = container.querySelector('.dscr-sector-row');
+    const audienceFilters = container.querySelector('.dscr-audience-row');
     const grid = container.querySelector('.dscr-grid');
     let activeSector = 'ALL';
+    let activeAudience = 'ALL';
     const prev = container.querySelector('.dscr-prev');
     const next = container.querySelector('.dscr-next');
     prev.addEventListener('click', () => grid.scrollBy({ left: -grid.clientWidth, behavior: 'smooth' }));
@@ -82,13 +90,15 @@
       const calls = validCalls.filter(call => {
         const programmeMatch = active === 'ALL' || (call.categories || [call.programme]).includes(active);
         const sectorMatch = activeSector === 'ALL' || (call.sector_tags || []).includes(activeSector);
-        return programmeMatch && sectorMatch;
+        const audienceMatch = activeAudience === 'ALL' || (call.audiences || []).includes(activeAudience);
+        return programmeMatch && sectorMatch && audienceMatch;
       });
       grid.innerHTML = calls.length ? calls.map(call => `
         <article class="dscr-card">
           <div class="dscr-meta"><span class="dscr-programme">${esc(call.programme)} · ${esc(call.type)}</span><span class="dscr-days">${daysUntil(call.deadline)} days left</span></div>
           <h3>${esc(call.title)}</h3>
           <p class="dscr-sector">${esc(call.sector)}</p>
+          ${call.audiences?.length ? `<p class="dscr-for"><strong>Best for:</strong> ${call.audiences.map(esc).join(' · ')}</p>` : ''}
           <p class="dscr-summary">${esc(call.summary)}</p>
           <div class="dscr-facts"><div class="dscr-fact"><small>Budget</small><strong>${esc(call.budget)}</strong></div><div class="dscr-fact"><small>${call.cutoffs?.length > 1 ? 'Next cut-off' : 'Deadline'}</small><strong>${esc(call.deadline_label)}</strong></div>${call.cutoffs?.length > 1 ? `<p class="dscr-cutoffs"><strong>Remaining 2026 cut-offs:</strong> ${call.cutoffs.map(esc).join(' · ')}</p>` : ''}</div>
           <a class="dscr-link" href="${esc(call.source_url)}" target="_blank" rel="noopener">View official call →</a>
@@ -121,6 +131,20 @@
       sectorFilters.appendChild(button);
     });
     sectorFilters.insertAdjacentHTML('afterbegin', '<span class="dscr-sector-label">Sector</span>');
+    const audiences = [...new Set(validCalls.flatMap(call => call.audiences || []))].sort();
+    ['ALL', ...audiences].forEach(audience => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'dscr-audience-filter' + (audience === 'ALL' ? ' active' : '');
+      button.textContent = audience === 'ALL' ? 'Everyone' : audience;
+      button.addEventListener('click', () => {
+        activeAudience = audience;
+        audienceFilters.querySelectorAll('button').forEach(item => item.classList.toggle('active', item === button));
+        draw();
+      });
+      audienceFilters.appendChild(button);
+    });
+    audienceFilters.insertAdjacentHTML('afterbegin', '<span class="dscr-sector-label">For</span>');
     draw();
   }
 
