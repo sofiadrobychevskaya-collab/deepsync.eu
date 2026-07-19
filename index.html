@@ -131,11 +131,11 @@
         .nav-links a { text-decoration: none; color: var(--text); font-weight: 700; font-size: 14px; opacity: 0.7; transition: 0.3s; }
         .nav-links a:hover { opacity: 1; color: var(--primary); }
         /* Hero */
-        .hero { background: var(--navy); color: var(--white); padding: 120px 0 160px; position: relative; overflow: hidden; }
+        .hero { background: linear-gradient(180deg, #030f1f 0%, #063056 45%, #0a4d7a 100%); color: var(--white); padding: 120px 0 160px; position: relative; overflow: hidden; }
         .hero-content { position: relative; z-index: 2; max-width: 850px; }
         .hero h1 { font-size: clamp(38px, 7vw, 72px); margin-bottom: 32px; }
         .hero p { font-size: 20px; opacity: 0.85; margin-bottom: 48px; max-width: 700px; font-weight: 400; }
-        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.3; pointer-events: none; }
+        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
         /* Stats Section */
         .stats { padding: 100px 0; background: var(--white); border-bottom: 1px solid #eee; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
@@ -576,17 +576,36 @@
         }, { threshold: 0.2 });
         document.querySelectorAll('.counter, .reveal').forEach(el => observer.observe(el));
         const canvas = document.getElementById('hero-canvas'), ctx = canvas.getContext('2d');
-        let stars = [];
-        function initStars() {
+        const waveLayers = [
+            { amplitude: 16, wavelength: 340, speed: 1.0, yOffset: 0.62, color: 'rgba(80, 170, 220, 0.16)' },
+            { amplitude: 22, wavelength: 260, speed: 1.6, yOffset: 0.74, color: 'rgba(40, 130, 190, 0.22)' },
+            { amplitude: 14, wavelength: 190, speed: 2.2, yOffset: 0.86, color: 'rgba(10, 90, 150, 0.35)' },
+        ];
+        function resizeCanvas() {
             canvas.width = window.innerWidth; canvas.height = canvas.parentElement.offsetHeight;
-            stars = Array(80).fill().map(() => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, s: Math.random()*0.4 }));
         }
+        function drawWave(layer, phase) {
+            const baseY = canvas.height * layer.yOffset;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+            ctx.lineTo(0, baseY);
+            for (let x = 0; x <= canvas.width; x += 8) {
+                const y = baseY + Math.sin(x / layer.wavelength + phase) * layer.amplitude;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.closePath();
+            ctx.fillStyle = layer.color;
+            ctx.fill();
+        }
+        let t = 0;
         function animate() {
-            ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = "#FFCC00";
-            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); s.y -= s.s; if(s.y < 0) s.y = canvas.height; });
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            t += 0.015;
+            waveLayers.forEach(layer => drawWave(layer, t * layer.speed));
             requestAnimationFrame(animate);
         }
-        initStars(); animate(); window.addEventListener('resize', initStars);
+        resizeCanvas(); animate(); window.addEventListener('resize', resizeCanvas);
     </script>
 </body>
 </html>
