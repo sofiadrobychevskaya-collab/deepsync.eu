@@ -248,11 +248,19 @@
         .founder-kicker { margin: 0 0 6px; color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
         .founder-header h2 { margin: 0 0 4px; font-size: clamp(28px, 4vw, 40px); }
         .founder-role { margin: 0; color: var(--muted); font-weight: 650; }
+        .founder-linkedin { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; border: 1px solid #d6dce5; border-radius: 999px; color: var(--navy); font-size: 12px; font-weight: 750; text-decoration: none; transition: .2s ease; }
+        .founder-linkedin:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
         .founder-bio { margin: 0 0 22px; color: #39465a; font-size: 16px; line-height: 1.68; }
         .founder-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 24px; }
         .founder-metric { padding: 13px 10px; border: 1px solid #e3e8ef; border-radius: 14px; background: rgba(255,255,255,.62); }
         .founder-metric strong { display: block; color: var(--navy); font-size: 20px; }
         .founder-metric span { color: var(--muted); font-size: 10px; line-height: 1.25; text-transform: uppercase; }
+        .founder-education { margin: 0 0 24px; }
+        .founder-education-label { margin: 0 0 10px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .education-logos { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .education-logo { height: 58px; border: 1px solid #e1e6ed; border-radius: 12px; background-color: #0d1b31; background-image: url('/assets/education-logos-source.png'); background-repeat: no-repeat; box-shadow: 0 8px 20px rgba(15,31,55,.06); }
+        .education-logo-london { width: 148px; background-size: 680px 158px; background-position: -54px -51px; }
+        .education-logo-eu { width: 188px; background-size: 718px 167px; background-position: -235px -53px; }
         .vc-partnership { padding: 20px 22px; border-left: 4px solid var(--primary); border-radius: 0 18px 18px 0; background: #fff; }
         .vc-partnership strong { display: block; margin-bottom: 7px; color: var(--navy); font-size: 17px; }
         .vc-partnership p { margin: 0; color: #4b586a; font-size: 14px; line-height: 1.55; }
@@ -590,6 +598,7 @@
                             <p class="founder-kicker">About the founder</p>
                             <h2>Sofia Drobychevskaya</h2>
                             <p class="founder-role">Founder, DeepSync · Austria</p>
+                            <a class="founder-linkedin" href="https://www.linkedin.com/in/sonya-drobychevskaya/" target="_blank" rel="noopener noreferrer" aria-label="Sofia Drobychevskaya on LinkedIn"><i class="fab fa-linkedin"></i> LinkedIn</a>
                         </div>
                     </div>
                     <p class="founder-bio">International programme development and EU funding specialist with 10+ years across R&amp;D and entrepreneurship, including 7+ years in EU funding, consortium building and stakeholder engagement. Sofia supports universities, research organisations, public authorities and DeepTech companies across Horizon Europe, Digital Europe, LIFE, EIC and national programmes. She also evaluates and mentors for five European innovation programmes.</p>
@@ -598,6 +607,13 @@
                         <div class="founder-metric"><strong>150+</strong><span>partners coordinated</span></div>
                         <div class="founder-metric"><strong>€20M+</strong><span>submitted portfolio</span></div>
                         <div class="founder-metric"><strong>5</strong><span>evaluator programmes</span></div>
+                    </div>
+                    <div class="founder-education" aria-label="Education">
+                        <p class="founder-education-label">Education</p>
+                        <div class="education-logos">
+                            <div class="education-logo education-logo-london" role="img" aria-label="London Metropolitan University"></div>
+                            <div class="education-logo education-logo-eu" role="img" aria-label="EU Business School"></div>
+                        </div>
                     </div>
                     <div class="vc-partnership">
                         <strong>We are building partnerships with VC and CVC funds.</strong>
