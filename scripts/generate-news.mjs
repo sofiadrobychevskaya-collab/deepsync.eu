@@ -20,6 +20,7 @@ const radarStatus = {
   telegram_updates: 0,
   telegram_posts_used: 0,
   telegram_webhook_active: false,
+  telegram_webhook_removed: false,
   telegram_error: null,
   ai_ok: false,
   ai_error: null,
@@ -93,6 +94,22 @@ Rules:
 let telegramContext = "";
 if (TELEGRAM_BOT_TOKEN) {
   try {
+    const webhookResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getWebhookInfo`);
+    if (webhookResponse.ok) {
+      const webhookData = await webhookResponse.json();
+      radarStatus.telegram_webhook_active = Boolean(webhookData.result?.url);
+      if (radarStatus.telegram_webhook_active) {
+        const removeResponse = await fetch(
+          `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/deleteWebhook?drop_pending_updates=false`,
+          { method: "POST" },
+        );
+        const removeData = await removeResponse.json().catch(() => ({}));
+        if (!removeResponse.ok || !removeData.ok) {
+          throw new Error(`Could not remove Telegram webhook: ${removeData.description || removeResponse.status}`);
+        }
+        radarStatus.telegram_webhook_removed = true;
+      }
+    }
     const allowedUpdates = encodeURIComponent(JSON.stringify(["channel_post", "edited_channel_post", "message"]));
     const telegramResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?limit=100&allowed_updates=${allowedUpdates}`);
     if (telegramResponse.ok) {
@@ -117,11 +134,6 @@ if (TELEGRAM_BOT_TOKEN) {
       const telegramError = await telegramResponse.json().catch(() => ({}));
       radarStatus.telegram_error = `API ${telegramResponse.status}: ${telegramError.description || "unknown error"}`;
       console.warn(radarStatus.telegram_error);
-      const webhookResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getWebhookInfo`);
-      if (webhookResponse.ok) {
-        const webhookData = await webhookResponse.json();
-        radarStatus.telegram_webhook_active = Boolean(webhookData.result?.url);
-      }
     }
   } catch (error) {
     radarStatus.telegram_error = `Telegram unavailable: ${error.message}`;
