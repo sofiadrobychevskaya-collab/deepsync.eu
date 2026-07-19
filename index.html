@@ -192,7 +192,11 @@
         .services-intro span { color: var(--primary); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
         .services-intro h2 { margin: 12px 0 14px; color: var(--navy); font-size: clamp(36px, 6vw, 58px); }
         .services-intro p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.65; }
-        .service-card-grid { display: grid; grid-template-columns: 1fr 110px 1fr; gap: 18px; align-items: stretch; }
+        .service-logic { display: grid; grid-template-columns: 1fr 44px 1fr 44px 1fr; align-items: center; gap: 8px; margin: 0 0 22px; padding: 22px 26px; border: 1px solid #dfe4eb; border-radius: 18px; background: white; color: var(--navy); text-align: center; }
+        .service-logic strong { font-size: 13px; }
+        .service-logic span { color: var(--primary); font-size: 20px; }
+        .service-logic-note { margin: 0 0 34px; color: var(--muted); font-size: 13px; line-height: 1.6; text-align: center; }
+        .service-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
         .service-card { display: flex; flex-direction: column; min-height: 510px; padding: 42px; border: 1px solid #dde2e9; border-radius: 28px; background: white; box-shadow: 0 18px 45px rgba(15,31,55,.06); }
         .service-card-dark { border-color: var(--navy); background: var(--navy); color: white; }
         .service-card-number { margin-bottom: 56px; color: var(--primary); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
@@ -206,9 +210,6 @@
         .service-card-dark .service-list li { border-color: rgba(255,255,255,.14); color: white; }
         .service-card .service-explore { align-self: flex-start; margin-top: auto; padding: 13px 17px; border: 1px solid var(--navy); border-radius: 11px; background: var(--navy); color: white; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
         .service-card-dark .service-explore { border-color: white; background: white; color: var(--navy); }
-        .service-bridge { display: grid; place-items: center; position: relative; }
-        .service-bridge::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: #cfd6df; }
-        .service-bridge-copy { position: relative; z-index: 1; width: 180px; padding: 18px 12px; background: var(--bg); color: var(--muted); font-size: 11px; font-weight: 700; line-height: 1.55; text-align: center; }
         /* EU Roadmap */
         .lc-phase-group { margin-bottom: 50px; width: 100%; }
         .lc-phase-label { font-size: 11px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; color: #0A1628; background: rgba(10,22,40,0.07); padding: 5px 12px; border-radius: 4px; display: inline-block; margin-bottom: 25px; }
@@ -322,8 +323,6 @@
             .about-intro, .about-principles { grid-template-columns: 1fr; text-align: left; }
             .about-cooperation { align-items: flex-start; flex-direction: column; text-align: left; }
             .service-card-grid { grid-template-columns: 1fr; }
-            .service-bridge { min-height: 105px; }
-            .service-bridge::before { top: 50%; right: 0; bottom: auto; left: 0; width: auto; height: 1px; }
             .service-card { min-height: 0; }
         }
         @media (max-width: 560px) {
@@ -334,6 +333,8 @@
             .connect-shell { padding: 18px; }
             .connect-dialog .contact-form-wrap form, .connect-dialog .investment-bridge { padding: 24px; }
             .connect-tabs { grid-template-columns: 1fr; }
+            .service-logic { grid-template-columns: 1fr; gap: 7px; }
+            .service-logic span { transform: rotate(90deg); }
         }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -470,6 +471,10 @@
                 <h2>From policy direction to funded action.</h2>
                 <p>We combine institutional intelligence with full-cycle funding support, so projects respond to where Europe is going and can be delivered in practice.</p>
             </div>
+            <div class="service-logic reveal" aria-label="How DeepSync connects policy and funding">
+                <strong>Policy intelligence</strong><span aria-hidden="true">→</span><strong>Funding strategy</strong><span aria-hidden="true">→</span><strong>Funded action</strong>
+            </div>
+            <p class="service-logic-note reveal">We identify where EU policy is moving, translate those priorities into the right funding route, and build the project required to act on them.</p>
             <div class="service-card-grid">
                 <article class="service-card reveal">
                     <span class="service-card-number">01 / FUNDING</span>
@@ -484,9 +489,6 @@
                     </ul>
                     <button type="button" class="service-explore connect-trigger" data-connect-tab="work">Explore EU Funding →</button>
                 </article>
-                <div class="service-bridge reveal" aria-label="How the two practices connect">
-                    <p class="service-bridge-copy">Policy intelligence informs funding strategy.<br><br>Funding programmes turn policy priorities into action.</p>
-                </div>
                 <article class="service-card service-card-dark reveal">
                     <span class="service-card-number">02 / POLICY</span>
                     <h3>Public Affairs</h3>
