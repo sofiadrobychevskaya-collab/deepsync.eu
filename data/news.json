@@ -1,12 +1,75 @@
 {
-  "generated_at": "2026-07-19T00:00:00Z",
+  "generated_at": "2026-07-19T09:37:38.660Z",
   "items": [
+    {
+      "category": "AI ACT",
+      "date_label": "07 JUL 2026",
+      "headline": "Commission unveils AI Action Plan on cybersecurity",
+      "body": "The European Commission presented a Cybersecurity and AI action plan setting out a coordinated approach to help member states, businesses and public authorities manage cybersecurity and resilience risks from the most advanced AI models. As part of the plan, the Commission will launch a call to boost EU capacity to evaluate AI models before they reach the market, with the new evaluation function expected to be operational by 2027.",
+      "what_it_means": "A new EU-level AI model evaluation and certification capability is coming, which could become a reference point for pre-market risk assessment and open new advisory and testing opportunities for specialist providers.",
+      "source_name": "European Commission",
+      "source_url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai"
+    },
+    {
+      "category": "AI ACT",
+      "date_label": "29 JUN 2026",
+      "headline": "Council finalises AI Act simplification package",
+      "body": "The Council of the EU gave its final green light to a regulation simplifying and streamlining AI Act rules, following the European Parliament's endorsement on 16 June. The package defers the high-risk AI system compliance deadline (originally 2 August 2026) by roughly 16 months, while adding a new prohibition on AI systems that generate non-consensual intimate imagery or CSAM, effective 2 December 2026, and pushing the deadline for national AI regulatory sandboxes to August 2027.",
+      "what_it_means": "Founders building standalone high-risk AI products get significant breathing room on compliance, but general-purpose AI transparency and chatbot-disclosure duties still apply from August 2026 regardless of the delay — don't confuse the two compliance clocks.",
+      "source_name": "Council of the EU",
+      "source_url": "https://www.consilium.europa.eu/en/press/press-releases/2026/06/29/artificial-intelligence-council-gives-final-green-light-to-simplify-and-streamline-rules/"
+    },
+    {
+      "category": "EIC",
+      "date_label": "WEEK OF 13 JUL 2026",
+      "headline": "EIC Accelerator moves to bimonthly deadlines, opens to dual-use",
+      "body": "Following the 17 June 2026 EIC Work Programme amendment, the Accelerator call is now open to dual-use innovation for the first time, alongside its existing civilian remit. Full-proposal cut-offs have also shifted from two to six per year, batched roughly every two months (January, March, May, July, September, November), with the fourth 2026 window closing on 8 July.",
+      "what_it_means": "Defence-adjacent deep-tech founders now have a route into Accelerator grant and equity funding, and the shorter gap between cut-offs lowers the cost of missing a given deadline — but readiness, not speed, should now drive submission timing.",
+      "source_name": "European Innovation Council",
+      "source_url": "https://eic.ec.europa.eu/eic-frequently-asked-questions/faqs-eic-accelerator_en"
+    },
+    {
+      "category": "EIC",
+      "date_label": "01 JUL 2026",
+      "headline": "EIC STEP Scale Up Defence call opens for applications",
+      "body": "The European Innovation Council opened its STEP Scale Up Defence call, offering up to €30 million in direct equity to accelerate scale-up of industrial capabilities in areas such as air and missile defence, drones and counter-drone systems. The EIC will co-invest in larger funding rounds typically worth €50-150 million or more, with total round size expected to be three to five times the EIC's contribution. Applications are open until 28 October 2026.",
+      "what_it_means": "This is a dedicated growth-equity channel for European defence and dual-use deep-tech scale-ups that need to unlock much larger private co-investment rounds than typical EIC grants allow.",
+      "source_name": "European Innovation Council",
+      "source_url": "https://eic.ec.europa.eu/news/eic-step-scale-defence-call-opens-today-2026-07-01_en"
+    },
+    {
+      "category": "HORIZON EUROPE",
+      "date_label": "16 JUL 2026",
+      "headline": "EU and India agree to start Horizon Europe association talks",
+      "body": "The EU and India agreed to open formal negotiations on India's association with Horizon Europe, broadening bilateral ties beyond their recently agreed free trade deal. The two sides aim to conclude the talks before year-end on India's association with the roughly €95.5 billion research and innovation programme, which would give Indian universities, research institutes and companies access to collaborative projects with European partners.",
+      "what_it_means": "If concluded, Indian entities could soon join Horizon Europe consortia on equal terms with associated countries, widening the pool of potential partners and competitors for EU-funded research and innovation projects.",
+      "source_name": "Bloomberg",
+      "source_url": "https://www.bloomberg.com/news/articles/2026-07-16/eu-india-move-to-expand-ties-beyond-landmark-free-trade-deal"
+    },
     {
       "category": "DEEP TECH",
       "date_label": "WEEK OF 13 JUL 2026",
-      "headline": "European tech funding: \u20ac2.8B+ across 70+ deals in one week",
-      "body": "Per industry tracker Tech.eu's weekly recap, European tech startups raised over \u20ac2.8 billion across more than 70 disclosed deals in the week of 13 July 2026.",
-      "what_it_means": "A single-week pulse check, not a trend by itself \u2014 useful as a \"the market is still moving fast\" data point, best paired with H1 macro numbers.",
+      "headline": "European tech funding tops €2.8bn in a single week",
+      "body": "Tech.eu's weekly tracker recorded more than 70 funding deals worth over €2.8 billion across Europe last week, plus more than five exits and M&A transactions. Clouds (€790.8 million), fintech (€660 million) and energy (€471.4 million) were the top-raising sectors, with the UK leading at country level (€1.7 billion), ahead of Germany (€511.9 million) and France (€258.4 million).",
+      "what_it_means": "Weekly deal volumes remain strong heading into H2 2026, with UK-based cloud and fintech companies continuing to pull in the largest share of European venture capital.",
+      "source_name": "tech.eu",
+      "source_url": "https://tech.eu/2026/07/13/european-tech-weekly-recap-more-than-70-tech-funding-deals-worth-over-eur28b/"
+    },
+    {
+      "category": "DEEP TECH",
+      "date_label": "07 JUL 2026",
+      "headline": "Munich fusion startup Proxima Fusion raises €411m",
+      "body": "Proxima Fusion closed a €411 million financing round at a €2.4 billion valuation, led by XTX Ventures and East X Ventures, with RWE and Google joining as strategic investors. The Munich-headquartered company, which also has offices in Zurich and Oxford and around 200 staff, is developing commercial stellarator fusion power plants building on the Wendelstein 7-X research programme, with a net-energy demonstrator targeted for the early 2030s.",
+      "what_it_means": "The round underlines continued appetite for mega-rounds in European fusion energy and the growing role of strategic corporate investors like Google and utilities such as RWE in de-risking capital-intensive deep-tech bets.",
+      "source_name": "Raising Europe",
+      "source_url": "https://raisingeurope.substack.com/p/european-tech-dealflow-highlights-fbb"
+    },
+    {
+      "category": "DEEP TECH",
+      "date_label": "WEEK OF 13 JUL 2026",
+      "headline": "European tech funding: €2.8B+ across 70+ deals in one week",
+      "body": "Per industry tracker Tech.eu's weekly recap, European tech startups raised over €2.8 billion across more than 70 disclosed deals in the week of 13 July 2026.",
+      "what_it_means": "A single-week pulse check, not a trend by itself — useful as a \"the market is still moving fast\" data point, best paired with H1 macro numbers.",
       "source_name": "tech.eu",
       "source_url": "https://tech.eu"
     }
