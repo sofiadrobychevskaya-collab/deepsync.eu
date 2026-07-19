@@ -5,6 +5,10 @@ on:
     # Runs every day at 06:00 UTC. Adjust the cron if you want a different time/frequency.
     - cron: "0 6 * * *"
   workflow_dispatch: {}   # adds a "Run workflow" button in the Actions tab, for manual runs / testing
+  push:
+    branches: [main]
+    paths:
+      - ".github/radar-trigger"
 
 permissions:
   contents: write         # needed so the workflow can commit data/news.json back to the repo
