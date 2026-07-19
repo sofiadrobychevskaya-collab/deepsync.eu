@@ -13,6 +13,16 @@ import path from "node:path";
 
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const radarStatus = {
+  checked_at: new Date().toISOString(),
+  telegram_configured: Boolean(TELEGRAM_BOT_TOKEN),
+  telegram_ok: false,
+  telegram_updates: 0,
+  telegram_posts_used: 0,
+  ai_ok: false,
+  calls_received: 0,
+  message: "Update started",
+};
 if (!API_KEY) {
   console.error("Missing ANTHROPIC_API_KEY env var");
   process.exit(1);
@@ -83,68 +93,102 @@ if (TELEGRAM_BOT_TOKEN) {
     const telegramResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?limit=100&allowed_updates=${allowedUpdates}`);
     if (telegramResponse.ok) {
       const telegramData = await telegramResponse.json();
-      telegramContext = (telegramData.result || [])
+      const telegramUpdates = telegramData.result || [];
+      radarStatus.telegram_ok = true;
+      radarStatus.telegram_updates = telegramUpdates.length;
+      const telegramPosts = telegramUpdates
         .map((update) => {
           const post = update.channel_post || update.edited_channel_post || update.message;
           return post?.text || post?.caption || "";
         })
         .filter(Boolean)
-        .slice(-30)
+        // A long forwarded post can make the model response truncate. Recent
+        // leads are enough; official sources remain the final authority.
+        .slice(-12)
+        .map((post) => post.slice(0, 6000));
+      radarStatus.telegram_posts_used = telegramPosts.length;
+      telegramContext = telegramPosts
         .join("\n\n--- TELEGRAM POST ---\n\n");
+    } else {
+      const telegramError = await telegramResponse.json().catch(() => ({}));
+      radarStatus.message = `Telegram API error ${telegramResponse.status}: ${telegramError.description || "unknown error"}`;
+      console.warn(radarStatus.message);
     }
   } catch (error) {
+    radarStatus.message = `Telegram unavailable: ${error.message}`;
     console.warn("Telegram source unavailable; continuing with official web research.");
   }
 }
 
-const response = await fetch("https://api.anthropic.com/v1/messages", {
-  method: "POST",
-  headers: {
-    "content-type": "application/json",
-    "x-api-key": API_KEY,
-    "anthropic-version": "2023-06-01",
-  },
-  body: JSON.stringify({
-    model: "claude-sonnet-5",
-    max_tokens: 8000,
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
+async function askClaude({ repairText = "" } = {}) {
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": API_KEY,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: "claude-sonnet-5",
+      max_tokens: repairText ? 16000 : 14000,
+      system: repairText
+        ? "Return one valid JSON object only. Preserve factual content; remove commentary and citation tags."
+        : SYSTEM_PROMPT,
+      messages: [{
         role: "user",
-        content: telegramContext
-          ? `Build today's Deep-Sync News Wire digest. Use the following posts from the private DeepSync funding channel as leads, but verify every call, deadline and budget against an official EU source before including it. Never use Telegram as the final source URL.\n\n${telegramContext}`
-          : "Build today's Deep-Sync News Wire digest."
-      },
-    ],
-    tools: [{ type: "web_search_20250305", name: "web_search" }],
-  }),
-});
-
-if (!response.ok) {
-  console.error("Anthropic API error:", response.status, await response.text());
-  process.exit(1);
+        content: repairText || (telegramContext
+          ? `Build today's Deep-Sync News Wire digest. Use these Telegram posts only as leads. Verify every call, deadline and budget against an official source, and never use Telegram as the final source URL.\n\n${telegramContext}`
+          : "Build today's Deep-Sync News Wire digest."),
+      }],
+      ...(repairText ? {} : { tools: [{ type: "web_search_20250305", name: "web_search" }] }),
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`Anthropic API ${response.status}: ${(await response.text()).slice(0, 500)}`);
+  }
+  const data = await response.json();
+  return (data.content || [])
+    .filter((block) => block.type === "text")
+    .map((block) => block.text)
+    .join("\n");
 }
 
-const data = await response.json();
-
-const textBlocks = (data.content || [])
-  .filter((block) => block.type === "text")
-  .map((block) => block.text)
-  .join("\n");
-
-let parsed;
-try {
-  // Strip markdown code fences and any inline web-search citation tags
-  // (e.g. <cite index="7-2,7-3">...</cite>) the model may add despite being
-  // told not to — keep the cited text, drop the tags.
-  const clean = textBlocks
+function parseModelJson(text) {
+  const clean = text
     .replace(/```json|```/g, "")
     .replace(/<\/?cite[^>]*>/g, "")
     .trim();
-  parsed = JSON.parse(clean);
-} catch (err) {
-  console.error("Failed to parse model output as JSON:\n", textBlocks);
-  process.exit(1);
+  try {
+    return JSON.parse(clean);
+  } catch {
+    const start = clean.indexOf("{");
+    const end = clean.lastIndexOf("}");
+    if (start >= 0 && end > start) return JSON.parse(clean.slice(start, end + 1));
+    throw new Error("No complete JSON object in model response");
+  }
+}
+
+let parsed;
+try {
+  const firstText = await askClaude();
+  try {
+    parsed = parseModelJson(firstText);
+  } catch {
+    console.warn("Initial model JSON was invalid; requesting one repair pass.");
+    parsed = parseModelJson(await askClaude({ repairText: firstText }));
+  }
+  radarStatus.ai_ok = true;
+  radarStatus.calls_received = Array.isArray(parsed.calls) ? parsed.calls.length : 0;
+} catch (error) {
+  radarStatus.message = `Generation failed: ${error.message}`;
+  console.error(radarStatus.message);
+  await fs.mkdir(path.join(process.cwd(), "data"), { recursive: true });
+  await fs.writeFile(
+    path.join(process.cwd(), "data", "radar-status.json"),
+    JSON.stringify(radarStatus, null, 2),
+  );
+  // Preserve the last valid radar instead of failing the entire workflow.
+  process.exit(0);
 }
 
 if (!Array.isArray(parsed.items)) {
@@ -213,6 +257,11 @@ const mergedCalls = [...parsed.calls, ...existingCalls]
   .slice(0, 30);
 
 await fs.writeFile(callsPath, JSON.stringify({ generated_at: new Date().toISOString(), calls: mergedCalls }, null, 2));
+radarStatus.message = `Updated successfully with ${mergedCalls.length} open calls`;
+await fs.writeFile(
+  path.join(process.cwd(), "data", "radar-status.json"),
+  JSON.stringify(radarStatus, null, 2),
+);
 console.log(
   `Wrote ${output.items.length} news items and ${mergedCalls.length} open calls`
 );

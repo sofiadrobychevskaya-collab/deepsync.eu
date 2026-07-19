@@ -1,0 +1,10 @@
+{
+  "checked_at": null,
+  "telegram_configured": false,
+  "telegram_ok": false,
+  "telegram_updates": 0,
+  "telegram_posts_used": 0,
+  "ai_ok": false,
+  "calls_received": 0,
+  "message": "Awaiting first diagnostic run"
+}
