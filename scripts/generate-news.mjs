@@ -19,7 +19,10 @@ const radarStatus = {
   telegram_ok: false,
   telegram_updates: 0,
   telegram_posts_used: 0,
+  telegram_webhook_active: false,
+  telegram_error: null,
   ai_ok: false,
+  ai_error: null,
   calls_received: 0,
   message: "Update started",
 };
@@ -112,11 +115,16 @@ if (TELEGRAM_BOT_TOKEN) {
         .join("\n\n--- TELEGRAM POST ---\n\n");
     } else {
       const telegramError = await telegramResponse.json().catch(() => ({}));
-      radarStatus.message = `Telegram API error ${telegramResponse.status}: ${telegramError.description || "unknown error"}`;
-      console.warn(radarStatus.message);
+      radarStatus.telegram_error = `API ${telegramResponse.status}: ${telegramError.description || "unknown error"}`;
+      console.warn(radarStatus.telegram_error);
+      const webhookResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getWebhookInfo`);
+      if (webhookResponse.ok) {
+        const webhookData = await webhookResponse.json();
+        radarStatus.telegram_webhook_active = Boolean(webhookData.result?.url);
+      }
     }
   } catch (error) {
-    radarStatus.message = `Telegram unavailable: ${error.message}`;
+    radarStatus.telegram_error = `Telegram unavailable: ${error.message}`;
     console.warn("Telegram source unavailable; continuing with official web research.");
   }
 }
@@ -181,7 +189,8 @@ try {
   radarStatus.ai_ok = true;
   radarStatus.calls_received = Array.isArray(parsed.calls) ? parsed.calls.length : 0;
 } catch (error) {
-  radarStatus.message = `Generation failed: ${error.message}`;
+  radarStatus.ai_error = error.message;
+  radarStatus.message = "Generation failed; previous verified calls preserved";
   console.error(radarStatus.message);
   await fs.mkdir(path.join(process.cwd(), "data"), { recursive: true });
   await fs.writeFile(

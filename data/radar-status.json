@@ -4,7 +4,10 @@
   "telegram_ok": false,
   "telegram_updates": 0,
   "telegram_posts_used": 0,
+  "telegram_webhook_active": false,
+  "telegram_error": null,
   "ai_ok": false,
+  "ai_error": null,
   "calls_received": 0,
   "message": "Generation failed: Anthropic API 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CdBhufx8RoeZ5tb2aresB\"}"
 }
