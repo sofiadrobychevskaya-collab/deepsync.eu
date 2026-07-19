@@ -141,6 +141,11 @@
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
         .stat-item h4 { font-size: 56px; color: var(--primary); margin-bottom: 8px; font-family: var(--font-mono); }
         .stat-item p { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 800; }
+        /* Proposal Evaluator Section */
+        .evaluator-section { padding: 100px 0; background: var(--white); border-bottom: 1px solid #eee; }
+        .evaluator-frame-wrap { border-radius: 24px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #eee; }
+        .evaluator-frame-wrap iframe { width: 100%; height: 1200px; border: 0; display: block; }
+        @media (max-width: 600px) { .evaluator-frame-wrap iframe { height: 900px; } }
         /* Database Section */
         .database-section { padding: 100px 0; background: var(--bg); border-bottom: 1px solid #eee; }
         .db-card { background: var(--white); padding: 60px; border-radius: 32px; display: flex; align-items: center; gap: 50px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
@@ -258,7 +263,7 @@
             <div class="nav-links">
                 <a href="#services">Services</a>
                 <a href="#database">Follow Us</a>
-                <a href="/evaluator/">Proposal Evaluator</a>
+                <a href="#evaluator">Proposal Evaluator</a>
                 <a href="#network">Network</a>
                 <a href="#contact" class="btn btn-gold" style="padding: 12px 24px; font-size: 14px;">Contact</a>
             </div>
@@ -281,8 +286,8 @@
                 <p>We connect Europe's most ambitious innovators directly with EU institutions — navigating the ecosystem so your technology gets the recognition and funding it deserves.</p>
                 <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
                     <a href="#contact" class="btn btn-gold">Request Strategy Session</a>
-                    <a href="/evaluator/" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">Try Proposal Evaluator</a>
-                    <a href="#database" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">Follow on LinkedIn</a>
+                    <a href="#evaluator" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">Try Proposal Evaluator</a>
+                    <a href="#database" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">EU Call Alert — Every Day</a>
                 </div>
             </div>
         </div>
@@ -306,6 +311,22 @@
                 <h4 class="numbers counter" data-target="10">0</h4>
                 <p>Years Experience</p>
             </div>
+        </div>
+    </section>
+    <!-- PROPOSAL EVALUATOR SECTION -->
+    <section id="evaluator" class="evaluator-section">
+        <div class="container">
+            <div class="evaluator-intro reveal" style="text-align: center; max-width: 700px; margin: 0 auto 40px;">
+                <span class="db-tag">Free Beta</span>
+                <h2 style="margin-top: 16px;">Try the Proposal Evaluator</h2>
+                <p style="font-size: 18px; color: var(--muted); margin-top: 16px;">Upload a Horizon Europe, Digital Europe or EIC proposal and see it through an evaluator's eyes — right here, no separate page needed.</p>
+            </div>
+            <div class="evaluator-frame-wrap reveal">
+                <iframe src="/evaluator/" title="DeepSync Proposal Evaluator" loading="lazy"></iframe>
+            </div>
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="/evaluator/" target="_blank" rel="noopener" style="color: var(--primary); font-weight: 700; text-decoration: none;">Open full screen ↗</a>
+            </p>
         </div>
     </section>
     <!-- LINKEDIN FOLLOW SECTION -->
