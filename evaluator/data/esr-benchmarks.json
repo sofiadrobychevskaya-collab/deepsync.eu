@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "source": "Anonymised aggregate of private European Commission Evaluation Summary Reports",
+  "case_count": 10,
+  "criterion_observation_count": 23,
+  "shortcoming_observation_count": 121,
+  "strength_observation_count": 101,
+  "benchmarks": {
+    "Excellence": {
+      "mean_score": 2.2,
+      "observations": 5
+    },
+    "Impact": {
+      "mean_score": 3.22,
+      "observations": 9
+    },
+    "Implementation": {
+      "mean_score": 4.0,
+      "observations": 2
+    },
+    "Relevance": {
+      "mean_score": 3.12,
+      "observations": 4
+    },
+    "Risk & implementation": {
+      "mean_score": 2.17,
+      "observations": 3
+    }
+  }
+}

@@ -1,5 +1,6 @@
 let pdfjsPromise;
 let mammothPromise;
+let esrBenchmarksPromise;
 const leadEndpoint = "https://script.google.com/macros/s/AKfycbxk1JF4WnWba_hvRKOd8vVM2DiKyl41F8_CQ3QskC2T93vtES2PUkQAICJeGfdq2xDo/exec";
 
 async function getPdfjs() {
@@ -24,6 +25,15 @@ async function getMammoth() {
     });
   }
   return mammothPromise;
+}
+
+async function getEsrBenchmarks() {
+  if (!esrBenchmarksPromise) {
+    esrBenchmarksPromise = fetch("./data/esr-benchmarks.json")
+      .then(response => response.ok ? response.json() : null)
+      .catch(() => null);
+  }
+  return esrBenchmarksPromise;
 }
 
 const els = {
@@ -954,7 +964,7 @@ async function searchCordis() {
   }
 }
 
-function analyseText(text, programme, pages) {
+function analyseText(text, programme, pages, esrBenchmarks = null) {
   const findings = patterns.filter(pattern => pattern.test(text)).map(pattern => ({
     ...pattern,
     criterion: programme === "digital" && pattern.criterion === "Excellence"
@@ -1001,7 +1011,12 @@ function analyseText(text, programme, pages) {
     scores,
     findings,
     warnings,
-    confidence: lowCoverage ? "Incomplete document coverage" : findings.length >= 6 ? "Medium pattern confidence" : "Early diagnostic · more evidence needed"
+    esrBenchmarks,
+    confidence: lowCoverage
+      ? "Incomplete document coverage"
+      : esrBenchmarks?.case_count
+        ? `ESR-informed diagnostic · ${esrBenchmarks.case_count} Commission cases`
+        : findings.length >= 6 ? "Medium pattern confidence" : "Early diagnostic · more evidence needed"
   };
 }
 
@@ -1037,7 +1052,8 @@ async function runFileAnalysis(event) {
     }
     programme = programmeFromCall(callData, programme);
     document.querySelector("#programme").value = programme;
-    const analysis = analyseText(text, programme, pages);
+    const esrBenchmarks = await getEsrBenchmarks();
+    const analysis = analyseText(text, programme, pages, esrBenchmarks);
     const callId = extractTopicIdentifier(callInput) || callInput;
     const programmeLabel = programmeName(programme);
     analysis.meta = `${programmeLabel}${callId ? ` · ${callId}` : ""} · ${pages ? `${pages} pages` : "DOCX"}`;
