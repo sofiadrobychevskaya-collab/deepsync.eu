@@ -77,6 +77,10 @@ const els = {
   unlockReport: document.querySelector("#unlock-report"),
   detailedResults: document.querySelector("#detailed-results"),
   humanSupport: document.querySelector("#human-support"),
+  recommendedSupportReason: document.querySelector("#recommended-support-reason"),
+  recommendedServiceCard: document.querySelector("#recommended-service-card"),
+  recommendedServiceName: document.querySelector("#recommended-service-name"),
+  recommendedServiceCopy: document.querySelector("#recommended-service-copy"),
   supportRequest: document.querySelector("#support-request"),
   selectedService: document.querySelector("#selected-service"),
   supportEmail: document.querySelector("#support-email"),
@@ -588,10 +592,29 @@ function explainRequirementSimply(text) {
 }
 
 function callFitFeedback(item) {
-  const matched = item.matched.length ? item.matched.slice(0, 5).join(", ") : "";
-  if (item.status === "covered") return `The concept addresses this. Keep the commitment explicit and connect it to an owner, activity, output and KPI.${matched ? ` Signals found: ${matched}.` : ""}`;
-  if (item.status === "partial") return `The idea is mentioned, but the evidence is incomplete. Add a quantified commitment, responsible partner, timing and proof of delivery.${matched ? ` Current signals: ${matched}.` : ""}`;
-  return "No clear evidence was found. Add a direct response explaining what will be done, by whom, by when, for which beneficiaries and how success will be measured.";
+  const text = item.text;
+  const actions = [
+    [/three open calls|at least one call per year/i, "Add an FSTP delivery table with three call dates, at least 20 selected SMEs in total, eligible-country coverage, the lead partner and the selection timetable."],
+    [/60%.*financial support|financial support.*60%/i, "Show in the budget that at least 60% goes to FSTP. State the amount per company (maximum €150,000), payment stages, responsible partner and audit trail."],
+    [/12-month.*incubation|incubation and acceleration programme/i, "Add a 12-month participant journey: selection, onboarding, mentoring, training, pilot preparation, market access and graduation - with an owner and KPI for every stage."],
+    [/short pilots.*real education|real education.*impact assessment/i, "Name the pilot hosts and countries, number of pilots and users, baseline and endline indicators, data-collection method and the partner responsible for validation."],
+    [/human-centric design|learning design methodologies/i, "Define who co-designs the pilots (teachers, learners and trainers), when workshops happen, which usability and pedagogical criteria are tested and who signs off the results."],
+    [/European-wide communication|awareness raising/i, "Set EU-wide reach targets: countries, audience groups, channels, events, qualified leads and the partner accountable for converting awareness into uptake."],
+    [/big event|investors.*ministr|market partners/i, "Commit to at least one annual flagship event and specify target numbers for investors, ministries, education providers, meetings and documented follow-up decisions."],
+    [/ethic|inclusion|accessibility|privacy|security/i, "Add mandatory selection and pilot checks for ethics, inclusion, accessibility, privacy and security, with pass/fail criteria and a responsible reviewer."],
+    [/market|commercial|investor/i, "Define the market-access route for selected SMEs: customer introductions, investor meetings, procurement readiness, conversion targets and evidence of commercial follow-up."],
+    [/impact|indicator|assessment/i, "Add a measurement table with baseline, target, data source, collection date, responsible partner and verification method for every claimed outcome."]
+  ];
+  const action = actions.find(([pattern]) => pattern.test(text))?.[1] || "Add one explicit paragraph stating the activity, quantified target, responsible partner, timing, beneficiary group and evidence used to verify completion.";
+  return item.status === "covered" ? `Evidence is present. Verify that the final text keeps all of these elements: ${action.replace(/^Add |^Show |^Define |^Set |^Commit /, "")}` : action;
+}
+
+function renderFitRow(item) {
+  return `<article class="fit-row ${item.status}">
+    <span class="requirement-status ${item.status}">${item.status === "covered" ? "Covered" : item.status === "partial" ? "Partial" : "Gap"}</span>
+    <div class="fit-meaning"><small>${escapeHtml(item.source)}</small><strong>${escapeHtml(explainRequirementSimply(item.text))}</strong><details><summary>View source</summary><p>${escapeHtml(compactText(item.text, 520))}</p></details></div>
+    <div class="fit-feedback"><strong>${item.status === "covered" ? "Keep this evidence" : "Improve this"}</strong><p>${escapeHtml(callFitFeedback(item))}</p>${item.status !== "missing" ? `<details><summary>Evidence detected</summary><p>${escapeHtml(compactText(item.evidence, 190))}</p></details>` : ""}</div>
+  </article>`;
 }
 
 async function fetchCallIntelligence(input) {
@@ -746,12 +769,8 @@ function renderCallIntelligence(callData) {
       <div><p class="eyebrow">CALL-TO-CONCEPT FIT</p><h3>Does your concept answer what the Commission wants?</h3></div>
       <div class="coverage-summary"><strong>${Math.round(callData.coverageRate * 100)}%</strong><span>${coverageCounts.covered || 0} covered · ${coverageCounts.partial || 0} partial · ${coverageCounts.missing || 0} gaps</span></div>
     </div>
-    <div class="fit-table">${orderedCoverage.slice(0, 10).map(item => `
-      <article class="fit-row ${item.status}">
-        <span class="requirement-status ${item.status}">${item.status === "covered" ? "Covered" : item.status === "partial" ? "Partial" : "Gap"}</span>
-        <div class="fit-meaning"><small>${escapeHtml(item.source)}</small><strong>${escapeHtml(explainRequirementSimply(item.text))}</strong><details><summary>View official wording</summary><p>${escapeHtml(compactText(item.text, 520))}</p></details></div>
-        <div class="fit-feedback"><strong>${item.status === "covered" ? "Assessment" : "What is missing"}</strong><p>${escapeHtml(callFitFeedback(item))}</p>${item.status !== "missing" ? `<details><summary>Evidence found in concept</summary><p>${escapeHtml(compactText(item.evidence, 190))}</p></details>` : ""}</div>
-      </article>`).join("")}</div>` : `<div class="coverage-unavailable"><strong>Call-to-concept comparison unavailable</strong><p>The official topic record did not expose sufficiently structured Objective, Expected Outcome or Scope text. Open the official topic to verify the requirements.</p></div>`;
+    <div class="fit-table">${orderedCoverage.slice(0, 5).map(renderFitRow).join("")}</div>
+    ${orderedCoverage.length > 5 ? `<details class="more-requirements"><summary>Show ${orderedCoverage.length - 5} more call requirements</summary><div class="fit-table">${orderedCoverage.slice(5, 10).map(renderFitRow).join("")}</div></details>` : ""}` : `<div class="coverage-unavailable"><strong>Call-to-concept comparison unavailable</strong><p>The official topic record did not expose sufficiently structured Objective, Expected Outcome or Scope text. Open the official topic to verify the requirements.</p></div>`;
   els.callDetails.innerHTML = "";
   els.callDetails.hidden = true;
 }
@@ -1106,6 +1125,17 @@ function renderResults(analysis) {
   renderCallIntelligence(analysis.callData);
   renderDiagnosis(analysis);
   renderConsortiumProfile(analysis.consortium);
+  const priorityCount = activeFindings.filter(finding => finding.kind === "priority").length;
+  const recommendedService = analysis.documentType === "concept" ? "Concept Review" : priorityCount >= 5 ? "Proposal Writing" : "Proposal Review";
+  const supportOptions = {
+    "Concept Review": ["Validate the concept before investing in consortium outreach or full proposal writing.", "Expert validation of call fit, concept logic, impact pathway and consortium readiness."],
+    "Proposal Review": ["The proposal is developed enough for an evaluator-style challenge and prioritised corrections.", "Professional review of the complete Part B against the call and evaluator evidence patterns."],
+    "Proposal Writing": ["The number of priority gaps suggests that targeted rewriting will be more useful than comments alone.", "Scoped expert support to restructure and strengthen the weakest application sections."]
+  };
+  els.recommendedServiceCard.dataset.service = recommendedService;
+  els.recommendedServiceName.textContent = recommendedService;
+  els.recommendedSupportReason.textContent = supportOptions[recommendedService][0];
+  els.recommendedServiceCopy.textContent = supportOptions[recommendedService][1];
   if (sessionStorage.getItem("deepsyncEvaluatorAccess") === "granted") {
     unlockDetailedResults();
   } else {

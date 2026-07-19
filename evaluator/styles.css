@@ -145,6 +145,9 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
 .fit-row details { margin-top: 6px; }
 .fit-row summary { cursor: pointer; color: var(--green-2); font-size: 10px; font-weight: 600; }
 .fit-row details p { margin-top: 5px; }
+.more-requirements { margin-top: 10px; }
+.more-requirements > summary { width: fit-content; cursor: pointer; color: var(--green-2); font-size: 12px; font-weight: 600; }
+.more-requirements .fit-table { margin-top: 10px; }
 .requirement-status { padding: 4px 8px; border-radius: 99px; background: #E7F6EF; font-size: 10px; font-weight: 700; color: var(--green-2); text-transform: uppercase; letter-spacing: .04em; }
 .requirement-status.partial { color: #8A5A00; background: #FFF3D7; }
 .requirement-status.missing { color: var(--rose); background: #FCE8E6; }
@@ -248,6 +251,10 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
 .service-card span { margin-bottom: 18px; color: var(--green-2); font-size: 11px; font-weight: 600; }
 .service-card strong { font: 600 18px "Manrope", sans-serif; }
 .service-card small { margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.recommended-service { display: grid; grid-template-columns: 110px 1fr auto; align-items: center; gap: 18px; width: 100%; margin-top: 22px; padding: 22px 24px; }
+.recommended-service span { margin: 0; }
+.recommended-service strong, .recommended-service small { margin: 0; }
+.recommended-service em { color: var(--green-2); font-size: 12px; font-style: normal; font-weight: 700; white-space: nowrap; }
 .support-request { display: grid; grid-template-columns: 1fr 1fr auto; gap: 16px; align-items: end; margin-top: 18px; padding: 20px; border-radius: 15px; background: var(--soft); }
 .support-request h3 { margin: 0; font: 600 19px "Manrope", sans-serif; }
 .support-request .eyebrow { margin-bottom: 4px; font-size: 9px; }
@@ -282,6 +289,7 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
   .partner-card { grid-template-columns: 48px 1fr; }
   .partner-rank { width: 44px; height: 44px; }
   .partner-links { grid-column: 2; align-items: flex-start; }
+  .recommended-service { grid-template-columns: 1fr; }
 }
 
 @media print {

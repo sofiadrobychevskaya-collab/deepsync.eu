@@ -109,6 +109,31 @@
         <div class="criterion-scores" id="criterion-scores"></div>
       </div>
 
+      <section class="email-gate" id="email-gate">
+        <div>
+          <p class="eyebrow">CRITERION ASSESSMENT</p>
+          <h2>See what is driving each score</h2>
+          <div class="criterion-gate-scores" id="criterion-gate-scores"></div>
+          <p>Unlock the evidence gaps and the most important actions for improving your application.</p>
+        </div>
+        <form id="email-gate-form">
+          <label for="report-email"><span>Work email</span></label>
+          <div class="email-row">
+            <input id="report-email" name="email" type="email" autocomplete="email" placeholder="you@organisation.eu" required>
+            <button class="primary-button" id="unlock-report" type="submit">See score explanations <span aria-hidden="true">→</span></button>
+          </div>
+          <label class="consent-check" for="email-consent">
+            <input id="email-consent" type="checkbox" required>
+            <span>I agree that DeepSync may store my email and contact me about this diagnostic. Proposal content is not submitted.</span>
+          </label>
+          <label class="consent-check consortium-option" for="consortium-interest">
+            <input id="consortium-interest" type="checkbox">
+            <span><strong>Also notify me about consortium recommendations</strong></span>
+          </label>
+          <p class="form-error" id="email-gate-error" role="alert" hidden></p>
+        </form>
+      </section>
+
       <div class="analysis-warnings" id="analysis-warnings" hidden role="status"></div>
 
       <section class="call-intelligence" id="call-intelligence" hidden aria-labelledby="call-intelligence-title">
@@ -159,31 +184,6 @@
         </div>
       </section>
 
-      <section class="email-gate" id="email-gate">
-        <div>
-          <p class="eyebrow">CRITERION ASSESSMENT</p>
-          <h2>See what is driving each score</h2>
-          <div class="criterion-gate-scores" id="criterion-gate-scores"></div>
-          <p>Enter your email to see the evidence behind Relevance, Impact and Implementation, the gaps reducing each score and practical directions for fixing them.</p>
-        </div>
-        <form id="email-gate-form">
-          <label for="report-email"><span>Work email</span></label>
-          <div class="email-row">
-            <input id="report-email" name="email" type="email" autocomplete="email" placeholder="you@organisation.eu" required>
-            <button class="primary-button" id="unlock-report" type="submit">See score explanations <span aria-hidden="true">→</span></button>
-          </div>
-          <label class="consent-check" for="email-consent">
-            <input id="email-consent" type="checkbox" required>
-            <span>I agree that DeepSync may store my email and contact me about this diagnostic. Proposal content is not submitted.</span>
-          </label>
-          <label class="consent-check consortium-option" for="consortium-interest">
-            <input id="consortium-interest" type="checkbox">
-            <span><strong>Also notify me about consortium partner recommendations</strong> — evidence-ranked organisations and role suggestions using CORDIS data.</span>
-          </label>
-          <p class="form-error" id="email-gate-error" role="alert" hidden></p>
-        </form>
-      </section>
-
       <div class="results-layout" id="detailed-results" hidden>
         <aside class="summary-panel">
           <p class="eyebrow">EVALUATOR SIGNALS</p>
@@ -212,15 +212,10 @@
       <section class="human-support" id="human-support" hidden aria-labelledby="human-support-title">
         <div class="human-support-head">
           <p class="eyebrow">EU FUNDING EXPERT SUPPORT</p>
-          <h2 id="human-support-title">When you need an expert, not another AI answer</h2>
-          <p>Use the assistant freely. Request DeepSync support only where professional judgement, writing capacity or real partner access is needed.</p>
+          <h2 id="human-support-title">Recommended next step</h2>
+          <p id="recommended-support-reason">Based on the document stage and detected gaps, this is the most useful expert intervention now.</p>
         </div>
-        <div class="service-grid">
-          <button class="service-card" type="button" data-service="Concept Review"><span>01</span><strong>Concept Review</strong><small>Expert review of call fit, concept logic, impact pathway and readiness before consortium outreach.</small></button>
-          <button class="service-card" type="button" data-service="Proposal Review"><span>02</span><strong>Proposal Review</strong><small>Professional evaluator-style review of a developed Part B with prioritised corrections.</small></button>
-          <button class="service-card" type="button" data-service="Proposal Writing"><span>03</span><strong>Proposal Writing</strong><small>Scoped support to develop or rewrite the application with your consortium.</small></button>
-          <button class="service-card" type="button" data-service="Consortium Search"><span>04</span><strong>Consortium Search</strong><small>Partner validation, outreach, introductions and role negotiation beyond the public CORDIS evidence.</small></button>
-        </div>
+        <button class="service-card recommended-service" id="recommended-service-card" type="button" data-service="Concept Review"><span>RECOMMENDED</span><strong id="recommended-service-name">Concept Review</strong><small id="recommended-service-copy">Expert validation of call fit, concept logic, impact pathway and readiness before consortium outreach.</small><em>Request expert support →</em></button>
         <form class="support-request" id="support-request" hidden>
           <div><span class="eyebrow">SELECTED SUPPORT</span><h3 id="selected-service">Concept Review</h3></div>
           <label for="support-email"><span>Work email</span><input id="support-email" type="email" autocomplete="email" placeholder="you@organisation.eu" required></label>
