@@ -21,19 +21,19 @@
     "HORIZON EUROPE",
   ];
 
-  // No real photography per article (content is auto-generated daily, so
-  // there's no specific image to fetch) — instead each category gets its
-  // own icon + gradient treatment for visual variety without depending on
-  // external images.
+  // Content is auto-generated daily so there's no specific photo per
+  // article — each category instead gets one representative, freely
+  // licensed photo (Unsplash License — free for commercial use, no
+  // attribution required) reused across all its cards.
   const CATEGORY_MEDIA = {
-    "AI ACT": { icon: "fa-solid fa-microchip", gradient: "linear-gradient(135deg, #0A1628 0%, #1D3A8F 100%)" },
-    "EIC": { icon: "fa-solid fa-rocket", gradient: "linear-gradient(135deg, #0A1628 0%, #0F6B4C 100%)" },
-    "DIGITAL EUROPE": { icon: "fa-solid fa-diagram-project", gradient: "linear-gradient(135deg, #0A1628 0%, #5B2A86 100%)" },
-    "EIT": { icon: "fa-solid fa-lightbulb", gradient: "linear-gradient(135deg, #0A1628 0%, #0E7C86 100%)" },
-    "DEEP TECH": { icon: "fa-solid fa-satellite-dish", gradient: "linear-gradient(135deg, #0A1628 0%, #2C3E50 100%)" },
-    "HORIZON EUROPE": { icon: "fa-solid fa-compass", gradient: "linear-gradient(135deg, #0A1628 0%, #7A5A0A 100%)" },
+    "AI ACT": { image: "assets/images/news-wire/ai-act.jpg" },
+    "EIC": { image: "assets/images/news-wire/eic.jpg" },
+    "DIGITAL EUROPE": { image: "assets/images/news-wire/digital-europe.jpg" },
+    "EIT": { image: "assets/images/news-wire/eit.jpg" },
+    "DEEP TECH": { image: "assets/images/news-wire/deep-tech.jpg" },
+    "HORIZON EUROPE": { image: "assets/images/news-wire/horizon-europe.jpg" },
   };
-  const DEFAULT_MEDIA = { icon: "fa-solid fa-newspaper", gradient: "linear-gradient(135deg, #0A1628 0%, #1A2E4A 100%)" };
+  const DEFAULT_MEDIA = { image: "assets/images/news-wire/digital-europe.jpg" };
 
   function injectStyles() {
     if (document.getElementById("dsnw-styles")) return;
@@ -60,12 +60,10 @@
         box-sizing:border-box; border:1px solid var(--border, #E5E9F2); border-radius: 20px;
         background: var(--white, #fff); box-shadow: 0 10px 30px rgba(10,22,40,0.05); overflow:hidden;
         display:flex; flex-direction:column; }
-      .dsnw-card-media { height:120px; flex:0 0 auto; position:relative; overflow:hidden;
-        display:flex; align-items:center; justify-content:center; }
+      .dsnw-card-media { height:140px; flex:0 0 auto; position:relative; overflow:hidden;
+        background-size:cover; background-position:center; }
       .dsnw-card-media::after { content:""; position:absolute; inset:0;
-        background-image: radial-gradient(rgba(255,255,255,0.16) 1.5px, transparent 1.5px);
-        background-size: 16px 16px; }
-      .dsnw-card-media i { font-size:32px; color:rgba(255,255,255,0.92); position:relative; z-index:1; }
+        background: linear-gradient(180deg, rgba(10,22,40,0) 55%, rgba(10,22,40,0.35) 100%); }
       .dsnw-card-body { padding:22px 24px 24px; display:flex; flex-direction:column; flex:1; }
       @media (max-width: 900px) { .dsnw-card { flex:0 0 calc(50% - 12px); } }
       @media (max-width: 600px) { .dsnw-card { flex:0 0 85%; } }
@@ -182,9 +180,7 @@
         const card = document.createElement("div");
         card.className = "dsnw-card";
         card.innerHTML = `
-          <div class="dsnw-card-media" style="background:${media.gradient}">
-            <i class="${media.icon}" aria-hidden="true"></i>
-          </div>
+          <div class="dsnw-card-media" style="background-image:url('${escapeAttr(media.image)}')"></div>
           <div class="dsnw-card-body">
             <span class="dsnw-tag">${escapeHtml(item.category || "")}</span>
             <span class="dsnw-date">${escapeHtml(item.date_label || "")}</span>
