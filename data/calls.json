@@ -3,8 +3,10 @@
   "calls": [
     {
       "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE", "EIT", "CASCADE FUNDING"],
       "type": "EIT cascade funding",
       "sector": "DeepTech · strategic tech · green tech",
+      "sector_tags": ["DeepTech", "Digital", "Green Tech"],
       "title": "28DIGITAL Co-Creation Accelerator 2026–2027",
       "budget": "€3.2M call · up to €250K per startup",
       "deadline": "2026-09-08T17:00:00+02:00",
@@ -17,6 +19,7 @@
       "programme": "EIC",
       "type": "EIC Accelerator",
       "sector": "DeepTech · all sectors",
+      "sector_tags": ["DeepTech", "Startups"],
       "title": "EIC Accelerator Open 2026",
       "budget": "€634M programme budget",
       "deadline": "2026-09-02T17:00:00+02:00",
@@ -29,6 +32,7 @@
       "programme": "EIC",
       "type": "Equity investment",
       "sector": "Critical technologies",
+      "sector_tags": ["DeepTech", "Critical Tech"],
       "title": "EIC STEP Scale Up 2026",
       "budget": "€300M · €10–30M per company",
       "deadline": "2026-09-09T17:00:00+02:00",
@@ -39,8 +43,10 @@
     },
     {
       "programme": "DIGITAL EUROPE",
+      "categories": ["DIGITAL EUROPE", "CASCADE FUNDING"],
       "type": "Coordination & Support",
       "sector": "Information integrity · AI",
+      "sector_tags": ["AI & Data", "Democracy"],
       "title": "Common Research Framework for Information Integrity",
       "budget": "€6M · one project",
       "deadline": "2026-10-01T17:00:00+02:00",
@@ -50,8 +56,10 @@
     },
     {
       "programme": "DIGITAL EUROPE",
+      "categories": ["DIGITAL EUROPE", "CASCADE FUNDING"],
       "type": "Coordination & Support",
       "sector": "EdTech · digital skills",
+      "sector_tags": ["Digital Skills", "EdTech"],
       "title": "European EdTech Accelerator",
       "budget": "€2.7M topic budget",
       "deadline": "2026-10-01T17:00:00+02:00",

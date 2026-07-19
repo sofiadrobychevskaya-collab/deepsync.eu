@@ -1,5 +1,5 @@
 (function () {
-  const PROGRAMMES = ["ALL", "HORIZON EUROPE", "DIGITAL EUROPE", "EIC"];
+  const PROGRAMMES = ["ALL", "HORIZON EUROPE", "DIGITAL EUROPE", "EIC", "EIT", "CASCADE FUNDING"];
 
   function esc(value) {
     return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -22,8 +22,14 @@
       .dscr-filters { display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; scrollbar-width:none; }
       .dscr-filter { flex:0 0 auto; padding:9px 14px; border:1px solid #dfe4eb; border-radius:999px; background:white; color:var(--muted,#5A6A85); font:700 11px var(--font-main,'Manrope',sans-serif); cursor:pointer; }
       .dscr-filter.active { border-color:var(--navy,#0A1628); background:var(--navy,#0A1628); color:white; }
-      .dscr-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+      .dscr-sector-row { display:flex; align-items:center; gap:8px; margin:-6px 0 22px; overflow-x:auto; scrollbar-width:none; }
+      .dscr-sector-label { flex:0 0 auto; margin-right:3px; color:var(--muted,#5A6A85); font-size:10px; font-weight:850; letter-spacing:.08em; text-transform:uppercase; }
+      .dscr-sector-filter { flex:0 0 auto; padding:7px 11px; border:0; border-radius:7px; background:#e7ebf2; color:var(--muted,#5A6A85); font:750 10px var(--font-main,'Manrope',sans-serif); cursor:pointer; }
+      .dscr-sector-filter.active { background:var(--primary,#003399); color:white; }
+      .dscr-grid { display:grid; grid-template-rows:repeat(2,auto); grid-auto-flow:column; grid-auto-columns:calc(50% - 7px); gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:1px 1px 8px; scrollbar-width:none; }
+      .dscr-grid::-webkit-scrollbar { display:none; }
       .dscr-card { display:flex; flex-direction:column; min-height:290px; padding:24px; border:1px solid #e0e5ec; border-radius:22px; background:white; box-shadow:0 10px 30px rgba(15,31,55,.04); }
+      .dscr-card { scroll-snap-align:start; }
       .dscr-meta { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px; }
       .dscr-programme { color:var(--primary,#003399); font-size:10px; font-weight:850; letter-spacing:.08em; }
       .dscr-days { padding:6px 9px; border-radius:999px; background:#eef3ff; color:var(--primary,#003399); font-size:10px; font-weight:800; }
@@ -36,9 +42,12 @@
       .dscr-cutoffs { grid-column:1/-1; margin:2px 0 0; color:var(--muted,#5A6A85); font-size:11px; line-height:1.5; }
       .dscr-link { display:inline-flex; margin-top:18px; color:var(--primary,#003399); font-size:12px; font-weight:800; text-decoration:none; }
       .dscr-empty { padding:30px; border-radius:18px; background:white; color:var(--muted,#5A6A85); }
-      .dscr-footer { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:22px; color:var(--muted,#5A6A85); font-size:11px; }
-      .dscr-linkedin { color:#0A66C2; font-weight:800; text-decoration:none; }
-      @media(max-width:760px){ .dscr-head{align-items:flex-start;flex-direction:column}.dscr-grid{grid-template-columns:1fr}.dscr-card{min-height:0}.dscr-footer{align-items:flex-start;flex-direction:column} }
+      .dscr-controls { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:18px; }
+      .dscr-arrows { display:flex; gap:8px; }
+      .dscr-arrow { width:42px; height:42px; border:1px solid #dfe4eb; border-radius:50%; background:white; color:var(--navy,#0A1628); font-size:18px; cursor:pointer; }
+      .dscr-footer { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:20px; padding-top:20px; border-top:1px solid #dfe4eb; color:var(--muted,#5A6A85); font-size:11px; }
+      .dscr-linkedin { display:inline-flex; padding:11px 15px; border-radius:10px; background:#0A66C2; color:white; font-weight:800; text-decoration:none; }
+      @media(max-width:760px){ .dscr-head{align-items:flex-start;flex-direction:column}.dscr-grid{grid-template-rows:1fr;grid-auto-columns:88%}.dscr-card{min-height:0}.dscr-footer{align-items:flex-start;flex-direction:column} }
     `;
     document.head.appendChild(style);
   }
@@ -55,14 +64,26 @@
           <span class="dscr-updated">Verified: ${esc(new Date(data.generated_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}))}</span>
         </div>
         <div class="dscr-filters" role="group" aria-label="Filter funding calls"></div>
+        <div class="dscr-sector-row" role="group" aria-label="Filter calls by sector"></div>
         <div class="dscr-grid"></div>
-        <div class="dscr-footer"><span>Data is checked against official EU sources. Always verify conditions before applying.</span><span><a class="dscr-linkedin" href="https://t.me/+i5CWWcCyqfA3MTAy" target="_blank" rel="noopener">Telegram alerts ↗</a> · <a class="dscr-linkedin" href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener">LinkedIn ↗</a></span></div>
+        <div class="dscr-controls"><span class="dscr-updated">Showing two rows · use arrows for more calls</span><div class="dscr-arrows"><button type="button" class="dscr-arrow dscr-prev" aria-label="Previous calls">←</button><button type="button" class="dscr-arrow dscr-next" aria-label="Next calls">→</button></div></div>
+        <div class="dscr-footer"><span>Data is checked against official EU sources. Always verify conditions before applying.</span><a class="dscr-linkedin" href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener">Follow all new calls on LinkedIn →</a></div>
       </div>`;
     const filters = container.querySelector('.dscr-filters');
+    const sectorFilters = container.querySelector('.dscr-sector-row');
     const grid = container.querySelector('.dscr-grid');
+    let activeSector = 'ALL';
+    const prev = container.querySelector('.dscr-prev');
+    const next = container.querySelector('.dscr-next');
+    prev.addEventListener('click', () => grid.scrollBy({ left: -grid.clientWidth, behavior: 'smooth' }));
+    next.addEventListener('click', () => grid.scrollBy({ left: grid.clientWidth, behavior: 'smooth' }));
 
     function draw() {
-      const calls = validCalls.filter(call => active === 'ALL' || call.programme === active);
+      const calls = validCalls.filter(call => {
+        const programmeMatch = active === 'ALL' || (call.categories || [call.programme]).includes(active);
+        const sectorMatch = activeSector === 'ALL' || (call.sector_tags || []).includes(activeSector);
+        return programmeMatch && sectorMatch;
+      });
       grid.innerHTML = calls.length ? calls.map(call => `
         <article class="dscr-card">
           <div class="dscr-meta"><span class="dscr-programme">${esc(call.programme)} · ${esc(call.type)}</span><span class="dscr-days">${daysUntil(call.deadline)} days left</span></div>
@@ -86,6 +107,20 @@
       });
       filters.appendChild(button);
     });
+    const sectors = [...new Set(validCalls.flatMap(call => call.sector_tags || []))].sort();
+    ['ALL', ...sectors].forEach(sector => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'dscr-sector-filter' + (sector === 'ALL' ? ' active' : '');
+      button.textContent = sector === 'ALL' ? 'All sectors' : sector;
+      button.addEventListener('click', () => {
+        activeSector = sector;
+        sectorFilters.querySelectorAll('button').forEach(item => item.classList.toggle('active', item === button));
+        draw();
+      });
+      sectorFilters.appendChild(button);
+    });
+    sectorFilters.insertAdjacentHTML('afterbegin', '<span class="dscr-sector-label">Sector</span>');
     draw();
   }
 
