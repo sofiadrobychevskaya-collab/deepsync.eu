@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-07-19T12:00:00.000Z",
+  "calls": [
+    {
+      "programme": "EIC",
+      "type": "EIC Accelerator",
+      "sector": "DeepTech · all sectors",
+      "title": "EIC Accelerator Open 2026",
+      "budget": "€634M programme budget",
+      "deadline": "2026-09-02T17:00:00+02:00",
+      "deadline_label": "2 Sep 2026",
+      "summary": "For startups and SMEs bringing a breakthrough innovation from validation to market and international scale.",
+      "source_url": "https://eic.ec.europa.eu/funding-opportunities_en"
+    },
+    {
+      "programme": "EIC",
+      "type": "Equity investment",
+      "sector": "Critical technologies",
+      "title": "EIC STEP Scale Up 2026",
+      "budget": "€300M · €10–30M per company",
+      "deadline": "2026-09-09T17:00:00+02:00",
+      "deadline_label": "9 Sep 2026",
+      "summary": "For high-growth European technology companies preparing an investment round of €50 million or more.",
+      "source_url": "https://eic.ec.europa.eu/funding-opportunities_en"
+    },
+    {
+      "programme": "DIGITAL EUROPE",
+      "type": "Coordination & Support",
+      "sector": "Information integrity · AI",
+      "title": "Common Research Framework for Information Integrity",
+      "budget": "€6M · one project",
+      "deadline": "2026-10-01T17:00:00+02:00",
+      "deadline_label": "1 Oct 2026",
+      "summary": "Build shared research infrastructure and cross-border capacity to understand manipulation, AI-generated content and online information risks.",
+      "source_url": "https://digital-strategy.ec.europa.eu/en/news/new-open-call-proposals-under-digital-europe-programme"
+    },
+    {
+      "programme": "DIGITAL EUROPE",
+      "type": "Coordination & Support",
+      "sector": "EdTech · digital skills",
+      "title": "European EdTech Accelerator",
+      "budget": "€2.7M topic budget",
+      "deadline": "2026-10-01T17:00:00+02:00",
+      "deadline_label": "1 Oct 2026",
+      "summary": "Create an EU-wide accelerator that funds and tests European EdTech solutions in real education and training environments.",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/DIGITAL-2026-SKILLS-10-EDTECH"
+    }
+  ]
+}

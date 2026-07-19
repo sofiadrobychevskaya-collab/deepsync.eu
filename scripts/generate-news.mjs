@@ -30,6 +30,19 @@ exactly this shape:
 
 {
   "generated_at": "<ISO-8601 timestamp of now>",
+  "calls": [
+    {
+      "programme": "<HORIZON EUROPE | DIGITAL EUROPE | EIC>",
+      "type": "<short action or funding type>",
+      "sector": "<short sector label>",
+      "title": "<official or concise call title>",
+      "budget": "<verified topic/call budget and, where relevant, amount per project>",
+      "deadline": "<ISO-8601 deadline with Brussels timezone>",
+      "deadline_label": "<e.g. 1 Oct 2026>",
+      "summary": "<one plain-English sentence explaining what is funded and for whom>",
+      "source_url": "<official European Commission or Funding & Tenders URL>"
+    }
+  ],
   "items": [
     {
       "category": "<one of: AI ACT | EIC | DIGITAL EUROPE | EIT | DEEP TECH | HORIZON EUROPE>",
@@ -44,6 +57,9 @@ exactly this shape:
 }
 
 Rules:
+- In "calls", include 4 to 10 currently open calls with future deadlines. Use official EU sources only.
+- Never infer a budget or deadline. If either cannot be verified, omit that call.
+- Prioritise recently opened calls and the nearest useful deadlines across Horizon Europe, Digital Europe and EIC.
 - Include 5 to 8 items, ONLY real news you actually found via search. Never invent facts, figures,
   or URLs.
 - Prefer official EU sources (ec.europa.eu, eic.ec.europa.eu, etc.) for calls and policy, and
@@ -105,6 +121,8 @@ if (!Array.isArray(parsed.items)) {
   process.exit(1);
 }
 
+if (!Array.isArray(parsed.calls)) parsed.calls = [];
+
 // Cap on total stored items so the file (and the widget's DOM) don't grow
 // unbounded forever; oldest items fall off once this is exceeded.
 const MAX_ITEMS = 200;
@@ -139,6 +157,31 @@ const output = {
 };
 
 await fs.writeFile(outPath, JSON.stringify(output, null, 2));
+
+const callsPath = path.join(process.cwd(), "data", "calls.json");
+let existingCalls = [];
+try {
+  const existing = JSON.parse(await fs.readFile(callsPath, "utf-8"));
+  if (Array.isArray(existing.calls)) existingCalls = existing.calls;
+} catch {
+  // first run
+}
+
+const now = Date.now();
+const callKey = (call) => (call.source_url || `${call.programme}|${call.title}`).toLowerCase();
+const seenCalls = new Set();
+const mergedCalls = [...parsed.calls, ...existingCalls]
+  .filter((call) => call.deadline && new Date(call.deadline).getTime() >= now)
+  .filter((call) => {
+    const key = callKey(call);
+    if (seenCalls.has(key)) return false;
+    seenCalls.add(key);
+    return true;
+  })
+  .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+  .slice(0, 30);
+
+await fs.writeFile(callsPath, JSON.stringify({ generated_at: new Date().toISOString(), calls: mergedCalls }, null, 2));
 console.log(
-  `Merged ${parsed.items.length} new item(s) with ${existingItems.length} existing; wrote ${output.items.length} total to ${outPath}`
+  `Wrote ${output.items.length} news items and ${mergedCalls.length} open calls`
 );
