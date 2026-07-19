@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-07-19T12:00:00.000Z",
+  "generated_at": "2026-07-19T15:40:00.000Z",
   "calls": [
+    {
+      "programme": "HORIZON EUROPE",
+      "type": "EIT cascade funding",
+      "sector": "DeepTech · strategic tech · green tech",
+      "title": "28DIGITAL Co-Creation Accelerator 2026–2027",
+      "budget": "€3.2M call · up to €250K per startup",
+      "deadline": "2026-09-08T17:00:00+02:00",
+      "deadline_label": "8 Sep 2026",
+      "cutoffs": ["8 Sep 2026", "30 Apr 2027"],
+      "summary": "For early-stage digital startups at TRL 4–5+ to co-develop and validate solutions with an industry partner through a four-month programme.",
+      "source_url": "https://28digital.eu/all-startup-opportunities/"
+    },
     {
       "programme": "EIC",
       "type": "EIC Accelerator",
