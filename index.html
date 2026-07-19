@@ -261,9 +261,18 @@
         .education-logo { height: 58px; border: 1px solid #e1e6ed; border-radius: 12px; background-color: #0d1b31; background-image: url('/assets/education-logos-source.png'); background-repeat: no-repeat; box-shadow: 0 8px 20px rgba(15,31,55,.06); }
         .education-logo-london { width: 148px; background-size: 680px 158px; background-position: -54px -51px; }
         .education-logo-eu { width: 188px; background-size: 718px 167px; background-position: -235px -53px; }
-        .vc-partnership { padding: 20px 22px; border-left: 4px solid var(--primary); border-radius: 0 18px 18px 0; background: #fff; }
-        .vc-partnership strong { display: block; margin-bottom: 7px; color: var(--navy); font-size: 17px; }
-        .vc-partnership p { margin: 0; color: #4b586a; font-size: 14px; line-height: 1.55; }
+        .investment-bridge { margin-top: 64px; padding: 42px; border-radius: 30px; background: var(--navy); color: white; box-shadow: 0 24px 60px rgba(15,31,55,.14); }
+        .partnership-badge { display: inline-flex; padding: 8px 12px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: var(--gold); font-size: 10px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+        .investment-bridge h3 { margin: 18px 0 12px; max-width: 820px; color: white; font-size: clamp(28px, 4vw, 44px); line-height: 1.08; }
+        .investment-bridge > p { max-width: 880px; margin: 0; color: rgba(255,255,255,.72); font-size: 16px; line-height: 1.65; }
+        .bridge-paths { display: grid; grid-template-columns: 1fr 56px 1fr; align-items: stretch; gap: 18px; margin-top: 30px; }
+        .bridge-card { padding: 24px; border: 1px solid rgba(255,255,255,.14); border-radius: 20px; background: rgba(255,255,255,.06); }
+        .bridge-card small { color: var(--gold); font-size: 10px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+        .bridge-card strong { display: block; margin: 8px 0; color: white; font-size: 18px; }
+        .bridge-card p { margin: 0; color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.55; }
+        .bridge-arrow { display: grid; place-items: center; color: var(--gold); font-size: 25px; }
+        .bridge-source { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; color: rgba(255,255,255,.7); font-size: 12px; font-weight: 650; text-decoration: none; }
+        .bridge-source:hover { color: white; }
         .contact-form-wrap form { background: white; padding: 48px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .contact-form-wrap input, .contact-form-wrap textarea, .contact-form-wrap select { width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid #ddd; background: white; color: var(--navy); font-family: var(--font-main); font-size: 16px; outline: none; }
         /* Marquee */
@@ -291,6 +300,8 @@
             .nav-links { display: none; }
             .program-card { flex-direction: column; text-align: center; }
             .founder-header { justify-content: center; text-align: left; }
+            .bridge-paths { grid-template-columns: 1fr; text-align: left; }
+            .bridge-arrow { transform: rotate(90deg); }
         }
         @media (max-width: 560px) {
             .founder-header { align-items: flex-start; }
@@ -615,10 +626,6 @@
                             <div class="education-logo education-logo-eu" role="img" aria-label="EU Business School"></div>
                         </div>
                     </div>
-                    <div class="vc-partnership">
-                        <strong>We are building partnerships with VC and CVC funds.</strong>
-                        <p>DeepSync can introduce assessed European DeepTech startups ready for follow-on funding, commercial scaling and market access. We are looking for investors who want qualified deal flow beyond the grant.</p>
-                    </div>
                 </div>
 <div class="contact-form-wrap reveal">
     <div class="contact-card-visual">
@@ -642,6 +649,25 @@
     </div>
 </div>
         </div>
+            <div class="investment-bridge reveal" id="investment-partnerships">
+                <span class="partnership-badge">Investment partnership</span>
+                <h3>Building the bridge from EU funding to private capital.</h3>
+                <p>Europe's innovation “valley of death” appears when promising R&amp;D reaches the point where grants alone are not enough to commercialise and scale. The European Commission's startup and scaleup strategy calls for stronger venture-capital markets, more institutional investors and a faster route from lab to market. DeepSync is building that bridge in both directions.</p>
+                <div class="bridge-paths">
+                    <div class="bridge-card">
+                        <small>For VC &amp; CVC funds</small>
+                        <strong>Qualified European innovation deal flow</strong>
+                        <p>Access grant-backed DeepTech companies and project results that we know through proposal, consortium and programme work. We help explain the public-funding history, technology maturity, consortium assets and remaining scale-up needs.</p>
+                    </div>
+                    <div class="bridge-arrow" aria-hidden="true">↔</div>
+                    <div class="bridge-card">
+                        <small>For portfolio companies</small>
+                        <strong>EU funding fit before the next round</strong>
+                        <p>We assess which portfolio companies may fit Horizon Europe, EIC, Digital Europe and related instruments, identify evidence gaps and map the right grant, consortium and investor-readiness pathway.</p>
+                    </div>
+                </div>
+                <a class="bridge-source" href="https://commission.europa.eu/news-and-media/news/choose-europe-your-startup-and-scaleup-2025-05-28_en" target="_blank" rel="noopener noreferrer">European Commission · EU Startup and Scaleup Strategy <span aria-hidden="true">↗</span></a>
+            </div>
         </div>
     </section>
 <footer class="site-footer">
