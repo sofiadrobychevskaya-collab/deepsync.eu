@@ -146,12 +146,6 @@
         .db-card { background: var(--white); padding: 60px; border-radius: 32px; display: flex; align-items: center; gap: 50px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
         .db-info h2 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 20px; color: var(--navy); }
         .db-tag { display: inline-block; padding: 6px 12px; background: var(--primary); color: white; border-radius: 6px; font-size: 11px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        /* Modal */
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(10, 22, 40, 0.9); backdrop-filter: blur(8px); z-index: 2000; display:none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-card { background: white; padding: 40px; border-radius: 24px; max-width: 450px; width: 100%; position: relative; }
-        .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 20px; border: none; background: none; }
-        .modal-card h3 { font-size: 28px; margin-bottom: 10px; }
-        .modal-card input { width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid #ddd; font-family: var(--font-main); font-size: 16px; outline: none; }
         /* --- ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ SERVICES (КАК НА СКРИНЕ 1) --- */
         .services-section { padding: 120px 0; }
         .services-intro h2 {
@@ -263,7 +257,7 @@
             <a href="#" class="logo"><img src="logo-white.png" alt="DeepSync Logo"></a>
             <div class="nav-links">
                 <a href="#services">Services</a>
-                <a href="#database">Call for Startups</a>
+                <a href="#database">Follow Us</a>
                 <a href="/evaluator/">Proposal Evaluator</a>
                 <a href="#network">Network</a>
                 <a href="#contact" class="btn btn-gold" style="padding: 12px 24px; font-size: 14px;">Contact</a>
@@ -288,7 +282,7 @@
                 <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
                     <a href="#contact" class="btn btn-gold">Request Strategy Session</a>
                     <a href="/evaluator/" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">Try Proposal Evaluator</a>
-                    <a href="#database" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">Cascade Funding Database</a>
+                    <a href="#database" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">Follow on LinkedIn</a>
                 </div>
             </div>
         </div>
@@ -314,41 +308,35 @@
             </div>
         </div>
     </section>
-    <!-- DATABASE SECTION -->
+    <!-- LINKEDIN FOLLOW SECTION -->
     <section id="database" class="database-section">
         <div class="container">
             <div class="db-card reveal">
                 <div class="db-info">
-                    <span class="db-tag">2026 Resource</span>
-                    <h2>Cascade Funding Database</h2>
-                    <p style="font-size: 18px; color: var(--muted); margin-bottom: 30px;">Access our curated list of EU Cascade Funding calls. Equity-free grants ranging from €50k to €200k with simplified application processes for startups.</p>
-                    <button onclick="handleDownload()" class="btn btn-gold">
-                        <i class="fas fa-file-excel"></i> Download Database (.xlsx)
-                    </button>
+                    <span class="db-tag">Stay Ahead</span>
+                    <h2>Follow Deep-Sync on LinkedIn</h2>
+                    <p style="font-size: 18px; color: var(--muted); margin-bottom: 24px;">Get EU funding calls, AI Act updates and deep-tech news the moment we post them — no noise, just what matters for your funding strategy.</p>
+                    <div style="background: var(--bg); border-left: 4px solid var(--gold); border-radius: 12px; padding: 20px 24px; margin-bottom: 30px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <i class="fas fa-bell" style="color: var(--primary); font-size: 16px;"></i>
+                            <h4 style="font-size: 14px; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin: 0;">EU Call Alert — Every Day</h4>
+                        </div>
+                        <p style="font-size: 15px; color: var(--muted); margin: 0;">Every weekday we post that day's freshest open EU funding calls straight to LinkedIn — programme, budget and deadline at a glance, so you can act before a call fills up or closes.</p>
+                    </div>
+                    <a href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener" class="btn btn-gold">
+                        <i class="fab fa-linkedin"></i> Follow on LinkedIn
+                    </a>
                 </div>
                 <div style="flex: 0 0 300px; text-align: center;">
                     <div style="background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee;">
-                        <i class="fas fa-database" style="font-size: 48px; color: var(--primary); margin-bottom: 20px;"></i>
-                        <h4 style="font-size: 24px; color: var(--navy);">300+ Calls</h4>
-                        <p style="color: var(--muted); font-size: 14px;">Curated by EU Experts</p>
+                        <i class="fab fa-linkedin" style="font-size: 48px; color: #0A66C2; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 24px; color: var(--navy);">DeepSync_EU</h4>
+                        <p style="color: var(--muted); font-size: 14px;">EU Funding Radar on LinkedIn</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div id="registrationModal" class="modal-overlay">
-        <div class="modal-card">
-            <button class="close-modal" onclick="closeModal()">✕</button>
-            <h3>Access Database</h3>
-            <p>Please register to receive the download link for the Excel database.</p>
-            <form id="leadForm" onsubmit="submitRegistration(event)">
-                <input type="text" id="regName" placeholder="Full Name" required>
-                <input type="email" id="regEmail" placeholder="Work Email" required>
-                <input type="text" id="regOrg" placeholder="Organization Name" required>
-                <button type="submit" class="btn btn-gold" style="width: 100%;">Complete & Download</button>
-            </form>
-        </div>
-    </div>
     <!-- SERVICES SECTION (ОБНОВЛЕННЫЙ КУСОК) -->
     <section id="services" class="services-section">
         <div class="container">
@@ -518,33 +506,6 @@
         </div>
     </footer>
     <script>
-        let isRegistered = false;
-        const excelDownloadURL = 'https://docs.google.com/spreadsheets/d/1jTxd0akJnaqF4voBSjQsRV9zwLRYCJezR-Yxv9g0QFk/export?format=xlsx';
-        function handleDownload() {
-            if (isRegistered) { window.location.href = excelDownloadURL; }
-            else { document.getElementById('registrationModal').style.display = 'flex'; }
-        }
-        function closeModal() { document.getElementById('registrationModal').style.display = 'none'; }
-        function submitRegistration(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button'); btn.innerText = 'Sending...'; btn.disabled = true;
-            const scriptURL = 'https://script.google.com/a/macros/deep-sync.eu/s/AKfycbwGqnv6UtLY_7R3h0pKrcuki8Ra9pgIIMfOkVNKrqwkD2JBmDI5EB3azHdmQntPxTc/exec';
-            const finalURL = scriptURL + '?name=' + encodeURIComponent(document.getElementById('regName').value) +
-                             '&email=' + encodeURIComponent(document.getElementById('regEmail').value) +
-                             '&org=' + encodeURIComponent(document.getElementById('regOrg').value);
-            fetch(finalURL, { method: 'GET', mode: 'no-cors' })
-            .then(() => {
-                isRegistered = true;
-                closeModal();
-                alert('Registration successful! Download starting.');
-                window.location.href = excelDownloadURL;
-            })
-            .catch(() => {
-                alert('Error. Please try again.');
-                btn.innerText = 'Complete & Download';
-                btn.disabled = false;
-            });
-        }
         function openService(evt, name) {
             let i, content = document.getElementsByClassName("content-panel"), tabs = document.getElementsByClassName("service-tab");
             for (i=0; i<content.length; i++) content[i].classList.remove("active");
