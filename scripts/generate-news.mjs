@@ -193,8 +193,9 @@ try {
 }
 
 if (!Array.isArray(parsed.items)) {
-  console.error("Unexpected shape from model, aborting write:", parsed);
-  process.exit(1);
+  console.warn("Model returned no news items; preserving the existing news feed.");
+  parsed.items = [];
+  radarStatus.message = "AI response contained calls but no news items";
 }
 
 if (!Array.isArray(parsed.calls)) parsed.calls = [];
