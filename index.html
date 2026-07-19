@@ -186,53 +186,29 @@
         .db-card { background: var(--white); padding: 60px; border-radius: 32px; display: flex; align-items: center; gap: 50px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
         .db-info h2 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 20px; color: var(--navy); }
         .db-tag { display: inline-block; padding: 6px 12px; background: var(--primary); color: white; border-radius: 6px; font-size: 11px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        /* --- ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ SERVICES (КАК НА СКРИНЕ 1) --- */
-        .services-section { padding: 120px 0; }
-        .services-intro h2 {
-            font-size: clamp(48px, 8vw, 72px);
-            color: var(--primary);
-            margin-bottom: 40px;
-            text-align: center;
-        }
-        .services-tabs-container {
-            background: var(--white);
-            border-radius: 28px;
-            padding: 10px;
-            display: flex;
-            max-width: 750px;
-            margin: 0 auto;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-        }
-        .service-tab {
-            flex: 1;
-            padding: 18px 30px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: row; /* Горизонтально */
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            border: none;
-            background: transparent;
-            font-family: var(--font-main);
-            border-radius: 20px;
-            color: var(--muted);
-            white-space: nowrap;
-        }
-        .service-tab i { font-size: 22px; opacity: 0.9; }
-        .service-tab span { font-weight: 700; font-size: 18px; }
-        .service-tab.active {
-            background: #0A1628; /* Navy accent */
-            color: white !important;
-            box-shadow: 0 10px 25px rgba(0, 51, 153, 0.25);
-        }
-        .service-tab.active i { color: white; opacity: 1; }
-        .tab-content-display { max-width: 1100px; margin: 40px auto 0; background: var(--white); padding: 60px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .content-panel { display: none; }
-        .content-panel.active { display: block; animation: fadeIn 0.5s ease; }
-        /* -------------------------------------------------------- */
+        /* Services */
+        .services-section { padding: 120px 0; background: var(--bg); }
+        .services-intro { max-width: 720px; margin: 0 auto 48px; text-align: center; }
+        .services-intro span { color: var(--primary); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+        .services-intro h2 { margin: 12px 0 14px; color: var(--navy); font-size: clamp(36px, 6vw, 58px); }
+        .services-intro p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.65; }
+        .service-card-grid { display: grid; grid-template-columns: 1fr 110px 1fr; gap: 18px; align-items: stretch; }
+        .service-card { display: flex; flex-direction: column; min-height: 510px; padding: 42px; border: 1px solid #dde2e9; border-radius: 28px; background: white; box-shadow: 0 18px 45px rgba(15,31,55,.06); }
+        .service-card-dark { border-color: var(--navy); background: var(--navy); color: white; }
+        .service-card-number { margin-bottom: 56px; color: var(--primary); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
+        .service-card-dark .service-card-number { color: var(--gold); }
+        .service-card h3 { margin: 0 0 14px; color: var(--navy); font-size: 34px; }
+        .service-card-dark h3 { color: white; }
+        .service-card > p { margin: 0 0 26px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+        .service-card-dark > p { color: rgba(255,255,255,.68); }
+        .service-list { display: grid; gap: 0; margin: 0 0 34px; padding: 0; list-style: none; }
+        .service-list li { padding: 12px 0; border-bottom: 1px solid #e7ebf0; color: var(--navy); font-size: 15px; font-weight: 700; }
+        .service-card-dark .service-list li { border-color: rgba(255,255,255,.14); color: white; }
+        .service-card .service-explore { align-self: flex-start; margin-top: auto; padding: 13px 17px; border: 1px solid var(--navy); border-radius: 11px; background: var(--navy); color: white; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+        .service-card-dark .service-explore { border-color: white; background: white; color: var(--navy); }
+        .service-bridge { display: grid; place-items: center; position: relative; }
+        .service-bridge::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: #cfd6df; }
+        .service-bridge-copy { position: relative; z-index: 1; width: 180px; padding: 18px 12px; background: var(--bg); color: var(--muted); font-size: 11px; font-weight: 700; line-height: 1.55; text-align: center; }
         /* EU Roadmap */
         .lc-phase-group { margin-bottom: 50px; width: 100%; }
         .lc-phase-label { font-size: 11px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; color: #0A1628; background: rgba(10,22,40,0.07); padding: 5px 12px; border-radius: 4px; display: inline-block; margin-bottom: 25px; }
@@ -345,6 +321,10 @@
             .hero-actions { grid-template-columns: 1fr; max-width: 520px; }
             .about-intro, .about-principles { grid-template-columns: 1fr; text-align: left; }
             .about-cooperation { align-items: flex-start; flex-direction: column; text-align: left; }
+            .service-card-grid { grid-template-columns: 1fr; }
+            .service-bridge { min-height: 105px; }
+            .service-bridge::before { top: 50%; right: 0; bottom: auto; left: 0; width: auto; height: 1px; }
+            .service-card { min-height: 0; }
         }
         @media (max-width: 560px) {
             .founder-header { align-items: flex-start; }
@@ -482,84 +462,44 @@
         </div>
     </section>
     <script src="/widget/deepsync-call-radar.js"></script>
-    <!-- SERVICES SECTION (ОБНОВЛЕННЫЙ КУСОК) -->
+    <!-- SERVICES SECTION -->
     <section id="services" class="services-section">
         <div class="container">
-            <div class="services-intro reveal"><h2>Our Services</h2></div>
-            <div class="services-tabs-container reveal">
-                <button class="service-tab active" onclick="openService(event, 'pa-content')">
-                    <i class="fas fa-university"></i><span>Public Affairs</span>
-                </button>
-                <button class="service-tab" onclick="openService(event, 'funding-content')">
-                    <i class="fas fa-coins"></i><span>EU Funding</span>
-                </button>
+            <div class="services-intro reveal">
+                <span>Two connected practices</span>
+                <h2>From policy direction to funded action.</h2>
+                <p>We combine institutional intelligence with full-cycle funding support, so projects respond to where Europe is going and can be delivered in practice.</p>
             </div>
-            <div class="tab-content-display reveal">
-                <!-- Public Affairs -->
-                <div id="pa-content" class="content-panel active">
-                    <h3 style="margin-bottom:20px; color:var(--navy);">Public Affairs Strategy</h3>
-                    <div class="pa-timeline">
-                        <div class="tl-item"><div class="tl-num">1</div><div class="tl-content"><h4>Brussels Intelligence</h4><p>We read the room in Brussels months before the call drops.</p></div></div>
-                        <div class="tl-item"><div class="tl-num">2</div><div class="tl-content"><h4>Stakeholder Mapping</h4><p>We identify exactly who needs to see your project succeed.</p></div></div>
-                        <div class="tl-item"><div class="tl-num">3</div><div class="tl-content"><h4>Consortium Building</h4><p>We bring Brussels policy voices into your project team.</p></div></div>
-                        <div class="tl-item"><div class="tl-num">4</div><div class="tl-content"><h4>Strategic Influence</h4><p>We craft messages that land with evaluators and policymakers.</p></div></div>
-                    </div>
+            <div class="service-card-grid">
+                <article class="service-card reveal">
+                    <span class="service-card-number">01 / FUNDING</span>
+                    <h3>EU Funding</h3>
+                    <p>Build the right route from opportunity selection to a fundable proposal and accountable delivery.</p>
+                    <ul class="service-list">
+                        <li>Funding strategy</li>
+                        <li>Call selection</li>
+                        <li>Consortium building</li>
+                        <li>Proposal development</li>
+                        <li>Project implementation</li>
+                    </ul>
+                    <button type="button" class="service-explore connect-trigger" data-connect-tab="work">Explore EU Funding →</button>
+                </article>
+                <div class="service-bridge reveal" aria-label="How the two practices connect">
+                    <p class="service-bridge-copy">Policy intelligence informs funding strategy.<br><br>Funding programmes turn policy priorities into action.</p>
                 </div>
-                <!-- EU Funding -->
-                <div id="funding-content" class="content-panel">
-                    <h3 style="margin-bottom:30px; color:var(--navy);">EU Funding Lifecycle</h3>
-                    <div class="lc-phase-group">
-                        <div class="lc-phase-label">Phase 1: Positioning</div>
-                        <div class="lc-row">
-                            <div class="lc-step"><h4>Strategy call</h4><p>Tech-to-priority mapping</p></div>
-                            <div class="lc-step"><h4>Grant matching</h4><p>Target call selection</p></div>
-                            <div class="lc-step"><h4>Consortium</h4><p>Partner securing</p></div>
-                        </div>
-                    </div>
-                    <div class="lc-phase-group">
-                        <div class="lc-phase-label">Phase 2: Application</div>
-                        <div class="lc-row">
-                            <div class="lc-step"><h4>Proposal writing</h4><p>Drafting & Approval</p></div>
-                            <div class="lc-step"><h4>EU submission</h4><p>Consortium & Application management</p></div>
-                            <div class="lc-step"><h4>Evaluation support</h4><p>Review support</p></div>
-                        </div>
-                    </div>
-                    <div class="lc-phase-group">
-                        <div class="lc-phase-label">Phase 3: Execution</div>
-                        <div class="lc-row">
-                            <div class="lc-step"><h4>Grant awarded</h4><p>Capital secured</p></div>
-                            <div class="lc-step"><h4>Project management</h4><p>Audits & milestones</p></div>
-                            <div class="lc-step" style="visibility:hidden;"></div>
-                        </div>
-                    </div>
-                    <div class="programs-container">
-                        <h3 style="color:var(--navy); text-transform: uppercase;">EU Funding Programs we work with</h3>
-                        <div class="programs-grid">
-                            <a href="https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en" target="_blank" class="program-link">
-                                <div class="program-card">
-                                    <div class="program-badge badge-he">HE</div>
-                                    <div class="program-content"><h4>Horizon Europe</h4><p>Cluster 1–7 • Research & Innovation</p><div class="prog-tags"><span class="prog-tag">RIA</span><span class="prog-tag">IA</span><span class="prog-tag">CSA</span></div><div class="prog-budget">BUDGET: €1M – €15M</div></div>
-                                </div>
-                            </a>
-                            <a href="https://digital-strategy.ec.europa.eu/en/activities/get-funding-digital" target="_blank" class="program-link">
-                                <div class="program-card">
-                                    <div class="program-badge badge-de">DE</div>
-                                    <div class="program-content"><h4>Digital Europe</h4><p>AI • Cloud • Cybersecurity • Data</p><div style="height:15px;"></div><div class="prog-budget">BUDGET: €1M – €15M</div></div>
-                                </div>
-                            </a>
-                            <a href="https://eic.ec.europa.eu/eic-funding-opportunities_en" target="_blank" class="program-link">
-                                <div class="program-card">
-                                    <div class="program-badge badge-eic">EIC</div>
-                                    <div class="program-content"><h4>EIC Programs</h4><p>Pathfinder • Transition • Accelerator</p><div style="height:15px;"></div><div class="prog-budget">UP TO €4M</div></div>
-                                </div>
-                            </a>
-                            <div class="program-card" style="border-style: dashed; background: #fafafa;">
-                                <div class="program-badge badge-nf">NF</div>
-                                <div class="program-content"><h4>National Funding</h4><p style="color:#b08a2e">★ WE CONNECT YOU WITH THE BEST LOCAL AGENCY</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <article class="service-card service-card-dark reveal">
+                    <span class="service-card-number">02 / POLICY</span>
+                    <h3>Public Affairs</h3>
+                    <p>Understand institutional direction, build credible relationships and position your organisation before opportunities take shape.</p>
+                    <ul class="service-list">
+                        <li>Policy intelligence</li>
+                        <li>Stakeholder mapping</li>
+                        <li>Institutional positioning</li>
+                        <li>Coalition building</li>
+                        <li>Strategic influence</li>
+                    </ul>
+                    <button type="button" class="service-explore connect-trigger" data-connect-tab="work">Explore Public Affairs →</button>
+                </article>
             </div>
         </div>
     </section>
@@ -761,6 +701,10 @@
         </div>
     </footer>
     <script>
+        const statsSection = document.querySelector('.stats');
+        const networkSection = document.getElementById('network');
+        if (statsSection && networkSection) statsSection.after(networkSection);
+
         const connectDialog = document.getElementById('connect-dialog');
         const partnershipPanel = document.getElementById('connect-partnerships');
         const workPanel = document.getElementById('connect-work');
@@ -811,13 +755,6 @@
             track.style.animation = '';
             track.style.animationDirection = direction;
         });
-        function openService(evt, name) {
-            let i, content = document.getElementsByClassName("content-panel"), tabs = document.getElementsByClassName("service-tab");
-            for (i=0; i<content.length; i++) content[i].classList.remove("active");
-            for (i=0; i<tabs.length; i++) tabs[i].classList.remove("active");
-            document.getElementById(name).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (!entry.isIntersecting) return;
