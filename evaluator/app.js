@@ -60,7 +60,12 @@ const els = {
   strengthCount: document.querySelector("#strength-count"),
   newAnalysis: document.querySelector("#new-analysis"),
   printReport: document.querySelector("#print-report"),
-  feedbackLink: document.querySelector("#feedback-link")
+  feedbackLink: document.querySelector("#feedback-link"),
+  consortiumProfile: document.querySelector("#consortium-profile"),
+  cordisQuery: document.querySelector("#cordis-query"),
+  cordisSearch: document.querySelector("#cordis-search"),
+  cordisStatus: document.querySelector("#cordis-status"),
+  cordisResults: document.querySelector("#cordis-results")
 };
 
 let selectedFile = null;
@@ -431,6 +436,213 @@ function evidenceGapFinding(criterion) {
   };
 }
 
+const consortiumRoleRules = [
+  { id: "research", label: "Research & evidence", beneficiary: "Beneficiary", pattern: /(universit|research (centre|center|institute)|academic|scientific partner|RTO\b)/i, need: "methodology, independent evidence and validation" },
+  { id: "industry", label: "Technology / industry", beneficiary: "Beneficiary", pattern: /(SME\b|industry partner|industrial partner|technology provider|private company|commercial partner|enterprise)/i, need: "technology delivery, commercial ownership and exploitation" },
+  { id: "end-user", label: "End user / pilot owner", beneficiary: "Beneficiary", pattern: /(end.user|pilot owner|living lab|school|hospital|operator|public administration|municipalit|regional authority)/i, need: "access to users, pilot environment and adoption evidence" },
+  { id: "public", label: "Public authority / policy", beneficiary: "Associated Partner", pattern: /(ministry|public authority|municipalit|city council|regional government|policy maker|regulator)/i, need: "policy uptake, public mandate or access to a public deployment context" },
+  { id: "ecosystem", label: "Ecosystem / dissemination", beneficiary: "Associated Partner", pattern: /(association|cluster|network|federation|NGO\b|dissemination partner|ecosystem partner)/i, need: "replication, stakeholder reach and dissemination" }
+];
+
+const domainTerms = [
+  ["artificial intelligence", /artificial intelligence|\bAI\b/i], ["generative AI", /generative AI|GenAI/i],
+  ["education technology", /EdTech|education technology|digital education/i], ["digital skills", /digital skills|upskilling|reskilling/i],
+  ["public administration", /public administration|public sector/i], ["agriculture", /agri|farming|crop|agriculture/i],
+  ["health", /health|clinical|hospital|patient/i], ["energy", /energy|renewable|grid|hydrogen/i],
+  ["circular economy", /circular economy|recycling|waste/i], ["cybersecurity", /cybersecurity|cyber security/i],
+  ["semiconductors", /semiconductor|microelectronics|chip/i], ["robotics", /robotic|automation/i],
+  ["climate", /climate|decarbon|greenhouse gas/i], ["manufacturing", /manufactur|factory|industrial production/i]
+];
+
+function deriveConsortiumProfile(text, programme, callId) {
+  if (programme === "eic") {
+    return {
+      query: suggestCordisQuery(text, callId),
+      roles: [{ label: "EIC applicant structure", present: true, legalRole: "Single applicant", need: "EIC Accelerator normally funds a single startup or SME; CORDIS candidates should be treated as validators, customers or ecosystem supporters rather than consortium beneficiaries.", basis: "Programme rule — verify against the current call documents" }]
+    };
+  }
+  const roles = consortiumRoleRules.map(rule => {
+    const present = rule.pattern.test(text);
+    let legalRole = rule.beneficiary;
+    if (rule.id === "public" && /(budget|person.month|task leader|work package leader)/i.test(text)) legalRole = "Beneficiary";
+    return {
+      ...rule,
+      present,
+      legalRole,
+      basis: present
+        ? "Detected in the uploaded proposal text"
+        : `${programmeName(programme)} role-coverage heuristic; to be checked against the exact call conditions and similar CORDIS projects`
+    };
+  });
+  return { query: suggestCordisQuery(text, callId), roles };
+}
+
+function suggestCordisQuery(text, callId = "") {
+  const found = domainTerms.filter(([, pattern]) => pattern.test(text)).map(([term]) => term).slice(0, 3);
+  const topicTokens = callId.split("-").filter(token => token.length > 3 && !/^(HORIZON|DIGITAL|20\d{2})$/i.test(token)).map(token => token.toLowerCase()).slice(-2);
+  return [...new Set([...found, ...topicTokens])].join(" ") || "European innovation digital transformation";
+}
+
+function renderConsortiumProfile(profile) {
+  els.consortiumProfile.innerHTML = profile.roles.map(role => `
+    <article class="profile-signal ${role.present ? "present" : "gap"}">
+      <span>${role.present ? "Detected coverage" : "Potential gap"}</span>
+      <strong>${escapeHtml(role.label)}</strong>
+      <small>${escapeHtml(role.need)}</small>
+      <em class="role-status">${escapeHtml(role.legalRole)}</em>
+      <small><strong>Basis:</strong> ${escapeHtml(role.basis)}</small>
+    </article>`).join("");
+  els.cordisQuery.value = profile.query;
+  els.cordisResults.innerHTML = "";
+  els.cordisStatus.hidden = true;
+}
+
+function asArray(value) {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+function organisationCategory(org) {
+  const category = asArray(org?.relations?.categories?.category)[0];
+  return category?.code || "ORG";
+}
+
+function roleForCandidate(org, gaps) {
+  const code = organisationCategory(org);
+  const preferred = gaps.find(gap =>
+    (gap.id === "research" && /HES|REC/.test(code)) ||
+    (gap.id === "industry" && /PRC|SME/.test(code)) ||
+    (gap.id === "public" && /PUB/.test(code)) ||
+    (gap.id === "ecosystem" && /OTH|PUB/.test(code))
+  ) || gaps[0];
+  return preferred ? { ...preferred } : { label: "Complementary expertise", legalRole: "Beneficiary or Associated Partner", need: "topic-relevant expertise" };
+}
+
+function rankCordisOrganisations(hits, query, profile) {
+  const terms = query.toLowerCase().split(/[^a-z0-9]+/).filter(term => term.length > 3);
+  const gaps = profile.roles.filter(role => !role.present);
+  const grouped = new Map();
+  hits.forEach((hit, projectIndex) => {
+    const project = hit.project || hit;
+    const haystack = `${project.title || ""} ${project.teaser || ""} ${project.objective || ""} ${project.keywords || ""}`.toLowerCase();
+    const matches = terms.filter(term => haystack.includes(term)).length;
+    asArray(project?.relations?.associations?.organization).forEach(org => {
+      if (!org?.legalName) return;
+      const key = org.id || org.legalName;
+      const item = grouped.get(key) || { org, projects: [], coordinatorCount: 0, associatedCount: 0, beneficiaryCount: 0, matchScore: 0 };
+      item.projects.push({ id: project.id, title: project.title || project.acronym || "CORDIS project", acronym: project.acronym || "", year: String(project.startDate || "").slice(0, 4) });
+      const historicalRole = org["@attributes"]?.type || "participant";
+      item.coordinatorCount += historicalRole === "coordinator" ? 1 : 0;
+      item.associatedCount += historicalRole === "associatedPartner" ? 1 : 0;
+      item.beneficiaryCount += /coordinator|participant/.test(historicalRole) ? 1 : 0;
+      item.matchScore += matches * 4 + Math.max(0, 6 - projectIndex);
+      grouped.set(key, item);
+    });
+  });
+  return [...grouped.values()].map(item => {
+    const role = roleForCandidate(item.org, gaps);
+    if (item.associatedCount > item.beneficiaryCount && role?.legalRole === "Associated Partner") role.basis = "Historical Associated Partner participation in the returned CORDIS projects";
+    else role.basis = "Detected consortium gap and organisation-type fit; eligibility and the exact call conditions still require verification";
+    const roleFit = role ? 12 : 4;
+    const score = Math.min(99, 42 + Math.min(24, item.matchScore) + Math.min(14, item.projects.length * 4) + Math.min(10, item.coordinatorCount * 5) + roleFit);
+    return { ...item, role, score };
+  }).sort((a, b) => b.score - a.score || b.projects.length - a.projects.length).slice(0, 8);
+}
+
+function safeExternalUrl(value) {
+  if (!value) return "";
+  try {
+    const url = new URL(/^https?:\/\//i.test(value) ? value : `https://${value}`);
+    return /^https?:$/.test(url.protocol) ? url.href : "";
+  } catch { return ""; }
+}
+
+function projectConsortiumSummary(hit) {
+  const project = hit.project || hit;
+  const organisations = asArray(project?.relations?.associations?.organization);
+  const countries = [...new Set(organisations.map(org => org?.address?.country).filter(Boolean))];
+  const types = organisations.reduce((counts, org) => {
+    const code = organisationCategory(org);
+    counts[code] = (counts[code] || 0) + 1;
+    return counts;
+  }, {});
+  const associated = organisations.filter(org => org?.["@attributes"]?.type === "associatedPartner").length;
+  return { project, organisations, countries, types, associated };
+}
+
+function renderSimilarConsortia(hits) {
+  const summaries = hits.slice(0, 5).map(projectConsortiumSummary).filter(item => item.organisations.length);
+  if (!summaries.length) return "";
+  return `<section class="similar-consortia">
+    <h3>Comparable funded consortium structures</h3>
+    <p class="cordis-note">CORDIS facts from the five highest-ranked project results. Similarity is text-search relevance, not proof that the calls have identical eligibility rules.</p>
+    <div class="comparison-table-wrap"><table class="comparison-table">
+      <thead><tr><th>Funded project</th><th>Organisations</th><th>Countries</th><th>Organisation mix</th><th>Associated Partners</th></tr></thead>
+      <tbody>${summaries.map(item => `<tr>
+        <td><a href="https://cordis.europa.eu/project/id/${encodeURIComponent(item.project.id || "")}" target="_blank" rel="noopener">${escapeHtml(item.project.acronym || item.project.title || "CORDIS project")}</a></td>
+        <td>${item.organisations.length}</td><td>${item.countries.length}</td>
+        <td>${escapeHtml(Object.entries(item.types).map(([type, count]) => `${type} ${count}`).join(" · "))}</td>
+        <td>${item.associated}</td>
+      </tr>`).join("")}</tbody>
+    </table></div>
+  </section>`;
+}
+
+function renderCordisResults(candidates, query, hits) {
+  els.cordisStatus.hidden = false;
+  els.cordisStatus.innerHTML = `<strong>${candidates.length} candidate organisations</strong> ranked from ${hits.length} similar funded projects returned by CORDIS for “${escapeHtml(query)}”. Ranking combines text relevance, repeated participation, coordinator experience and fit with the detected role gaps.`;
+  const candidateMarkup = candidates.length ? candidates.map(candidate => {
+    const org = candidate.org;
+    const address = org.address || {};
+    const site = safeExternalUrl(address.url);
+    const projectLinks = candidate.projects.slice(0, 3).map(project => `<li><a href="https://cordis.europa.eu/project/id/${encodeURIComponent(project.id || "")}" target="_blank" rel="noopener">${escapeHtml(project.acronym || project.title)}</a>${project.year ? ` (${escapeHtml(project.year)})` : ""}</li>`).join("");
+    return `<article class="partner-card">
+      <div class="partner-rank">${candidate.score}</div>
+      <div>
+        <h3>${escapeHtml(org.legalName)}</h3>
+        <div class="partner-meta">${escapeHtml(address.country || "Country not listed")} · ${escapeHtml(organisationCategory(org))} · ${candidate.projects.length} relevant project${candidate.projects.length === 1 ? "" : "s"} · ${candidate.coordinatorCount} as coordinator · ${candidate.associatedCount} as Associated Partner</div>
+        <span class="partner-role">Provisional role: ${escapeHtml(candidate.role.legalRole)} · ${escapeHtml(candidate.role.label)}</span>
+        <p class="partner-reason"><strong>Why suggested:</strong> its funded-project record matches the query and its organisation type can address the detected need for ${escapeHtml(candidate.role.need)}.</p>
+        <p class="partner-reason"><strong>Why this legal status:</strong> ${escapeHtml(candidate.role.basis)}.</p>
+        <p class="partner-evidence"><strong>Evidence used:</strong></p><ul class="evidence-list">${projectLinks}</ul>
+      </div>
+      <div class="partner-links">
+        ${site ? `<a href="${escapeHtml(site)}" target="_blank" rel="noopener">Organisation website ↗</a>` : ""}
+        <a href="https://cordis.europa.eu/search/en?q=${encodeURIComponent(org.legalName)}" target="_blank" rel="noopener">Verify in CORDIS ↗</a>
+      </div>
+    </article>`;
+  }).join("") : `<article class="finding"><h3>No organisations found</h3><p>Try a shorter technology or challenge phrase.</p></article>`;
+  els.cordisResults.innerHTML = `${renderSimilarConsortia(hits)}${candidateMarkup}`;
+}
+
+async function searchCordis() {
+  if (!currentAnalysis?.consortium) return;
+  const query = els.cordisQuery.value.trim();
+  if (!query) return;
+  const original = els.cordisSearch.innerHTML;
+  els.cordisSearch.textContent = "Searching CORDIS…";
+  els.cordisSearch.disabled = true;
+  els.cordisStatus.hidden = false;
+  els.cordisStatus.textContent = "Comparing the proposal with similar funded projects and participation histories…";
+  els.cordisResults.innerHTML = "";
+  try {
+    const cordisQuery = `${query} AND contenttype='project' AND frameworkProgramme='HORIZON' AND language='en'`;
+    const url = new URL("https://cordis.europa.eu/search/en");
+    url.search = new URLSearchParams({ q: cordisQuery, p: "1", num: "50", srt: "Relevance:decreasing", format: "json" });
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`CORDIS returned ${response.status}`);
+    const data = await response.json();
+    const hits = asArray(data?.hits?.hit);
+    const candidates = rankCordisOrganisations(hits, query, currentAnalysis.consortium);
+    renderCordisResults(candidates, query, hits);
+  } catch (error) {
+    els.cordisStatus.textContent = "CORDIS could not be reached. Your proposal remains local. Please try again or use a shorter search phrase.";
+  } finally {
+    els.cordisSearch.innerHTML = original;
+    els.cordisSearch.disabled = false;
+  }
+}
+
 function analyseText(text, programme, pages) {
   const findings = patterns.filter(pattern => pattern.test(text)).map(pattern => ({
     ...pattern,
@@ -509,6 +721,7 @@ async function runFileAnalysis(event) {
       callId,
       coverage: pages ? `${pages} pages` : "DOCX"
     };
+    analysis.consortium = deriveConsortiumProfile(text, programme, callId);
     updateLoading(100, "Evaluation ready", "Preparing your evaluation summary…");
     await pause(450);
     renderResults(analysis);
@@ -543,6 +756,8 @@ function renderResults(analysis) {
   const feedbackBody = encodeURIComponent(`Programme: ${analysis.meta}\nEstimated score: ${els.total.textContent}/15\n\nWhat was useful?\n\nWhat was unclear or missing?\n`);
   els.feedbackLink.href = `mailto:sofia@deep-sync.eu?subject=DeepSync%20Evaluator%20Beta%20Feedback&body=${feedbackBody}`;
   renderFindings("all");
+  renderConsortiumProfile(analysis.consortium);
+  searchCordis();
   if (sessionStorage.getItem("deepsyncEvaluatorAccess") === "granted") {
     unlockDetailedResults();
   } else {
@@ -626,6 +841,10 @@ els.dropzone.addEventListener("drop", event => {
   setFile(event.dataTransfer.files[0]);
 });
 els.printReport.addEventListener("click", () => window.print());
+els.cordisSearch.addEventListener("click", searchCordis);
+els.cordisQuery.addEventListener("keydown", event => {
+  if (event.key === "Enter") { event.preventDefault(); searchCordis(); }
+});
 els.newAnalysis.addEventListener("click", () => {
   els.results.hidden = true;
   els.intro.hidden = false;

@@ -92,6 +92,28 @@
 
       <div class="analysis-warnings" id="analysis-warnings" hidden role="status"></div>
 
+      <section class="consortium-intelligence consortium-preview" id="consortium-intelligence" aria-labelledby="consortium-title">
+        <div class="consortium-heading">
+          <div>
+            <p class="eyebrow">STEP 2 · CONSORTIUM ANALYSIS</p>
+            <h2 id="consortium-title">Who is missing — and who could fill the role?</h2>
+            <p>Role gaps are inferred from the proposal, the selected call identifier and participation patterns in similar funded CORDIS projects. Every suggestion includes its evidence trail.</p>
+          </div>
+          <span class="cordis-badge">Transparent beta</span>
+        </div>
+        <div class="consortium-profile" id="consortium-profile"></div>
+        <div class="consortium-search">
+          <label for="cordis-query"><span>CORDIS comparison query</span></label>
+          <div class="cordis-search-row">
+            <input id="cordis-query" type="text" placeholder="e.g. edtech digital skills accelerator">
+            <button class="primary-button" id="cordis-search" type="button">Find partner candidates <span aria-hidden="true">→</span></button>
+          </div>
+          <p class="cordis-note">Only this search phrase is sent to CORDIS. Proposal text stays in your browser. Results demonstrate track record, not availability or Commission endorsement.</p>
+        </div>
+        <div id="cordis-status" class="cordis-status" role="status" hidden></div>
+        <div id="cordis-results" class="cordis-results"></div>
+      </section>
+
       <section class="email-gate" id="email-gate">
         <div>
           <p class="eyebrow">DETAILED EVALUATION</p>
@@ -139,6 +161,7 @@
           </div>
           <div id="findings-list"></div>
         </div>
+
       </div>
       <div class="feedback-bar" id="feedback-bar" hidden>
         <div><strong>Help us improve the beta</strong><span>Tell us what was useful, unclear or missing.</span></div>
