@@ -63,6 +63,7 @@ const els = {
   emailConsent: document.querySelector("#email-consent"),
   consortiumInterest: document.querySelector("#consortium-interest"),
   emailGateError: document.querySelector("#email-gate-error"),
+  criterionGateScores: document.querySelector("#criterion-gate-scores"),
   unlockReport: document.querySelector("#unlock-report"),
   detailedResults: document.querySelector("#detailed-results"),
   humanSupport: document.querySelector("#human-support"),
@@ -495,9 +496,9 @@ function htmlToText(html) {
 
 function extractTopicSections(html) {
   const sections = {};
-  const markers = [...String(html || "").matchAll(/<span[^>]*topicdescriptionkind[^>]*>([\s\S]*?)<\/span>/gi)];
+  const markers = [...String(html || "").matchAll(/<(span|p)[^>]*topicdescriptionkind[^>]*>([\s\S]*?)<\/\1>/gi)];
   markers.forEach((marker, index) => {
-    const name = htmlToText(marker[1]).replace(/:$/, "").trim();
+    const name = htmlToText(marker[2]).replace(/:$/, "").trim();
     const start = marker.index + marker[0].length;
     const end = markers[index + 1]?.index ?? html.length;
     sections[name] = htmlToText(html.slice(start, end));
@@ -519,7 +520,7 @@ function requirementKeywords(value) {
 }
 
 function buildCallRequirements(sections) {
-  const source = [sections["Expected Outcome"], sections["Expected Outcomes"], sections.Scope].filter(Boolean).join("\n");
+  const source = [sections["Expected Outcome"], sections["Expected Outcomes"], sections.Objective, sections.Objectives, sections.Scope].filter(Boolean).join("\n");
   return source.split(/\n+|(?<=[.!?])\s+(?=[A-Z])/).map(item => item.replace(/^[-•\d.)\s]+/, "").trim()).filter(item => item.length >= 55 && item.length <= 520).slice(0, 8);
 }
 
@@ -561,8 +562,9 @@ async function fetchCallIntelligence(input) {
     mga: action.typeOfMGA?.[0]?.abbreviation || "Not stated",
     deadline: firstValue(metadata.deadlineDate) || actions[0]?.deadlineDates?.[0] || "",
     deadlineModel: firstValue(metadata.deadlineModel) || actions[0]?.submissionProcedure?.description || "Not stated",
-    expectedOutcome: sections["Expected Outcome"] || sections["Expected Outcomes"] || "Not separately identified in the API record.",
-    scope: sections.Scope || "Not separately identified in the API record.",
+    expectedOutcome: sections["Expected Outcome"] || sections["Expected Outcomes"] || "",
+    objective: sections.Objective || sections.Objectives || "",
+    scope: sections.Scope || "",
     destination: htmlToText(destinationHtml) || firstValue(metadata.destinationDescription) || "",
     conditions: htmlToText(conditionsHtml),
     policies: extractOfficialLinks(`${descriptionHtml} ${destinationHtml} ${conditionsHtml}`),
@@ -683,13 +685,16 @@ function renderCallIntelligence(callData) {
   const related = callData.relatedTopics.length
     ? `<div class="call-detail-body">${callData.relatedTopics.map(code => escapeHtml(code)).join("\n")}</div>`
     : `<div class="call-detail-body">No related topic identifiers were explicitly referenced.</div>`;
-  els.callDetails.innerHTML = `
-    <details><summary>Expected outcomes</summary><div class="call-detail-body">${escapeHtml(compactText(callData.expectedOutcome, 1600))}</div></details>
-    <details><summary>Scope and activities</summary><div class="call-detail-body">${escapeHtml(compactText(callData.scope, 1800))}</div></details>
-    <details><summary>EU goal / destination context</summary><div class="call-detail-body">${escapeHtml(compactText(callData.destination, 1600))}</div></details>
-    <details><summary>Policies, acts and official links</summary>${policies}</details>
-    <details><summary>Related topics named in the call context</summary>${related}</details>
-    <details><summary>Eligibility and topic conditions</summary><div class="call-detail-body">${escapeHtml(compactText(callData.conditions, 1800))}</div></details>`;
+  const detailBlocks = [
+    callData.expectedOutcome && `<details><summary>Expected outcomes</summary><div class="call-detail-body">${escapeHtml(compactText(callData.expectedOutcome, 1600))}</div></details>`,
+    callData.objective && `<details><summary>What the Commission wants</summary><div class="call-detail-body">${escapeHtml(compactText(callData.objective, 1600))}</div></details>`,
+    callData.scope && `<details><summary>Scope and activities</summary><div class="call-detail-body">${escapeHtml(compactText(callData.scope, 1800))}</div></details>`,
+    callData.destination && `<details><summary>EU goal / destination context</summary><div class="call-detail-body">${escapeHtml(compactText(callData.destination, 1600))}</div></details>`,
+    callData.policies.length && `<details><summary>Policies, acts and official links</summary>${policies}</details>`,
+    callData.relatedTopics.length && `<details><summary>Related topics named in the call context</summary>${related}</details>`,
+    callData.conditions && `<details><summary>Eligibility and topic conditions</summary><div class="call-detail-body">${escapeHtml(compactText(callData.conditions, 1800))}</div></details>`
+  ].filter(Boolean);
+  els.callDetails.innerHTML = detailBlocks.join("");
 }
 
 function renderDiagnosis(analysis) {
@@ -723,13 +728,54 @@ function organisationCategory(org) {
 
 function roleForCandidate(org, gaps) {
   const code = organisationCategory(org);
+  const name = String(org?.legalName || "").toLowerCase();
+  const inferredType = /universit|research|institute|academy/.test(name) ? "research"
+    : /ministr|municip|city|council|government|authority|agency/.test(name) ? "public"
+      : /network|association|federation|cluster|foundation|ngo\b/.test(name) ? "ecosystem"
+        : /company|gmbh|srl|ltd|limited|software|technolog|solutions/.test(name) ? "industry"
+          : "";
   const preferred = gaps.find(gap =>
+    gap.id === inferredType ||
     (gap.id === "research" && /HES|REC/.test(code)) ||
     (gap.id === "industry" && /PRC|SME/.test(code)) ||
     (gap.id === "public" && /PUB/.test(code)) ||
-    (gap.id === "ecosystem" && /OTH|PUB/.test(code))
-  ) || gaps[0];
-  return preferred ? { ...preferred } : { label: "Complementary expertise", legalRole: "Beneficiary or Associated Partner", need: "topic-relevant expertise" };
+    (gap.id === "ecosystem" && code === "OTH")
+  );
+  if (preferred) return { ...preferred, matchedGap: true };
+  const complementary = consortiumRoleRules.find(role => role.id === inferredType) ||
+    consortiumRoleRules.find(role => (role.id === "research" && /HES|REC/.test(code)) || (role.id === "industry" && /PRC|SME/.test(code)) || (role.id === "public" && /PUB/.test(code)) || (role.id === "ecosystem" && code === "OTH"));
+  return complementary
+    ? { ...complementary, legalRole: complementary.beneficiary, matchedGap: false, label: `Complementary ${complementary.label}` }
+    : { label: "Complementary topic expertise", legalRole: "Role to be verified", need: "topic-relevant expertise", matchedGap: false, id: "other" };
+}
+
+function candidateContribution(candidate) {
+  const roleId = candidate.role.id;
+  const name = candidate.org.legalName || "This organisation";
+  const themes = [...candidate.matchedTerms].slice(0, 5);
+  const themeText = themes.length ? themes.join(", ") : "the searched topic";
+  const contribution = {
+    research: "design or validate the methodology, provide independent evidence and strengthen scientific credibility",
+    industry: "own technology-delivery tasks, support deployment and build a credible exploitation route",
+    public: "provide a public mandate, access to deployment settings and a route to policy or procurement uptake",
+    ecosystem: "mobilise relevant stakeholders, recruit participants and support replication and dissemination",
+    other: "add topic-specific expertise that should be verified at task level"
+  }[roleId] || "add topic-specific expertise that should be verified at task level";
+  const projects = candidate.projects.slice(0, 2).map(project => project.acronym || project.title).filter(Boolean);
+  const projectText = projects.length ? projects.join(" and ") : "the returned CORDIS projects";
+  const gapText = candidate.role.matchedGap
+    ? `It maps to the detected “${candidate.role.label}” gap: the uploaded document does not yet show sufficient evidence of ${candidate.role.need}.`
+    : `This is a complementary capability, not a direct match to one of the currently detected consortium gaps.`;
+  const legalEvidence = [];
+  if (candidate.coordinatorCount) legalEvidence.push(`${candidate.coordinatorCount} coordinator role${candidate.coordinatorCount === 1 ? "" : "s"}`);
+  if (candidate.beneficiaryCount) legalEvidence.push(`${candidate.beneficiaryCount} beneficiary/participant role${candidate.beneficiaryCount === 1 ? "" : "s"}`);
+  if (candidate.associatedCount) legalEvidence.push(`${candidate.associatedCount} Associated Partner role${candidate.associatedCount === 1 ? "" : "s"}`);
+  return {
+    evidence: `${name} appears in ${candidate.projects.length} returned funded project${candidate.projects.length === 1 ? "" : "s"}, including ${projectText}. The matching project text contains: ${themeText}.`,
+    contribution: `Based on its organisation type (${organisationCategory(candidate.org)}) and this project history, it could ${contribution}.`,
+    gap: gapText,
+    legal: `${legalEvidence.length ? `CORDIS records show ${legalEvidence.join(", ")}. ` : ""}${candidate.role.legalRole} is therefore a provisional recommendation, not a verified eligibility decision for this call.`
+  };
 }
 
 function rankCordisOrganisations(hits, query, profile) {
@@ -743,21 +789,20 @@ function rankCordisOrganisations(hits, query, profile) {
     asArray(project?.relations?.associations?.organization).forEach(org => {
       if (!org?.legalName) return;
       const key = org.id || org.legalName;
-      const item = grouped.get(key) || { org, projects: [], coordinatorCount: 0, associatedCount: 0, beneficiaryCount: 0, matchScore: 0 };
+      const item = grouped.get(key) || { org, projects: [], coordinatorCount: 0, associatedCount: 0, beneficiaryCount: 0, matchScore: 0, matchedTerms: new Set() };
       item.projects.push({ id: project.id, title: project.title || project.acronym || "CORDIS project", acronym: project.acronym || "", year: String(project.startDate || "").slice(0, 4) });
       const historicalRole = org["@attributes"]?.type || "participant";
       item.coordinatorCount += historicalRole === "coordinator" ? 1 : 0;
       item.associatedCount += historicalRole === "associatedPartner" ? 1 : 0;
       item.beneficiaryCount += /coordinator|participant/.test(historicalRole) ? 1 : 0;
       item.matchScore += matches * 4 + Math.max(0, 6 - projectIndex);
+      terms.filter(term => haystack.includes(term)).forEach(term => item.matchedTerms.add(term));
       grouped.set(key, item);
     });
   });
   return [...grouped.values()].map(item => {
     const role = roleForCandidate(item.org, gaps);
-    if (item.associatedCount > item.beneficiaryCount && role?.legalRole === "Associated Partner") role.basis = "Historical Associated Partner participation in the returned CORDIS projects";
-    else role.basis = "Detected consortium gap and organisation-type fit; eligibility and the exact call conditions still require verification";
-    const roleFit = role ? 12 : 4;
+    const roleFit = role.matchedGap ? 14 : 2;
     const score = Math.min(99, 42 + Math.min(24, item.matchScore) + Math.min(14, item.projects.length * 4) + Math.min(10, item.coordinatorCount * 5) + roleFit);
     return { ...item, role, score };
   }).sort((a, b) => b.score - a.score || b.projects.length - a.projects.length).slice(0, 8);
@@ -810,14 +855,17 @@ function renderCordisResults(candidates, query, hits) {
     const address = org.address || {};
     const site = safeExternalUrl(address.url);
     const projectLinks = candidate.projects.slice(0, 3).map(project => `<li><a href="https://cordis.europa.eu/project/id/${encodeURIComponent(project.id || "")}" target="_blank" rel="noopener">${escapeHtml(project.acronym || project.title)}</a>${project.year ? ` (${escapeHtml(project.year)})` : ""}</li>`).join("");
+    const rationale = candidateContribution(candidate);
     return `<article class="partner-card">
       <div class="partner-rank">${candidate.score}</div>
       <div>
         <h3>${escapeHtml(org.legalName)}</h3>
         <div class="partner-meta">${escapeHtml(address.country || "Country not listed")} · ${escapeHtml(organisationCategory(org))} · ${candidate.projects.length} relevant project${candidate.projects.length === 1 ? "" : "s"} · ${candidate.coordinatorCount} as coordinator · ${candidate.associatedCount} as Associated Partner</div>
         <span class="partner-role">Provisional role: ${escapeHtml(candidate.role.legalRole)} · ${escapeHtml(candidate.role.label)}</span>
-        <p class="partner-reason"><strong>Why suggested:</strong> its funded-project record matches the query and its organisation type can address the detected need for ${escapeHtml(candidate.role.need)}.</p>
-        <p class="partner-reason"><strong>Why this legal status:</strong> ${escapeHtml(candidate.role.basis)}.</p>
+        <p class="partner-reason"><strong>CORDIS evidence:</strong> ${escapeHtml(rationale.evidence)}</p>
+        <p class="partner-reason"><strong>What this partner could bring:</strong> ${escapeHtml(rationale.contribution)}</p>
+        <p class="partner-reason"><strong>${candidate.role.matchedGap ? "Why it closes the gap" : "Gap-fit limitation"}:</strong> ${escapeHtml(rationale.gap)}</p>
+        <p class="partner-reason"><strong>Why this legal role:</strong> ${escapeHtml(rationale.legal)}</p>
         <p class="partner-evidence"><strong>Evidence used:</strong></p><ul class="evidence-list">${projectLinks}</ul>
       </div>
       <div class="partner-links">
@@ -984,6 +1032,7 @@ function renderResults(analysis) {
       <div class="criterion-head"><span>${escapeHtml(name)}</span><strong>${score.toFixed(1)}<small>/5</small></strong></div>
       <div class="score-line" aria-label="${escapeHtml(name)} ${score} out of 5"><span style="width:${score / 5 * 100}%"></span></div>
     </div>`).join("");
+  els.criterionGateScores.innerHTML = Object.entries(analysis.scores).map(([name, score]) => `<span class="criterion-gate-score">${escapeHtml(name)} <strong>${score.toFixed(1)}/5</strong></span>`).join("");
   els.criticalCount.textContent = activeFindings.filter(f => f.kind === "priority").length;
   els.strengthCount.textContent = activeFindings.filter(f => f.kind === "strength").length;
   const feedbackBody = encodeURIComponent(`Programme: ${analysis.meta}\nEstimated score: ${els.total.textContent}/15\n\nWhat was useful?\n\nWhat was unclear or missing?\n`);
@@ -1023,7 +1072,7 @@ async function submitSupportRequest(event) {
   els.supportMessage.hidden = true;
   const params = new URLSearchParams({
     email,
-    source: `Human Support: ${activeService}`,
+    source: `EU Funding Expert Support: ${activeService}`,
     programme: currentAnalysis?.lead?.programme || "",
     callId: currentAnalysis?.lead?.callId || "",
     coverage: currentAnalysis?.lead?.coverage || "",

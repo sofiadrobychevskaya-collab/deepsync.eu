@@ -143,6 +143,9 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
 .email-gate { margin-bottom: 34px; padding: 30px; border: 1px solid rgba(10, 22, 40, .14); border-radius: 22px; background: var(--white); box-shadow: var(--shadow); display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 42px; }
 .email-gate h2 { margin: 0 0 10px; font-size: 30px; }
 .email-gate > div > p:last-child { margin: 0; color: var(--muted); line-height: 1.6; }
+.criterion-gate-scores { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
+.criterion-gate-score { padding: 7px 10px; border-radius: 9px; background: var(--soft); font-size: 12px; }
+.criterion-gate-score strong { margin-left: 5px; color: var(--green-2); }
 .email-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
 .consent-check { margin-top: 13px; display: flex; align-items: flex-start; gap: 9px; color: var(--muted); cursor: pointer; }
 .consent-check input { margin-top: 3px; }
