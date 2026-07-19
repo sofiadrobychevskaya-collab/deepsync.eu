@@ -44,6 +44,7 @@ const els = {
   total: document.querySelector("#total-score"),
   confidence: document.querySelector("#score-confidence"),
   criterionScores: document.querySelector("#criterion-scores"),
+  warnings: document.querySelector("#analysis-warnings"),
   findings: document.querySelector("#findings-list"),
   criticalCount: document.querySelector("#critical-count"),
   strengthCount: document.querySelector("#strength-count"),
@@ -382,7 +383,44 @@ async function extractDocx(file) {
   return { text: result.value, pages: null };
 }
 
-function analyseText(text, programme) {
+function programmeName(programme) {
+  return programme === "digital"
+    ? "Digital Europe"
+    : programme === "eic"
+      ? "EIC Accelerator Open"
+      : programme === "horizon-csa"
+        ? "Horizon Europe CSA"
+        : "Horizon Europe RIA / IA";
+}
+
+function detectProgramme(text) {
+  const source = `${selectedFile?.name || ""}\n${text.slice(0, 20000)}`;
+  if (/EIC\s*Accelerator|EIC-ACC|stage\s*2\s*-?\s*full\s*application/i.test(source)) return "eic";
+  if (/Digital Europe|\bDIGITAL-20\d{2}-/i.test(source)) return "digital";
+  if (/Horizon Europe|\bHORIZON-/i.test(source)) return "horizon";
+  return null;
+}
+
+function evidenceGapFinding(criterion) {
+  const guidance = {
+    Relevance: "Add an explicit call-requirement matrix linking each expected outcome to activities, deliverables, target groups and measurable evidence.",
+    Excellence: "Make the ambition, state of the art, methodology, assumptions and validation evidence explicit and easy for an evaluator to trace.",
+    Impact: "Show the complete output-to-outcome pathway with baselines, quantified targets, beneficiaries, attribution and verification sources.",
+    Implementation: "Make work-package dependencies, task ownership, resources, milestones, risks and acceptance criteria explicit.",
+    "Risk & implementation": "Provide technical, commercial and execution risks with evidence, owners, triggers, mitigations, resources and decision gates."
+  };
+  return {
+    criterion,
+    kind: "priority",
+    severity: 0,
+    title: `Insufficient evidence detected for ${criterion}`,
+    location: "Document coverage check",
+    explanation: `The parser did not find enough criterion-specific evidence to justify a high ${criterion} score. This may mean the section is missing, too implicit, image-based, or was not extracted from the uploaded file.`,
+    recommendation: guidance[criterion] || "Make the criterion evidence explicit and upload a complete text-searchable proposal."
+  };
+}
+
+function analyseText(text, programme, pages) {
   const findings = patterns.filter(pattern => pattern.test(text)).map(pattern => ({
     ...pattern,
     criterion: programme === "digital" && pattern.criterion === "Excellence"
@@ -398,11 +436,29 @@ function analyseText(text, programme) {
       ? ["Excellence", "Impact", "Risk & implementation"]
       : ["Excellence", "Impact", "Implementation"];
   const scores = {};
+  const warnings = [];
+  const extractedCharacters = text.replace(/\s/g, "").length;
+  const lowCoverage = pages === 1 || extractedCharacters < 5000;
+  const detectedProgramme = detectProgramme(text);
+
+  if (lowCoverage) {
+    warnings.push(`Only ${pages === 1 ? "one page was" : "a small amount of text was"} extracted. Scores are capped because this is unlikely to represent a complete Part B proposal.`);
+  }
+  if (detectedProgramme && detectedProgramme !== programme && !(detectedProgramme === "horizon" && programme === "horizon-csa")) {
+    warnings.push(`The document appears to be ${programmeName(detectedProgramme)}, but ${programmeName(programme)} was selected. Choose the matching programme and run the analysis again.`);
+  }
 
   criteria.forEach(criterion => {
-    const penalties = findings.filter(f => f.criterion === criterion && f.kind !== "strength").reduce((sum, f) => sum + f.severity, 0);
-    const strengths = findings.filter(f => f.criterion === criterion && f.kind === "strength").reduce((sum, f) => sum + Math.abs(f.severity), 0);
-    scores[criterion] = Math.max(3, Math.min(4.8, Math.round((4.35 - penalties + strengths) * 10) / 10));
+    const criterionFindings = findings.filter(f => f.criterion === criterion);
+    if (!criterionFindings.length) {
+      findings.push(evidenceGapFinding(criterion));
+      scores[criterion] = 3.0;
+      return;
+    }
+    const penalties = criterionFindings.filter(f => f.kind !== "strength").reduce((sum, f) => sum + f.severity, 0);
+    const strengths = criterionFindings.filter(f => f.kind === "strength").reduce((sum, f) => sum + Math.abs(f.severity), 0);
+    const calculated = Math.max(3, Math.min(4.8, Math.round((4.35 - penalties + strengths) * 10) / 10));
+    scores[criterion] = lowCoverage ? Math.min(3.0, calculated) : calculated;
   });
 
   const titleMatch = text.match(/(?:Proposal acronym|Acronym|Project)\s*[:—-]\s*([A-Z][A-Z0-9-]{2,20})/i);
@@ -410,7 +466,8 @@ function analyseText(text, programme) {
     title: titleMatch?.[1] || selectedFile?.name.replace(/\.(pdf|docx)$/i, "") || "Proposal analysis",
     scores,
     findings,
-    confidence: findings.length >= 6 ? "Medium pattern confidence" : "Early diagnostic · more evidence needed"
+    warnings,
+    confidence: lowCoverage ? "Incomplete document coverage" : findings.length >= 6 ? "Medium pattern confidence" : "Early diagnostic · more evidence needed"
   };
 }
 
@@ -432,15 +489,9 @@ async function runFileAnalysis(event) {
     updateLoading(72, "Checking objectives, KPIs, TRL and impact logic", "Applying evaluator patterns…");
     await pause(500);
     const programme = document.querySelector("#programme").value;
-    const analysis = analyseText(text, programme);
+    const analysis = analyseText(text, programme, pages);
     const callId = document.querySelector("#call-id").value.trim();
-    const programmeLabel = programme === "digital"
-      ? "Digital Europe"
-      : programme === "eic"
-        ? "EIC Accelerator Open"
-        : programme === "horizon-csa"
-          ? "Horizon Europe CSA"
-          : "Horizon Europe RIA / IA";
+    const programmeLabel = programmeName(programme);
     analysis.meta = `${programmeLabel}${callId ? ` · ${callId}` : ""} · ${pages ? `${pages} pages` : "DOCX"}`;
     updateLoading(100, "Evaluation ready", "Preparing your evaluation summary…");
     await pause(450);
@@ -461,6 +512,10 @@ function renderResults(analysis) {
   const scoreValues = Object.values(analysis.scores);
   els.total.textContent = scoreValues.reduce((sum, score) => sum + score, 0).toFixed(1);
   els.confidence.textContent = analysis.confidence;
+  els.warnings.hidden = !analysis.warnings?.length;
+  els.warnings.innerHTML = analysis.warnings?.length
+    ? `<strong>Check before relying on these scores</strong><ul>${analysis.warnings.map(warning => `<li>${escapeHtml(warning)}</li>`).join("")}</ul>`
+    : "";
   els.criterionScores.innerHTML = Object.entries(analysis.scores).map(([name, score]) => `
     <div class="criterion">
       <div class="criterion-head"><span>${escapeHtml(name)}</span><strong>${score.toFixed(1)}<small>/5</small></strong></div>
