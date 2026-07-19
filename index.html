@@ -136,8 +136,8 @@
         .logo { display: flex; width: 118px; height: 62px; align-items: center; }
         .logo img { display: block; width: 118px; height: auto; }
         .nav-links { display: flex; gap: 8px; align-items: center; }
-        .nav-links a { padding: 11px 13px; border-radius: 10px; text-decoration: none; color: var(--text); font-weight: 700; font-size: 13px; opacity: .66; transition: .25s ease; }
-        .nav-links a:hover { opacity: 1; color: var(--primary); }
+        .nav-links a, .nav-links button { padding: 11px 13px; border: 0; border-radius: 10px; background: transparent; text-decoration: none; color: var(--text); font-family: inherit; font-weight: 700; font-size: 13px; opacity: .66; transition: .25s ease; cursor: pointer; }
+        .nav-links a:hover, .nav-links button:hover { opacity: 1; color: var(--primary); }
         .nav-links .nav-cta { margin-left: 8px; padding: 12px 18px; border: 1px solid var(--navy); background: var(--navy); color: white; opacity: 1; }
         .nav-links .nav-cta:hover { background: transparent; color: var(--navy); transform: translateY(-1px); }
         .mobile-nav-cta { display: none; padding: 10px 13px; border: 1px solid var(--navy); border-radius: 10px; color: var(--navy); font-size: 12px; font-weight: 750; text-decoration: none; }
@@ -165,8 +165,8 @@
         .about-cooperation { display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 18px; padding: 26px 30px; border-radius: 22px; background: var(--navy); color: white; }
         .about-cooperation strong { display: block; margin-bottom: 5px; font-size: 18px; }
         .about-cooperation p { margin: 0; max-width: 760px; color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.55; }
-        .about-cooperation a { flex: 0 0 auto; padding: 13px 18px; border: 1px solid rgba(255,255,255,.4); border-radius: 12px; color: white; font-size: 13px; font-weight: 750; text-decoration: none; }
-        .about-cooperation a:hover { background: white; color: var(--navy); }
+        .about-cooperation a, .about-cooperation button { flex: 0 0 auto; padding: 13px 18px; border: 1px solid rgba(255,255,255,.4); border-radius: 12px; background: transparent; color: white; font-family: inherit; font-size: 13px; font-weight: 750; text-decoration: none; cursor: pointer; }
+        .about-cooperation a:hover, .about-cooperation button:hover { background: white; color: var(--navy); }
         #hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover; z-index: 0; pointer-events: none; }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
             background: linear-gradient(180deg, rgba(3,15,31,0.88) 0%, rgba(6,48,86,0.8) 45%, rgba(10,77,122,0.82) 100%); }
@@ -266,7 +266,7 @@
         .tl-content { padding-bottom: 56px; }
         /* Contact Section */
         .contact { padding: 120px 0; background: var(--bg); }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .contact-grid { max-width: 980px; margin: 0 auto; }
         .founder-header { display: flex; align-items: center; gap: 22px; margin-bottom: 24px; }
         .founder-photo { width: 116px; height: 145px; flex: 0 0 auto; border-radius: 22px; object-fit: cover; object-position: center 28%; box-shadow: 0 16px 38px rgba(15,31,55,.14); }
         .founder-kicker { margin: 0 0 6px; color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
@@ -299,6 +299,21 @@
         .bridge-source:hover { color: white; }
         .contact-form-wrap form { background: white; padding: 48px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .contact-form-wrap input, .contact-form-wrap textarea, .contact-form-wrap select { width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid #ddd; background: white; color: var(--navy); font-family: var(--font-main); font-size: 16px; outline: none; }
+        /* Connect dialog */
+        .connect-dialog { width: min(1040px, calc(100% - 32px)); max-height: min(880px, calc(100vh - 32px)); padding: 0; border: 0; border-radius: 28px; background: var(--bg); color: var(--text); box-shadow: 0 30px 100px rgba(3,15,31,.35); overflow: auto; }
+        .connect-dialog::backdrop { background: rgba(3,15,31,.72); backdrop-filter: blur(7px); }
+        .connect-shell { padding: 30px; }
+        .connect-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+        .connect-header h2 { margin: 4px 0 0; font-size: clamp(27px, 4vw, 40px); }
+        .connect-header p { margin: 0; color: var(--primary); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+        .connect-close { display: grid; flex: 0 0 auto; place-items: center; width: 42px; height: 42px; border: 1px solid #dce2e9; border-radius: 50%; background: white; color: var(--navy); font-size: 24px; cursor: pointer; }
+        .connect-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; padding: 6px; border-radius: 16px; background: #e7e9e6; }
+        .connect-tab { padding: 14px 18px; border: 0; border-radius: 11px; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; }
+        .connect-tab[aria-selected="true"] { background: white; color: var(--navy); box-shadow: 0 5px 18px rgba(15,31,55,.08); }
+        .connect-panel[hidden] { display: none; }
+        .connect-dialog .contact-form-wrap { max-width: 720px; margin: 0 auto; }
+        .connect-dialog .contact-form-wrap form { padding: 36px; border: 1px solid #e1e6ed; box-shadow: none; }
+        .connect-dialog .investment-bridge { margin: 0; padding: 34px; border-radius: 22px; box-shadow: none; }
         /* Marquee */
         .network-section { padding: 100px 0; background: #fff; overflow: hidden; }
         .network-intro { text-align: center; margin-bottom: 46px; }
@@ -335,6 +350,10 @@
             .founder-header { align-items: flex-start; }
             .founder-photo { width: 92px; height: 116px; border-radius: 18px; }
             .founder-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .connect-dialog { width: calc(100% - 16px); max-height: calc(100vh - 16px); border-radius: 20px; }
+            .connect-shell { padding: 18px; }
+            .connect-dialog .contact-form-wrap form, .connect-dialog .investment-bridge { padding: 24px; }
+            .connect-tabs { grid-template-columns: 1fr; }
         }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -351,8 +370,8 @@
                 <a href="#evaluator">AI Evaluator</a>
                 <a href="#services">Expert Support</a>
                 <a href="#database">Funding Radar</a>
-                <a href="#investment-partnerships">Partnerships</a>
-                <a href="#contact" class="nav-cta">Work with us</a>
+                <button type="button" class="connect-trigger" data-connect-tab="partnerships">Partnerships</button>
+                <button type="button" class="nav-cta connect-trigger" data-connect-tab="work">Work with us</button>
             </div>
             <a href="#evaluator" class="mobile-nav-cta">AI Evaluator</a>
         </div>
@@ -377,7 +396,7 @@
                 <p>DeepSync brings policy, science and industry together to transform European priorities into funded, executable innovation programmes.</p>
                 <div class="hero-actions">
                     <a href="#evaluator" class="btn hero-action hero-action-primary">Try Proposal Evaluator</a>
-                    <a href="#contact" class="btn hero-action">Request Strategy Session</a>
+                    <button type="button" class="btn hero-action connect-trigger" data-connect-tab="work">Request Strategy Session</button>
                     <a href="#database" class="btn hero-action">EU Call Alerts</a>
                 </div>
             </div>
@@ -436,7 +455,7 @@
                     <strong>Open to international cooperation</strong>
                     <p>We welcome collaboration with universities, innovation agencies, public authorities, accelerators, VC and CVC funds, companies and expert networks seeking to connect European funding with real deployment and follow-on investment.</p>
                 </div>
-                <a href="#contact">Explore cooperation →</a>
+                <button type="button" class="connect-trigger" data-connect-tab="partnerships">Explore cooperation →</button>
             </div>
         </div>
     </section>
@@ -736,6 +755,23 @@
             </div>
         </div>
     </section>
+    <dialog id="connect-dialog" class="connect-dialog" aria-labelledby="connect-title">
+        <div class="connect-shell">
+            <div class="connect-header">
+                <div>
+                    <p>Connect with DeepSync</p>
+                    <h2 id="connect-title">Choose how we can work together</h2>
+                </div>
+                <button type="button" class="connect-close" aria-label="Close">×</button>
+            </div>
+            <div class="connect-tabs" role="tablist" aria-label="Ways to work with DeepSync">
+                <button type="button" class="connect-tab" role="tab" aria-selected="true" aria-controls="connect-partnerships" data-connect-tab="partnerships">Partnerships</button>
+                <button type="button" class="connect-tab" role="tab" aria-selected="false" aria-controls="connect-work" data-connect-tab="work">Work with us</button>
+            </div>
+            <div id="connect-partnerships" class="connect-panel" role="tabpanel"></div>
+            <div id="connect-work" class="connect-panel" role="tabpanel" hidden></div>
+        </div>
+    </dialog>
 <footer class="site-footer">
         <div class="container">
             <p class="footer-copyright">
@@ -747,6 +783,44 @@
         </div>
     </footer>
     <script>
+        const connectDialog = document.getElementById('connect-dialog');
+        const partnershipPanel = document.getElementById('connect-partnerships');
+        const workPanel = document.getElementById('connect-work');
+        const partnershipContent = document.querySelector('.investment-bridge');
+        const workContent = document.querySelector('.contact-form-wrap');
+        if (partnershipContent) {
+            partnershipContent.classList.add('active');
+            partnershipPanel.appendChild(partnershipContent);
+        }
+        if (workContent) {
+            workContent.classList.add('active');
+            workPanel.appendChild(workContent);
+        }
+
+        function selectConnectTab(tabName) {
+            const showPartnerships = tabName === 'partnerships';
+            partnershipPanel.hidden = !showPartnerships;
+            workPanel.hidden = showPartnerships;
+            connectDialog.querySelectorAll('.connect-tab').forEach(tab => {
+                tab.setAttribute('aria-selected', String(tab.dataset.connectTab === tabName));
+            });
+        }
+
+        document.querySelectorAll('.connect-trigger').forEach(trigger => {
+            trigger.addEventListener('click', event => {
+                event.preventDefault();
+                selectConnectTab(trigger.dataset.connectTab || 'work');
+                connectDialog.showModal();
+            });
+        });
+        connectDialog.querySelectorAll('.connect-tab').forEach(tab => {
+            tab.addEventListener('click', () => selectConnectTab(tab.dataset.connectTab));
+        });
+        connectDialog.querySelector('.connect-close').addEventListener('click', () => connectDialog.close());
+        connectDialog.addEventListener('click', event => {
+            if (event.target === connectDialog) connectDialog.close();
+        });
+
         document.querySelectorAll('.marquee-content').forEach(track => {
             const direction = track.style.animationDirection;
             track.style.animation = 'none';
