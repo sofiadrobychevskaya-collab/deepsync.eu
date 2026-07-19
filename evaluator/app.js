@@ -50,6 +50,7 @@ const els = {
   emailGateForm: document.querySelector("#email-gate-form"),
   reportEmail: document.querySelector("#report-email"),
   emailConsent: document.querySelector("#email-consent"),
+  consortiumInterest: document.querySelector("#consortium-interest"),
   emailGateError: document.querySelector("#email-gate-error"),
   unlockReport: document.querySelector("#unlock-report"),
   detailedResults: document.querySelector("#detailed-results"),
@@ -503,6 +504,11 @@ async function runFileAnalysis(event) {
     const callId = document.querySelector("#call-id").value.trim();
     const programmeLabel = programmeName(programme);
     analysis.meta = `${programmeLabel}${callId ? ` · ${callId}` : ""} · ${pages ? `${pages} pages` : "DOCX"}`;
+    analysis.lead = {
+      programme: programmeLabel,
+      callId,
+      coverage: pages ? `${pages} pages` : "DOCX"
+    };
     updateLoading(100, "Evaluation ready", "Preparing your evaluation summary…");
     await pause(450);
     renderResults(analysis);
@@ -566,7 +572,15 @@ async function submitEmailGate(event) {
   const params = new URLSearchParams({
     name: "Proposal Evaluator Beta",
     email,
-    org: currentAnalysis?.meta || "Proposal Evaluator"
+    org: currentAnalysis?.meta || "Proposal Evaluator",
+    source: "Proposal Evaluator Beta",
+    programme: currentAnalysis?.lead?.programme || "",
+    callId: currentAnalysis?.lead?.callId || "",
+    coverage: currentAnalysis?.lead?.coverage || "",
+    score: Object.values(currentAnalysis?.scores || {}).reduce((sum, value) => sum + value, 0).toFixed(1),
+    confidence: currentAnalysis?.confidence || "",
+    consent: "true",
+    consortium: els.consortiumInterest.checked ? "Yes" : "No"
   });
   try {
     await fetch(`${leadEndpoint}?${params}`, { method: "GET", mode: "no-cors" });

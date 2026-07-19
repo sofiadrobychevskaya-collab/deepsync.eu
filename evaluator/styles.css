@@ -109,6 +109,8 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
 .consent-check { margin-top: 13px; display: flex; align-items: flex-start; gap: 9px; color: var(--muted); cursor: pointer; }
 .consent-check input { margin-top: 3px; }
 .consent-check span { font-size: 11px; line-height: 1.45; }
+.consortium-option { margin-top: 10px; padding: 11px 12px; border-radius: 10px; background: var(--blue-bg); color: var(--ink); }
+.consortium-option strong { font-weight: 600; }
 
 .results-layout { display: grid; grid-template-columns: 240px 1fr; gap: 44px; }
 .summary-panel { position: sticky; top: 24px; align-self: start; }
