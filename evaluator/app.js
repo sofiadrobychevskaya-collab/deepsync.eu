@@ -1,5 +1,6 @@
 let pdfjsPromise;
 let mammothPromise;
+const leadEndpoint = "https://script.google.com/a/macros/deep-sync.eu/s/AKfycbwGqnv6UtLY_7R3h0pKrcuki8Ra9pgIIMfOkVNKrqwkD2JBmDI5EB3azHdmQntPxTc/exec";
 
 async function getPdfjs() {
   if (!pdfjsPromise) {
@@ -45,6 +46,14 @@ const els = {
   confidence: document.querySelector("#score-confidence"),
   criterionScores: document.querySelector("#criterion-scores"),
   warnings: document.querySelector("#analysis-warnings"),
+  emailGate: document.querySelector("#email-gate"),
+  emailGateForm: document.querySelector("#email-gate-form"),
+  reportEmail: document.querySelector("#report-email"),
+  emailConsent: document.querySelector("#email-consent"),
+  emailGateError: document.querySelector("#email-gate-error"),
+  unlockReport: document.querySelector("#unlock-report"),
+  detailedResults: document.querySelector("#detailed-results"),
+  feedbackBar: document.querySelector("#feedback-bar"),
   findings: document.querySelector("#findings-list"),
   criticalCount: document.querySelector("#critical-count"),
   strengthCount: document.querySelector("#strength-count"),
@@ -55,6 +64,7 @@ const els = {
 
 let selectedFile = null;
 let activeFindings = [];
+let currentAnalysis = null;
 
 const patterns = [
   {
@@ -504,6 +514,7 @@ async function runFileAnalysis(event) {
 }
 
 function renderResults(analysis) {
+  currentAnalysis = analysis;
   activeFindings = analysis.findings;
   els.loading.hidden = true;
   els.results.hidden = false;
@@ -526,7 +537,48 @@ function renderResults(analysis) {
   const feedbackBody = encodeURIComponent(`Programme: ${analysis.meta}\nEstimated score: ${els.total.textContent}/15\n\nWhat was useful?\n\nWhat was unclear or missing?\n`);
   els.feedbackLink.href = `mailto:sofia@deep-sync.eu?subject=DeepSync%20Evaluator%20Beta%20Feedback&body=${feedbackBody}`;
   renderFindings("all");
+  if (sessionStorage.getItem("deepsyncEvaluatorAccess") === "granted") {
+    unlockDetailedResults();
+  } else {
+    els.emailGate.hidden = false;
+    els.detailedResults.hidden = true;
+    els.feedbackBar.hidden = true;
+    els.printReport.disabled = true;
+  }
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function unlockDetailedResults() {
+  els.emailGate.hidden = true;
+  els.detailedResults.hidden = false;
+  els.feedbackBar.hidden = false;
+  els.printReport.disabled = false;
+}
+
+async function submitEmailGate(event) {
+  event.preventDefault();
+  els.emailGateError.hidden = true;
+  const email = els.reportEmail.value.trim();
+  if (!email || !els.emailConsent.checked) return;
+  const originalLabel = els.unlockReport.innerHTML;
+  els.unlockReport.textContent = "Unlocking…";
+  els.unlockReport.disabled = true;
+  const params = new URLSearchParams({
+    name: "Proposal Evaluator Beta",
+    email,
+    org: currentAnalysis?.meta || "Proposal Evaluator"
+  });
+  try {
+    await fetch(`${leadEndpoint}?${params}`, { method: "GET", mode: "no-cors" });
+    sessionStorage.setItem("deepsyncEvaluatorAccess", "granted");
+    unlockDetailedResults();
+  } catch (error) {
+    els.emailGateError.textContent = "We could not unlock the report. Please check your connection and try again.";
+    els.emailGateError.hidden = false;
+  } finally {
+    els.unlockReport.innerHTML = originalLabel;
+    els.unlockReport.disabled = false;
+  }
 }
 
 function renderFindings(filter) {
@@ -551,6 +603,7 @@ function pause(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 els.file.addEventListener("change", event => setFile(event.target.files[0]));
 els.form.addEventListener("submit", runFileAnalysis);
+els.emailGateForm.addEventListener("submit", submitEmailGate);
 els.dropzone.addEventListener("dragover", event => { event.preventDefault(); els.dropzone.classList.add("dragging"); });
 els.dropzone.addEventListener("dragleave", () => els.dropzone.classList.remove("dragging"));
 els.dropzone.addEventListener("drop", event => {
@@ -568,6 +621,10 @@ els.newAnalysis.addEventListener("click", () => {
   els.fileSubtitle.textContent = "or click to choose a PDF or DOCX · max 50 MB";
   els.dropzone.classList.remove("has-file");
   els.analyse.disabled = true;
+  els.emailGate.hidden = false;
+  els.detailedResults.hidden = true;
+  els.feedbackBar.hidden = true;
+  els.printReport.disabled = true;
 });
 document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
   document.querySelectorAll(".tab").forEach(item => { item.classList.remove("active"); item.setAttribute("aria-selected", "false"); });

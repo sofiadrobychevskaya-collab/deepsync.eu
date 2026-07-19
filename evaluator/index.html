@@ -76,7 +76,7 @@
           <p id="proposal-meta"></p>
         </div>
         <div class="result-actions">
-          <button class="secondary-button" id="print-report" type="button">Save report as PDF</button>
+          <button class="secondary-button" id="print-report" type="button" disabled>Save report as PDF</button>
           <button class="secondary-button" id="new-analysis" type="button">New analysis</button>
         </div>
       </div>
@@ -92,7 +92,27 @@
 
       <div class="analysis-warnings" id="analysis-warnings" hidden role="status"></div>
 
-      <div class="results-layout">
+      <section class="email-gate" id="email-gate">
+        <div>
+          <p class="eyebrow">DETAILED EVALUATION</p>
+          <h2>Unlock the complete evaluator report</h2>
+          <p>Enter your email to see criterion-level findings, evidence gaps and practical directions for strengthening the proposal.</p>
+        </div>
+        <form id="email-gate-form">
+          <label for="report-email"><span>Work email</span></label>
+          <div class="email-row">
+            <input id="report-email" name="email" type="email" autocomplete="email" placeholder="you@organisation.eu" required>
+            <button class="primary-button" id="unlock-report" type="submit">Unlock full report <span aria-hidden="true">→</span></button>
+          </div>
+          <label class="consent-check" for="email-consent">
+            <input id="email-consent" type="checkbox" required>
+            <span>I agree that DeepSync may store my email and contact me about this diagnostic. Proposal content is not submitted.</span>
+          </label>
+          <p class="form-error" id="email-gate-error" role="alert" hidden></p>
+        </form>
+      </section>
+
+      <div class="results-layout" id="detailed-results" hidden>
         <aside class="summary-panel">
           <p class="eyebrow">EVALUATOR SIGNALS</p>
           <div class="summary-stat">
@@ -116,7 +136,7 @@
           <div id="findings-list"></div>
         </div>
       </div>
-      <div class="feedback-bar">
+      <div class="feedback-bar" id="feedback-bar" hidden>
         <div><strong>Help us improve the beta</strong><span>Tell us what was useful, unclear or missing.</span></div>
         <a class="secondary-button feedback-link" id="feedback-link" href="mailto:sofia@deep-sync.eu?subject=DeepSync%20Evaluator%20Beta%20Feedback">Send feedback</a>
       </div>
