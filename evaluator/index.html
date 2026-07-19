@@ -43,8 +43,8 @@
             </select>
           </label>
           <label>
-            <span>Call identifier <small>(optional)</small></span>
-            <input id="call-id" name="callId" type="text" placeholder="e.g. HORIZON-CL4-2026-04">
+            <span>EU Funding Portal link or topic identifier <small>(required for concept assessment)</small></span>
+            <input id="call-id" name="callId" type="text" placeholder="Paste the topic URL or HORIZON-… identifier">
           </label>
         </div>
 
@@ -96,6 +96,20 @@
       </div>
 
       <div class="analysis-warnings" id="analysis-warnings" hidden role="status"></div>
+
+      <section class="call-intelligence" id="call-intelligence" hidden aria-labelledby="call-intelligence-title">
+        <div class="call-intelligence-head">
+          <div>
+            <p class="eyebrow">OFFICIAL CALL INTELLIGENCE</p>
+            <h2 id="call-intelligence-title">Call requirements</h2>
+            <p id="call-intelligence-meta"></p>
+          </div>
+          <a class="secondary-button call-source-link" id="call-source-link" target="_blank" rel="noopener">Open official topic ↗</a>
+        </div>
+        <div class="call-facts" id="call-facts"></div>
+        <div class="requirement-coverage" id="requirement-coverage"></div>
+        <div class="call-details" id="call-details"></div>
+      </section>
 
       <section class="diagnosis-summary" id="diagnosis-summary">
         <div>

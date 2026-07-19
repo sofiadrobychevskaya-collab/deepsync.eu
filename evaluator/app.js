@@ -47,6 +47,13 @@ const els = {
   confidence: document.querySelector("#score-confidence"),
   criterionScores: document.querySelector("#criterion-scores"),
   warnings: document.querySelector("#analysis-warnings"),
+  callIntelligence: document.querySelector("#call-intelligence"),
+  callIntelligenceTitle: document.querySelector("#call-intelligence-title"),
+  callIntelligenceMeta: document.querySelector("#call-intelligence-meta"),
+  callSourceLink: document.querySelector("#call-source-link"),
+  callFacts: document.querySelector("#call-facts"),
+  requirementCoverage: document.querySelector("#requirement-coverage"),
+  callDetails: document.querySelector("#call-details"),
   diagnosisTitle: document.querySelector("#diagnosis-title"),
   diagnosisCopy: document.querySelector("#diagnosis-copy"),
   diagnosisMetrics: document.querySelector("#diagnosis-metrics"),
@@ -462,6 +469,133 @@ const domainTerms = [
   ["climate", /climate|decarbon|greenhouse gas/i], ["manufacturing", /manufactur|factory|industrial production/i]
 ];
 
+const callStopWords = new Set("about above across after also among based been being between both call could each expected from further have into more must other outcomes proposal proposals project projects should such than that their these they this those through under using where which will with within would".split(" "));
+
+function extractTopicIdentifier(value) {
+  const decoded = decodeURIComponent(String(value || ""));
+  return decoded.match(/(?:HORIZON|DIGITAL|EIC|CEF|EU4H|LIFE|ERASMUS)[A-Z0-9-]+/i)?.[0]?.replace(/-+$/, "").toUpperCase() || "";
+}
+
+function firstValue(value) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function htmlToText(html) {
+  if (!html) return "";
+  const withBreaks = String(html).replace(/<\/(p|li|h\d|div|tr)>/gi, "$&\n").replace(/<br\s*\/?>/gi, "\n");
+  return new DOMParser().parseFromString(withBreaks, "text/html").body.textContent.replace(/\u00a0/g, " ").replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+function extractTopicSections(html) {
+  const sections = {};
+  const markers = [...String(html || "").matchAll(/<span[^>]*topicdescriptionkind[^>]*>([\s\S]*?)<\/span>/gi)];
+  markers.forEach((marker, index) => {
+    const name = htmlToText(marker[1]).replace(/:$/, "").trim();
+    const start = marker.index + marker[0].length;
+    const end = markers[index + 1]?.index ?? html.length;
+    sections[name] = htmlToText(html.slice(start, end));
+  });
+  return sections;
+}
+
+function extractOfficialLinks(html) {
+  const doc = new DOMParser().parseFromString(html || "", "text/html");
+  const seen = new Set();
+  return [...doc.querySelectorAll("a[href]")].map(link => ({
+    label: link.textContent.replace(/\s+/g, " ").trim(),
+    url: link.href
+  })).filter(link => /^https:\/\/(ec\.europa\.eu|commission\.europa\.eu|research-and-innovation\.ec\.europa\.eu|digital-strategy\.ec\.europa\.eu)/i.test(link.url) && link.label.length > 4 && !seen.has(link.url) && seen.add(link.url)).slice(0, 10);
+}
+
+function requirementKeywords(value) {
+  return [...new Set(String(value).toLowerCase().match(/[a-z][a-z-]{3,}/g) || [])].filter(word => !callStopWords.has(word)).slice(0, 12);
+}
+
+function buildCallRequirements(sections) {
+  const source = [sections["Expected Outcome"], sections["Expected Outcomes"], sections.Scope].filter(Boolean).join("\n");
+  return source.split(/\n+|(?<=[.!?])\s+(?=[A-Z])/).map(item => item.replace(/^[-•\d.)\s]+/, "").trim()).filter(item => item.length >= 55 && item.length <= 520).slice(0, 8);
+}
+
+function assessCallRequirements(proposalText, requirements) {
+  const source = proposalText.toLowerCase();
+  return requirements.map(text => {
+    const keywords = requirementKeywords(text);
+    const matched = keywords.filter(keyword => source.includes(keyword));
+    const ratio = keywords.length ? matched.length / Math.min(6, keywords.length) : 0;
+    return { text, keywords, matched, covered: matched.length >= 2 && ratio >= .34 };
+  });
+}
+
+async function fetchCallIntelligence(input) {
+  const identifier = extractTopicIdentifier(input);
+  if (!identifier) throw new Error("No valid EU topic identifier was found in the link.");
+  const endpoint = `https://api.tech.ec.europa.eu/search-api/prod/rest/search?apiKey=SEDIA&text=${encodeURIComponent(`"${identifier}"`)}&pageSize=50`;
+  const response = await fetch(endpoint, { method: "POST" });
+  if (!response.ok) throw new Error(`Funding Portal returned ${response.status}`);
+  const data = await response.json();
+  const result = asArray(data.results).find(item => item.language === "en" && item.metadata?.identifier?.includes(identifier) && item.metadata?.descriptionByte) || asArray(data.results).find(item => item.language === "en" && item.metadata?.identifier?.includes(identifier));
+  if (!result) throw new Error("The official topic record was not found.");
+  const metadata = result.metadata || {};
+  const descriptionHtml = firstValue(metadata.descriptionByte) || firstValue(metadata.description) || "";
+  const destinationHtml = firstValue(metadata.destinationDetails) || "";
+  const conditionsHtml = firstValue(metadata.topicConditions) || "";
+  const sections = extractTopicSections(descriptionHtml);
+  const actions = JSON.parse(firstValue(metadata.actions) || "[]");
+  const action = actions[0]?.types?.[0] || {};
+  const relatedText = `${descriptionHtml} ${destinationHtml}`;
+  const relatedTopics = [...new Set((htmlToText(relatedText).match(/HORIZON-[A-Z0-9-]{8,}/g) || []).filter(code => code !== identifier))].slice(0, 8);
+  return {
+    verified: true,
+    identifier,
+    title: firstValue(metadata.title) || result.summary || identifier,
+    url: firstValue(metadata.url) || result.url,
+    callIdentifier: firstValue(metadata.callIdentifier) || "",
+    actionType: action.typeOfAction || firstValue(metadata.typesOfAction) || "Not stated",
+    mga: action.typeOfMGA?.[0]?.abbreviation || "Not stated",
+    deadline: firstValue(metadata.deadlineDate) || actions[0]?.deadlineDates?.[0] || "",
+    deadlineModel: firstValue(metadata.deadlineModel) || actions[0]?.submissionProcedure?.description || "Not stated",
+    expectedOutcome: sections["Expected Outcome"] || sections["Expected Outcomes"] || "Not separately identified in the API record.",
+    scope: sections.Scope || "Not separately identified in the API record.",
+    destination: htmlToText(destinationHtml) || firstValue(metadata.destinationDescription) || "",
+    conditions: htmlToText(conditionsHtml),
+    policies: extractOfficialLinks(`${descriptionHtml} ${destinationHtml} ${conditionsHtml}`),
+    relatedTopics,
+    requirements: buildCallRequirements(sections)
+  };
+}
+
+function applyCallAssessment(analysis, proposalText, callData) {
+  if (!callData) return;
+  callData.coverage = assessCallRequirements(proposalText, callData.requirements);
+  const covered = callData.coverage.filter(item => item.covered).length;
+  callData.coverageRate = callData.coverage.length ? covered / callData.coverage.length : 0;
+  const firstCriterion = Object.keys(analysis.scores)[0];
+  if (callData.coverage.length) {
+    const callScore = Math.max(2.5, Math.min(4.8, 2.6 + callData.coverageRate * 2.2));
+    analysis.scores[firstCriterion] = Math.round((analysis.scores[firstCriterion] * .55 + callScore * .45) * 10) / 10;
+  }
+  const missing = callData.coverage.filter(item => !item.covered);
+  missing.slice(0, 3).forEach((requirement, index) => analysis.findings.unshift({
+    id: `call-gap-${index}`,
+    criterion: firstCriterion,
+    kind: "priority",
+    severity: .2,
+    title: "Official call requirement needs clearer evidence",
+    location: `Funding Portal · ${callData.identifier}`,
+    explanation: requirement.text,
+    recommendation: `Add an explicit response with activities, responsible partners, outputs and measurable evidence. Matched call terms: ${requirement.matched.join(", ") || "none detected"}.`
+  }));
+}
+
+function programmeFromCall(callData, fallback) {
+  if (!callData) return fallback;
+  if (callData.identifier.startsWith("DIGITAL-")) return "digital";
+  if (callData.identifier.startsWith("EIC-")) return "eic";
+  if (callData.identifier.startsWith("HORIZON-") && /\bCSA\b|Support Action/i.test(callData.actionType)) return "horizon-csa";
+  if (callData.identifier.startsWith("HORIZON-")) return "horizon";
+  return fallback;
+}
+
 function deriveConsortiumProfile(text, programme, callId) {
   if (programme === "eic") {
     return {
@@ -512,6 +646,45 @@ function renderConsortiumProfile(profile) {
   els.cordisStatus.hidden = true;
 }
 
+function compactText(value, limit = 900) {
+  const text = String(value || "").trim();
+  return text.length > limit ? `${text.slice(0, limit).trim()}…` : text;
+}
+
+function renderCallIntelligence(callData) {
+  if (!callData) {
+    els.callIntelligence.hidden = true;
+    return;
+  }
+  els.callIntelligence.hidden = false;
+  els.callIntelligenceTitle.textContent = callData.title;
+  els.callIntelligenceMeta.textContent = `${callData.identifier} · verified through the official Funding & Tenders API`;
+  els.callSourceLink.href = callData.url;
+  const deadline = callData.deadline ? new Date(callData.deadline).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "Not stated";
+  els.callFacts.innerHTML = [
+    ["Action", callData.actionType.replace(/^HORIZON(-\w+)?\s*/i, "")],
+    ["Grant model", callData.mga],
+    ["Deadline", deadline],
+    ["Submission", callData.deadlineModel]
+  ].map(([label, value]) => `<div class="call-fact"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
+  const coverage = callData.coverage || [];
+  els.requirementCoverage.innerHTML = coverage.length ? `<h3>Why the call-fit assessment looks this way</h3>${coverage.slice(0, 6).map(item => `
+    <div class="requirement-row"><span class="requirement-status ${item.covered ? "" : "missing"}">${item.covered ? "Evidence detected" : "Evidence missing"}</span><p>${escapeHtml(compactText(item.text, 310))}</p></div>`).join("")}` : "";
+  const policies = callData.policies.length
+    ? `<ul class="policy-links">${callData.policies.map(link => `<li><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a></li>`).join("")}</ul>`
+    : `<div class="call-detail-body">No explicit policy links were extracted from the topic record.</div>`;
+  const related = callData.relatedTopics.length
+    ? `<div class="call-detail-body">${callData.relatedTopics.map(code => escapeHtml(code)).join("\n")}</div>`
+    : `<div class="call-detail-body">No related topic identifiers were explicitly referenced.</div>`;
+  els.callDetails.innerHTML = `
+    <details><summary>Expected outcomes</summary><div class="call-detail-body">${escapeHtml(compactText(callData.expectedOutcome, 1600))}</div></details>
+    <details><summary>Scope and activities</summary><div class="call-detail-body">${escapeHtml(compactText(callData.scope, 1800))}</div></details>
+    <details><summary>EU goal / destination context</summary><div class="call-detail-body">${escapeHtml(compactText(callData.destination, 1600))}</div></details>
+    <details><summary>Policies, acts and official links</summary>${policies}</details>
+    <details><summary>Related topics named in the call context</summary>${related}</details>
+    <details><summary>Eligibility and topic conditions</summary><div class="call-detail-body">${escapeHtml(compactText(callData.conditions, 1800))}</div></details>`;
+}
+
 function renderDiagnosis(analysis) {
   const scores = Object.values(analysis.scores);
   const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
@@ -526,7 +699,8 @@ function renderDiagnosis(analysis) {
     ? `${priority} priority issue${priority === 1 ? "" : "s"} should be addressed before the next drafting stage.`
     : "No major pattern-based weakness was detected, but expert verification is still recommended.";
   const labels = isConcept ? ["Call fit", "Concept strength", "Consortium readiness"] : ["Evaluation strength", "Evidence coverage", "Consortium readiness"];
-  const values = [Math.round(average / 5 * 100), Math.max(35, Math.round((1 - priority / Math.max(6, analysis.findings.length)) * 100)), Math.max(30, 100 - gaps * 14)];
+  const callFit = analysis.callData?.coverage?.length ? Math.round(analysis.callData.coverageRate * 100) : Math.round(average / 5 * 100);
+  const values = [callFit, Math.max(35, Math.round((1 - priority / Math.max(6, analysis.findings.length)) * 100)), Math.max(30, 100 - gaps * 14)];
   els.diagnosisMetrics.innerHTML = labels.map((label, index) => `<div class="diagnosis-metric"><span>${escapeHtml(label)}</span><strong>${values[index]}%</strong></div>`).join("");
 }
 
@@ -736,6 +910,12 @@ function updateLoading(progress, detail, title = "Reading proposal structure…"
 async function runFileAnalysis(event) {
   event.preventDefault();
   if (!selectedFile) return;
+  const documentType = document.querySelector('input[name="document-type"]:checked').value;
+  const callInput = document.querySelector("#call-id").value.trim();
+  if (documentType === "concept" && !extractTopicIdentifier(callInput)) {
+    showError("Add the EU Funding Portal topic link or a complete topic identifier to run a call-specific concept assessment.");
+    return;
+  }
   els.intro.hidden = true;
   els.loading.hidden = false;
   updateLoading(8, "Preparing the document locally");
@@ -744,10 +924,17 @@ async function runFileAnalysis(event) {
     const { text, pages } = isDocx ? await extractDocx(selectedFile) : await extractPdf(selectedFile);
     updateLoading(72, "Checking objectives, KPIs, TRL and impact logic", "Applying evaluator patterns…");
     await pause(500);
-    const programme = document.querySelector("#programme").value;
-    const documentType = document.querySelector('input[name="document-type"]:checked').value;
+    let programme = document.querySelector("#programme").value;
+    let callData = null;
+    if (extractTopicIdentifier(callInput)) {
+      updateLoading(78, "Reading Scope, Expected Outcomes and topic conditions", "Verifying the official call…");
+      try { callData = await fetchCallIntelligence(callInput); }
+      catch (error) { callData = null; }
+    }
+    programme = programmeFromCall(callData, programme);
+    document.querySelector("#programme").value = programme;
     const analysis = analyseText(text, programme, pages);
-    const callId = document.querySelector("#call-id").value.trim();
+    const callId = extractTopicIdentifier(callInput) || callInput;
     const programmeLabel = programmeName(programme);
     analysis.meta = `${programmeLabel}${callId ? ` · ${callId}` : ""} · ${pages ? `${pages} pages` : "DOCX"}`;
     analysis.lead = {
@@ -757,6 +944,9 @@ async function runFileAnalysis(event) {
     };
     analysis.consortium = deriveConsortiumProfile(text, programme, callId);
     analysis.documentType = documentType;
+    analysis.callData = callData;
+    if (callId && !callData) analysis.warnings.push("The Funding Portal topic could not be verified. Call-specific requirements were not used in scoring; check the link or try again.");
+    applyCallAssessment(analysis, text, callData);
     updateLoading(100, "Evaluation ready", "Preparing your evaluation summary…");
     await pause(450);
     renderResults(analysis);
@@ -792,6 +982,7 @@ function renderResults(analysis) {
   const feedbackBody = encodeURIComponent(`Programme: ${analysis.meta}\nEstimated score: ${els.total.textContent}/15\n\nWhat was useful?\n\nWhat was unclear or missing?\n`);
   els.feedbackLink.href = `mailto:sofia@deep-sync.eu?subject=DeepSync%20Evaluator%20Beta%20Feedback&body=${feedbackBody}`;
   renderFindings("all");
+  renderCallIntelligence(analysis.callData);
   renderDiagnosis(analysis);
   renderConsortiumProfile(analysis.consortium);
   if (sessionStorage.getItem("deepsyncEvaluatorAccess") === "granted") {
@@ -902,6 +1093,7 @@ els.newAnalysis.addEventListener("click", () => {
   els.printReport.disabled = true;
   els.openConsortium.hidden = false;
   els.consortiumDetails.hidden = true;
+  els.callIntelligence.hidden = true;
 });
 document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
   document.querySelectorAll(".tab").forEach(item => { item.classList.remove("active"); item.setAttribute("aria-selected", "false"); });
