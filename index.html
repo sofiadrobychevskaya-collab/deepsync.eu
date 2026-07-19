@@ -150,6 +150,22 @@
         .hero-action:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.62); background: rgba(255,255,255,.1); }
         .hero-action-primary { border-color: white; background: white; color: var(--navy); }
         .hero-action-primary:hover { background: #f1f4f7; color: var(--navy); }
+        /* About */
+        .about-section { padding: 110px 0; background: #fff; }
+        .about-intro { display: grid; grid-template-columns: 1.05fr .95fr; gap: 72px; align-items: end; }
+        .about-kicker { display: block; margin-bottom: 15px; color: var(--primary); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+        .about-intro h2 { margin: 0; max-width: 680px; font-size: clamp(34px, 5vw, 58px); }
+        .about-lead { margin: 0; color: var(--muted); font-size: 18px; line-height: 1.72; }
+        .about-principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
+        .about-principle { min-height: 218px; padding: 28px; border: 1px solid #e4e8ee; border-radius: 22px; background: var(--bg); }
+        .about-principle span { display: block; margin-bottom: 32px; color: var(--primary); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
+        .about-principle h3 { margin: 0 0 10px; color: var(--navy); font-size: 20px; }
+        .about-principle p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.62; }
+        .about-cooperation { display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 18px; padding: 26px 30px; border-radius: 22px; background: var(--navy); color: white; }
+        .about-cooperation strong { display: block; margin-bottom: 5px; font-size: 18px; }
+        .about-cooperation p { margin: 0; max-width: 760px; color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.55; }
+        .about-cooperation a { flex: 0 0 auto; padding: 13px 18px; border: 1px solid rgba(255,255,255,.4); border-radius: 12px; color: white; font-size: 13px; font-weight: 750; text-decoration: none; }
+        .about-cooperation a:hover { background: white; color: var(--navy); }
         #hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover; z-index: 0; pointer-events: none; }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
             background: linear-gradient(180deg, rgba(3,15,31,0.88) 0%, rgba(6,48,86,0.8) 45%, rgba(10,77,122,0.82) 100%); }
@@ -310,6 +326,8 @@
             .bridge-paths { grid-template-columns: 1fr; text-align: left; }
             .bridge-arrow { transform: rotate(90deg); }
             .hero-actions { grid-template-columns: 1fr; max-width: 520px; }
+            .about-intro, .about-principles { grid-template-columns: 1fr; text-align: left; }
+            .about-cooperation { align-items: flex-start; flex-direction: column; text-align: left; }
         }
         @media (max-width: 560px) {
             .founder-header { align-items: flex-start; }
@@ -327,6 +345,7 @@
         <div class="container nav-flex">
             <a href="#" class="logo" aria-label="DeepSync home"><img src="logo-white.png" alt="DeepSync Logo"></a>
             <div class="nav-links">
+                <a href="#about">About</a>
                 <a href="#evaluator">AI Evaluator</a>
                 <a href="#services">Expert Support</a>
                 <a href="#database">Funding Radar</a>
@@ -379,6 +398,42 @@
             <div class="stat-item reveal">
                 <h4 class="numbers counter" data-target="10">0</h4>
                 <p>Years Experience</p>
+            </div>
+        </div>
+    </section>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-intro reveal">
+                <div>
+                    <span class="about-kicker">About DeepSync</span>
+                    <h2>We turn European priorities into programmes that can be funded and delivered.</h2>
+                </div>
+                <p class="about-lead">DeepSync is a founder-led EU programme development company supported by an international specialist network. We connect policy, research, public authorities, industry and investment to build credible concepts, capable consortia and practical pathways from an idea to implementation and scale.</p>
+            </div>
+            <div class="about-principles">
+                <article class="about-principle reveal">
+                    <span>01 / POLICY TO PROJECT</span>
+                    <h3>We understand what Europe is trying to achieve.</h3>
+                    <p>We translate work programmes, call requirements, policy priorities and evaluator expectations into a clear project logic and evidence plan.</p>
+                </article>
+                <article class="about-principle reveal">
+                    <span>02 / RIGHT ECOSYSTEM</span>
+                    <h3>We build around missing capabilities, not logos.</h3>
+                    <p>Our consortium work connects the right scientific, industrial, public-sector and market roles, supported by delivery ownership and measurable contribution.</p>
+                </article>
+                <article class="about-principle reveal">
+                    <span>03 / CONTINUOUS INTELLIGENCE</span>
+                    <h3>We combine data with professional judgement.</h3>
+                    <p>Commission evaluation patterns, CORDIS evidence, call intelligence, AI diagnostics and expert review create a stronger feedback loop than proposal writing alone.</p>
+                </article>
+            </div>
+            <div class="about-cooperation reveal">
+                <div>
+                    <strong>Open to international cooperation</strong>
+                    <p>We welcome collaboration with universities, innovation agencies, public authorities, accelerators, VC and CVC funds, companies and expert networks seeking to connect European funding with real deployment and follow-on investment.</p>
+                </div>
+                <a href="#contact">Explore cooperation →</a>
             </div>
         </div>
     </section>
