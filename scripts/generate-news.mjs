@@ -76,11 +76,15 @@ Rules:
 let telegramContext = "";
 if (TELEGRAM_BOT_TOKEN) {
   try {
-    const telegramResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?limit=100&allowed_updates=%5B%22channel_post%22%5D`);
+    const allowedUpdates = encodeURIComponent(JSON.stringify(["channel_post", "edited_channel_post", "message"]));
+    const telegramResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?limit=100&allowed_updates=${allowedUpdates}`);
     if (telegramResponse.ok) {
       const telegramData = await telegramResponse.json();
       telegramContext = (telegramData.result || [])
-        .map((update) => update.channel_post?.text || update.channel_post?.caption || "")
+        .map((update) => {
+          const post = update.channel_post || update.edited_channel_post || update.message;
+          return post?.text || post?.caption || "";
+        })
         .filter(Boolean)
         .slice(-30)
         .join("\n\n--- TELEGRAM POST ---\n\n");
