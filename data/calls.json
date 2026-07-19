@@ -3,6 +3,34 @@
   "calls": [
     {
       "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE", "CASCADE FUNDING"],
+      "type": "Cascade grant (FSTP)",
+      "sector": "Bio-circular agriculture",
+      "sector_tags": ["AgriTech", "Green Tech"],
+      "audiences": ["Startups"],
+      "title": "AGRI-BIOCIRCULAR-HUB Open Call",
+      "budget": "€50,000 lump sum per project · 100% funded",
+      "deadline": "2026-07-31T17:00:00+02:00",
+      "deadline_label": "31 Jul 2026",
+      "summary": "€50,000 lump-sum grants for 12 SMEs and startups in Poland, Latvia and Ukraine piloting bio-circular agriculture solutions (TRL4+) — nutrient recovery, soil health, water-smart farming and related challenge areas.",
+      "source_url": "https://agri-biocircular-hub.eu/open-call/"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE", "CASCADE FUNDING"],
+      "type": "Cascade grant (FSTP)",
+      "sector": "Bio-based business models",
+      "sector_tags": ["AgriTech", "Green Tech"],
+      "audiences": ["Startups", "Industry", "Research"],
+      "title": "C4B Open Call 2026 — Pilot Projects",
+      "budget": "Up to €60,000 lump sum per project (€480,000 total)",
+      "deadline": "2026-08-14T17:00:00+02:00",
+      "deadline_label": "14 Aug 2026",
+      "summary": "Funding for pilot projects testing C4B's circular bio-based business models across forestry, agri-food or peatland value chains — open to single applicants or consortia of up to 3 partners across EU and Horizon Europe associated countries.",
+      "source_url": "https://www.c4b-project.eu/c4b-open-call-get-ready-to-apply/"
+    },
+    {
+      "programme": "HORIZON EUROPE",
       "categories": ["HORIZON EUROPE", "EIT", "CASCADE FUNDING"],
       "type": "EIT cascade funding",
       "sector": "DeepTech · strategic tech · green tech",
