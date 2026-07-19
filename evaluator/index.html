@@ -27,6 +27,11 @@
       <p class="hero-copy">Upload a Horizon Europe, Digital Europe or EIC proposal. DeepSync checks its logic against recurring European Commission evaluation patterns and shows what to strengthen before submission.</p>
 
       <form class="upload-card" id="evaluation-form">
+        <fieldset class="document-choice">
+          <legend>What do you want to check?</legend>
+          <label><input type="radio" name="document-type" value="concept" checked><span><strong>Concept draft</strong><small>Check the idea, call fit and consortium readiness</small></span></label>
+          <label><input type="radio" name="document-type" value="proposal"><span><strong>Full proposal</strong><small>Review a complete Part B against evaluation criteria</small></span></label>
+        </fieldset>
         <div class="form-row">
           <label>
             <span>Programme</span>
@@ -46,8 +51,8 @@
         <label class="dropzone" id="dropzone" for="proposal-file">
           <input id="proposal-file" type="file" accept="application/pdf,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx">
           <span class="upload-icon" aria-hidden="true">↑</span>
-          <strong id="file-title">Drop your Part B proposal here</strong>
-          <span id="file-subtitle">or click to choose a PDF or DOCX · max 50 MB</span>
+          <strong id="file-title">Drop your concept draft here</strong>
+          <span id="file-subtitle">PDF or DOCX · a one-pager is enough</span>
         </label>
 
         <div class="consent-row">
@@ -71,7 +76,7 @@
     <section class="results" id="results" hidden>
       <div class="results-heading">
         <div>
-          <p class="eyebrow">MOCK EVALUATION SUMMARY</p>
+          <p class="eyebrow" id="results-eyebrow">CONCEPT DIAGNOSIS</p>
           <h1 id="proposal-title">Proposal analysis</h1>
           <p id="proposal-meta"></p>
         </div>
@@ -92,26 +97,38 @@
 
       <div class="analysis-warnings" id="analysis-warnings" hidden role="status"></div>
 
+      <section class="diagnosis-summary" id="diagnosis-summary">
+        <div>
+          <p class="eyebrow">YOUR DIAGNOSIS</p>
+          <h2 id="diagnosis-title">Your concept needs a clearer evidence base</h2>
+          <p id="diagnosis-copy">Review the most important gaps before deciding what to do next.</p>
+        </div>
+        <div class="diagnosis-metrics" id="diagnosis-metrics"></div>
+      </section>
+
       <section class="consortium-intelligence consortium-preview" id="consortium-intelligence" aria-labelledby="consortium-title">
         <div class="consortium-heading">
           <div>
-            <p class="eyebrow">STEP 2 · CONSORTIUM ANALYSIS</p>
-            <h2 id="consortium-title">Who is missing — and who could fill the role?</h2>
-            <p>Role gaps are inferred from the proposal, the selected call identifier and participation patterns in similar funded CORDIS projects. Every suggestion includes its evidence trail.</p>
+            <p class="eyebrow">CONSORTIUM READINESS</p>
+            <h2 id="consortium-title">Your consortium coverage</h2>
+            <p id="consortium-intro">We found potential role gaps that may weaken delivery credibility.</p>
           </div>
-          <span class="cordis-badge">Transparent beta</span>
+          <span class="cordis-badge" id="consortium-count">Checking…</span>
         </div>
-        <div class="consortium-profile" id="consortium-profile"></div>
-        <div class="consortium-search">
-          <label for="cordis-query"><span>CORDIS comparison query</span></label>
-          <div class="cordis-search-row">
-            <input id="cordis-query" type="text" placeholder="e.g. edtech digital skills accelerator">
-            <button class="primary-button" id="cordis-search" type="button">Find partner candidates <span aria-hidden="true">→</span></button>
+        <div class="consortium-profile compact" id="consortium-profile"></div>
+        <button class="primary-button consortium-open" id="open-consortium" type="button">Find suitable partners <span aria-hidden="true">→</span></button>
+        <div id="consortium-details" hidden>
+          <div class="consortium-search">
+            <label for="cordis-query"><span>Search focus</span></label>
+            <div class="cordis-search-row">
+              <input id="cordis-query" type="text" placeholder="e.g. edtech digital skills accelerator">
+              <button class="primary-button" id="cordis-search" type="button">Search CORDIS <span aria-hidden="true">→</span></button>
+            </div>
+            <p class="cordis-note">Only this search phrase is sent to CORDIS. Proposal text stays in your browser.</p>
           </div>
-          <p class="cordis-note">Only this search phrase is sent to CORDIS. Proposal text stays in your browser. Results demonstrate track record, not availability or Commission endorsement.</p>
+          <div id="cordis-status" class="cordis-status" role="status" hidden></div>
+          <div id="cordis-results" class="cordis-results"></div>
         </div>
-        <div id="cordis-status" class="cordis-status" role="status" hidden></div>
-        <div id="cordis-results" class="cordis-results"></div>
       </section>
 
       <section class="email-gate" id="email-gate">

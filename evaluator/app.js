@@ -40,12 +40,16 @@ const els = {
   loadingDetail: document.querySelector("#loading-detail"),
   progress: document.querySelector("#progress-bar"),
   results: document.querySelector("#results"),
+  resultsEyebrow: document.querySelector("#results-eyebrow"),
   title: document.querySelector("#proposal-title"),
   meta: document.querySelector("#proposal-meta"),
   total: document.querySelector("#total-score"),
   confidence: document.querySelector("#score-confidence"),
   criterionScores: document.querySelector("#criterion-scores"),
   warnings: document.querySelector("#analysis-warnings"),
+  diagnosisTitle: document.querySelector("#diagnosis-title"),
+  diagnosisCopy: document.querySelector("#diagnosis-copy"),
+  diagnosisMetrics: document.querySelector("#diagnosis-metrics"),
   emailGate: document.querySelector("#email-gate"),
   emailGateForm: document.querySelector("#email-gate-form"),
   reportEmail: document.querySelector("#report-email"),
@@ -62,6 +66,10 @@ const els = {
   printReport: document.querySelector("#print-report"),
   feedbackLink: document.querySelector("#feedback-link"),
   consortiumProfile: document.querySelector("#consortium-profile"),
+  consortiumIntro: document.querySelector("#consortium-intro"),
+  consortiumCount: document.querySelector("#consortium-count"),
+  openConsortium: document.querySelector("#open-consortium"),
+  consortiumDetails: document.querySelector("#consortium-details"),
   cordisQuery: document.querySelector("#cordis-query"),
   cordisSearch: document.querySelector("#cordis-search"),
   cordisStatus: document.querySelector("#cordis-status"),
@@ -484,17 +492,42 @@ function suggestCordisQuery(text, callId = "") {
 }
 
 function renderConsortiumProfile(profile) {
-  els.consortiumProfile.innerHTML = profile.roles.map(role => `
+  const gaps = profile.roles.filter(role => !role.present);
+  els.consortiumProfile.innerHTML = gaps.map(role => `
     <article class="profile-signal ${role.present ? "present" : "gap"}">
       <span>${role.present ? "Detected coverage" : "Potential gap"}</span>
       <strong>${escapeHtml(role.label)}</strong>
       <small>${escapeHtml(role.need)}</small>
       <em class="role-status">${escapeHtml(role.legalRole)}</em>
       <small><strong>Basis:</strong> ${escapeHtml(role.basis)}</small>
-    </article>`).join("");
+    </article>`).join("") || `<article class="profile-signal present"><span>Coverage detected</span><strong>No obvious role gaps</strong><small>Validate eligibility, commitments and task-level capacity before submission.</small></article>`;
+  els.consortiumCount.textContent = gaps.length ? `${gaps.length} potential gap${gaps.length === 1 ? "" : "s"}` : "No obvious gaps";
+  els.consortiumIntro.textContent = gaps.length
+    ? "We found potential role gaps that may weaken delivery credibility. Review them before searching for organisations."
+    : "The main role categories appear covered. You can still compare the group with similar funded consortia.";
+  els.openConsortium.textContent = gaps.length ? "Find suitable partners →" : "Compare with similar consortia →";
+  els.consortiumDetails.hidden = true;
   els.cordisQuery.value = profile.query;
   els.cordisResults.innerHTML = "";
   els.cordisStatus.hidden = true;
+}
+
+function renderDiagnosis(analysis) {
+  const scores = Object.values(analysis.scores);
+  const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+  const gaps = analysis.consortium.roles.filter(role => !role.present).length;
+  const priority = analysis.findings.filter(finding => finding.kind === "priority").length;
+  const isConcept = analysis.documentType === "concept";
+  let headline = isConcept ? "Your concept has a credible starting point" : "Your proposal has a credible starting point";
+  if (average < 3.5) headline = isConcept ? "Your concept needs stronger evidence" : "Your proposal needs stronger evidence";
+  else if (gaps) headline = isConcept ? "Your concept is promising, but not consortium-ready" : "Your proposal has unresolved consortium gaps";
+  els.diagnosisTitle.textContent = headline;
+  els.diagnosisCopy.textContent = priority
+    ? `${priority} priority issue${priority === 1 ? "" : "s"} should be addressed before the next drafting stage.`
+    : "No major pattern-based weakness was detected, but expert verification is still recommended.";
+  const labels = isConcept ? ["Call fit", "Concept strength", "Consortium readiness"] : ["Evaluation strength", "Evidence coverage", "Consortium readiness"];
+  const values = [Math.round(average / 5 * 100), Math.max(35, Math.round((1 - priority / Math.max(6, analysis.findings.length)) * 100)), Math.max(30, 100 - gaps * 14)];
+  els.diagnosisMetrics.innerHTML = labels.map((label, index) => `<div class="diagnosis-metric"><span>${escapeHtml(label)}</span><strong>${values[index]}%</strong></div>`).join("");
 }
 
 function asArray(value) {
@@ -712,6 +745,7 @@ async function runFileAnalysis(event) {
     updateLoading(72, "Checking objectives, KPIs, TRL and impact logic", "Applying evaluator patterns…");
     await pause(500);
     const programme = document.querySelector("#programme").value;
+    const documentType = document.querySelector('input[name="document-type"]:checked').value;
     const analysis = analyseText(text, programme, pages);
     const callId = document.querySelector("#call-id").value.trim();
     const programmeLabel = programmeName(programme);
@@ -722,6 +756,7 @@ async function runFileAnalysis(event) {
       coverage: pages ? `${pages} pages` : "DOCX"
     };
     analysis.consortium = deriveConsortiumProfile(text, programme, callId);
+    analysis.documentType = documentType;
     updateLoading(100, "Evaluation ready", "Preparing your evaluation summary…");
     await pause(450);
     renderResults(analysis);
@@ -738,6 +773,7 @@ function renderResults(analysis) {
   els.loading.hidden = true;
   els.results.hidden = false;
   els.title.textContent = analysis.title;
+  els.resultsEyebrow.textContent = analysis.documentType === "concept" ? "CONCEPT DIAGNOSIS" : "MOCK EVALUATION SUMMARY";
   els.meta.textContent = analysis.meta;
   const scoreValues = Object.values(analysis.scores);
   els.total.textContent = scoreValues.reduce((sum, score) => sum + score, 0).toFixed(1);
@@ -756,8 +792,8 @@ function renderResults(analysis) {
   const feedbackBody = encodeURIComponent(`Programme: ${analysis.meta}\nEstimated score: ${els.total.textContent}/15\n\nWhat was useful?\n\nWhat was unclear or missing?\n`);
   els.feedbackLink.href = `mailto:sofia@deep-sync.eu?subject=DeepSync%20Evaluator%20Beta%20Feedback&body=${feedbackBody}`;
   renderFindings("all");
+  renderDiagnosis(analysis);
   renderConsortiumProfile(analysis.consortium);
-  searchCordis();
   if (sessionStorage.getItem("deepsyncEvaluatorAccess") === "granted") {
     unlockDetailedResults();
   } else {
@@ -841,6 +877,11 @@ els.dropzone.addEventListener("drop", event => {
   setFile(event.dataTransfer.files[0]);
 });
 els.printReport.addEventListener("click", () => window.print());
+els.openConsortium.addEventListener("click", () => {
+  els.consortiumDetails.hidden = false;
+  els.openConsortium.hidden = true;
+  searchCordis();
+});
 els.cordisSearch.addEventListener("click", searchCordis);
 els.cordisQuery.addEventListener("keydown", event => {
   if (event.key === "Enter") { event.preventDefault(); searchCordis(); }
@@ -850,18 +891,29 @@ els.newAnalysis.addEventListener("click", () => {
   els.intro.hidden = false;
   selectedFile = null;
   els.file.value = "";
-  els.fileTitle.textContent = "Drop your Part B proposal here";
-  els.fileSubtitle.textContent = "or click to choose a PDF or DOCX · max 50 MB";
+  const conceptSelected = document.querySelector('input[name="document-type"]:checked').value === "concept";
+  els.fileTitle.textContent = conceptSelected ? "Drop your concept draft here" : "Drop your Part B proposal here";
+  els.fileSubtitle.textContent = conceptSelected ? "PDF or DOCX · a one-pager is enough" : "PDF or DOCX · max 50 MB";
   els.dropzone.classList.remove("has-file");
   els.analyse.disabled = true;
   els.emailGate.hidden = false;
   els.detailedResults.hidden = true;
   els.feedbackBar.hidden = true;
   els.printReport.disabled = true;
+  els.openConsortium.hidden = false;
+  els.consortiumDetails.hidden = true;
 });
 document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
   document.querySelectorAll(".tab").forEach(item => { item.classList.remove("active"); item.setAttribute("aria-selected", "false"); });
   tab.classList.add("active");
   tab.setAttribute("aria-selected", "true");
   renderFindings(tab.dataset.filter);
+}));
+document.querySelectorAll('input[name="document-type"]').forEach(input => input.addEventListener("change", () => {
+  const isConcept = input.value === "concept" && input.checked;
+  if (!isConcept && !input.checked) return;
+  if (!selectedFile) {
+    els.fileTitle.textContent = isConcept ? "Drop your concept draft here" : "Drop your Part B proposal here";
+    els.fileSubtitle.textContent = isConcept ? "PDF or DOCX · a one-pager is enough" : "PDF or DOCX · max 50 MB";
+  }
 }));
