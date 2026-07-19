@@ -65,6 +65,12 @@ const els = {
   emailGateError: document.querySelector("#email-gate-error"),
   unlockReport: document.querySelector("#unlock-report"),
   detailedResults: document.querySelector("#detailed-results"),
+  humanSupport: document.querySelector("#human-support"),
+  supportRequest: document.querySelector("#support-request"),
+  selectedService: document.querySelector("#selected-service"),
+  supportEmail: document.querySelector("#support-email"),
+  submitSupport: document.querySelector("#submit-support"),
+  supportMessage: document.querySelector("#support-message"),
   feedbackBar: document.querySelector("#feedback-bar"),
   findings: document.querySelector("#findings-list"),
   criticalCount: document.querySelector("#critical-count"),
@@ -86,6 +92,7 @@ const els = {
 let selectedFile = null;
 let activeFindings = [];
 let currentAnalysis = null;
+let activeService = "";
 
 const patterns = [
   {
@@ -990,6 +997,7 @@ function renderResults(analysis) {
   } else {
     els.emailGate.hidden = false;
     els.detailedResults.hidden = true;
+    els.humanSupport.hidden = true;
     els.feedbackBar.hidden = true;
     els.printReport.disabled = true;
   }
@@ -999,8 +1007,42 @@ function renderResults(analysis) {
 function unlockDetailedResults() {
   els.emailGate.hidden = true;
   els.detailedResults.hidden = false;
+  els.humanSupport.hidden = false;
   els.feedbackBar.hidden = false;
   els.printReport.disabled = false;
+  if (els.reportEmail.value && !els.supportEmail.value) els.supportEmail.value = els.reportEmail.value;
+}
+
+async function submitSupportRequest(event) {
+  event.preventDefault();
+  const email = els.supportEmail.value.trim();
+  if (!activeService || !email) return;
+  const original = els.submitSupport.innerHTML;
+  els.submitSupport.textContent = "Sending…";
+  els.submitSupport.disabled = true;
+  els.supportMessage.hidden = true;
+  const params = new URLSearchParams({
+    email,
+    source: `Human Support: ${activeService}`,
+    programme: currentAnalysis?.lead?.programme || "",
+    callId: currentAnalysis?.lead?.callId || "",
+    coverage: currentAnalysis?.lead?.coverage || "",
+    score: Object.values(currentAnalysis?.scores || {}).reduce((sum, value) => sum + value, 0).toFixed(1),
+    confidence: currentAnalysis?.confidence || "",
+    consent: "true",
+    consortium: activeService === "Consortium Search" ? "Yes" : "No"
+  });
+  try {
+    await fetch(`${leadEndpoint}?${params}`, { method: "GET", mode: "no-cors" });
+    els.supportMessage.textContent = `Request received. DeepSync will contact you about ${activeService}.`;
+    els.supportMessage.hidden = false;
+  } catch (error) {
+    els.supportMessage.textContent = "The request could not be sent. Please try again.";
+    els.supportMessage.hidden = false;
+  } finally {
+    els.submitSupport.innerHTML = original;
+    els.submitSupport.disabled = false;
+  }
 }
 
 async function submitEmailGate(event) {
@@ -1060,6 +1102,16 @@ function pause(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 els.file.addEventListener("change", event => setFile(event.target.files[0]));
 els.form.addEventListener("submit", runFileAnalysis);
 els.emailGateForm.addEventListener("submit", submitEmailGate);
+els.supportRequest.addEventListener("submit", submitSupportRequest);
+document.querySelectorAll(".service-card").forEach(card => card.addEventListener("click", () => {
+  activeService = card.dataset.service;
+  document.querySelectorAll(".service-card").forEach(item => item.classList.toggle("selected", item === card));
+  els.selectedService.textContent = activeService;
+  els.supportRequest.hidden = false;
+  els.supportMessage.hidden = true;
+  if (els.reportEmail.value && !els.supportEmail.value) els.supportEmail.value = els.reportEmail.value;
+  els.supportEmail.focus();
+}));
 els.dropzone.addEventListener("dragover", event => { event.preventDefault(); els.dropzone.classList.add("dragging"); });
 els.dropzone.addEventListener("dragleave", () => els.dropzone.classList.remove("dragging"));
 els.dropzone.addEventListener("drop", event => {
@@ -1089,6 +1141,10 @@ els.newAnalysis.addEventListener("click", () => {
   els.analyse.disabled = true;
   els.emailGate.hidden = false;
   els.detailedResults.hidden = true;
+  els.humanSupport.hidden = true;
+  els.supportRequest.hidden = true;
+  activeService = "";
+  document.querySelectorAll(".service-card").forEach(item => item.classList.remove("selected"));
   els.feedbackBar.hidden = true;
   els.printReport.disabled = true;
   els.openConsortium.hidden = false;

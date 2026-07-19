@@ -194,6 +194,25 @@
         </div>
 
       </div>
+      <section class="human-support" id="human-support" hidden aria-labelledby="human-support-title">
+        <div class="human-support-head">
+          <p class="eyebrow">HUMAN SUPPORT</p>
+          <h2 id="human-support-title">When you need an expert, not another AI answer</h2>
+          <p>Use the assistant freely. Request DeepSync support only where professional judgement, writing capacity or real partner access is needed.</p>
+        </div>
+        <div class="service-grid">
+          <button class="service-card" type="button" data-service="Concept Review"><span>01</span><strong>Concept Review</strong><small>Expert review of call fit, concept logic, impact pathway and readiness before consortium outreach.</small></button>
+          <button class="service-card" type="button" data-service="Proposal Review"><span>02</span><strong>Proposal Review</strong><small>Professional evaluator-style review of a developed Part B with prioritised corrections.</small></button>
+          <button class="service-card" type="button" data-service="Proposal Writing"><span>03</span><strong>Proposal Writing</strong><small>Scoped support to develop or rewrite the application with your consortium.</small></button>
+          <button class="service-card" type="button" data-service="Consortium Search"><span>04</span><strong>Consortium Search</strong><small>Partner validation, outreach, introductions and role negotiation beyond the public CORDIS evidence.</small></button>
+        </div>
+        <form class="support-request" id="support-request" hidden>
+          <div><span class="eyebrow">SELECTED SUPPORT</span><h3 id="selected-service">Concept Review</h3></div>
+          <label for="support-email"><span>Work email</span><input id="support-email" type="email" autocomplete="email" placeholder="you@organisation.eu" required></label>
+          <button class="primary-button" id="submit-support" type="submit">Request support <span aria-hidden="true">→</span></button>
+          <p id="support-message" role="status" hidden></p>
+        </form>
+      </section>
       <div class="feedback-bar" id="feedback-bar" hidden>
         <div><strong>Help us improve the beta</strong><span>Tell us what was useful, unclear or missing.</span></div>
         <a class="secondary-button feedback-link" id="feedback-link" href="mailto:sofia@deep-sync.eu?subject=DeepSync%20Evaluator%20Beta%20Feedback">Send feedback</a>
