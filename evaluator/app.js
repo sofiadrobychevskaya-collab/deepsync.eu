@@ -1,6 +1,6 @@
 let pdfjsPromise;
 let mammothPromise;
-const leadEndpoint = "https://script.google.com/a/macros/deep-sync.eu/s/AKfycbwGqnv6UtLY_7R3h0pKrcuki8Ra9pgIIMfOkVNKrqwkD2JBmDI5EB3azHdmQntPxTc/exec";
+const leadEndpoint = "https://script.google.com/macros/s/AKfycbxk1JF4WnWba_hvRKOd8vVM2DiKyl41F8_CQ3QskC2T93vtES2PUkQAICJeGfdq2xDo/exec";
 
 async function getPdfjs() {
   if (!pdfjsPromise) {
