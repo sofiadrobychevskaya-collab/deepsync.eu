@@ -667,16 +667,19 @@ function applyCallAssessment(analysis, proposalText, callData) {
     analysis.scores[firstCriterion] = Math.round((analysis.scores[firstCriterion] * .55 + callScore * .45) * 10) / 10;
   }
   const missing = callData.coverage.filter(item => item.status !== "covered");
-  missing.slice(0, 3).forEach((requirement, index) => analysis.findings.unshift({
-    id: `call-gap-${index}`,
-    criterion: firstCriterion,
-    kind: "priority",
-    severity: .2,
-    title: "Official call requirement needs clearer evidence",
-    location: `Funding Portal · ${callData.identifier}`,
-    explanation: requirement.text,
-    recommendation: `Add an explicit response with activities, responsible partners, outputs and measurable evidence. Matched call terms: ${requirement.matched.join(", ") || "none detected"}.`
-  }));
+  missing.slice(0, 3).forEach((requirement, index) => {
+    const direction = callFitFeedback(requirement);
+    analysis.findings.unshift({
+      id: `call-gap-${index}`,
+      criterion: firstCriterion,
+      kind: "priority",
+      severity: .2,
+      title: compactText(`${requirement.status === "partial" ? "Partially addressed" : "Not addressed"}: ${explainRequirementSimply(requirement.text)}`, 110),
+      location: `Funding Portal · ${callData.identifier}`,
+      explanation: requirement.text,
+      recommendation: requirement.matched.length ? `${direction} (Terms detected in your text: ${requirement.matched.join(", ")}.)` : direction
+    });
+  });
 }
 
 function programmeFromCall(callData, fallback) {
