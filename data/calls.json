@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-19T15:40:00.000Z",
+  "generated_at": "2026-07-21T15:42:06.000Z",
   "calls": [
     {
       "programme": "HORIZON EUROPE",
@@ -283,6 +283,20 @@
       "deadline_label": "11 Sep 2026",
       "summary": "100% equity-free pre-seed grants (up to €119,999) from Cyprus's national Research and Innovation Foundation for early-stage Cyprus-registered startups with global market potential. Two-stage evaluation via the RIF IRIS portal.",
       "source_url": "https://www.research.org.cy/en/new-call-for-proposals-for-the-creation-and-initial-development-of-startups-with-international-orientation-pre-seed-programme-pre-seed-0526/"
+    },
+    {
+      "programme": "EIT",
+      "categories": ["EIT"],
+      "type": "RIS Innovation Project (KAVA)",
+      "sector": "Raw materials · circularity",
+      "sector_tags": ["Critical Tech", "Green Tech"],
+      "audiences": ["Startups", "Industry", "Research", "Public sector"],
+      "title": "EIT RawMaterials Call for RIS Innovation Projects (KAVA 14)",
+      "budget": "€800,000–€1,000,000 per project · up to 70% funded",
+      "deadline": "2026-10-16T13:00:00+02:00",
+      "deadline_label": "16 Oct 2026",
+      "summary": "Funds consortia from RIS-eligible regions running 1–2 year Innovation Projects in sustainable mining, processing, circularity, recycling or substitution across the raw materials value chain.",
+      "source_url": "https://eitrawmaterials.eu/call-ris-projects"
     }
   ]
 }
