@@ -328,10 +328,43 @@
         .wordmark { display: grid; flex: 0 0 auto; place-items: center; min-width: 150px; min-height: 58px; padding: 8px 14px; color: var(--navy); font-size: 17px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
         .wordmark small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
         .collaboration-disclaimer { margin-top: 16px !important; max-width: none !important; font-size: 10px; }
-        footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 60px 0; text-align: center; }
-        .footer-legal { margin-top: 14px; font-size: 12px; }
-        .footer-legal a { color: rgba(255,255,255,.6); text-decoration: underline; }
-        .footer-legal a:hover { color: var(--gold); }
+        /* Final CTA band */
+        .final-cta { position: relative; padding: 130px 0; text-align: center; overflow: hidden; }
+        .final-cta-bg { position: absolute; inset: 0; background-image: url('/assets/images/cta-team-meeting.jpg'); background-size: cover; background-position: center; }
+        .final-cta-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,15,31,.82) 0%, rgba(10,22,40,.9) 100%); }
+        .final-cta .container { position: relative; z-index: 2; }
+        .final-cta h2 { color: var(--white); font-size: clamp(32px, 5vw, 54px); margin-bottom: 22px; }
+        .final-cta-divider { width: 64px; height: 3px; background: var(--gold); margin: 0 auto 28px; border-radius: 2px; }
+        .final-cta p { color: rgba(255,255,255,.8); font-size: 18px; max-width: 560px; margin: 0 auto 36px; line-height: 1.6; }
+        /* Footer */
+        footer.site-footer { background: var(--navy); color: rgba(255,255,255,.7); padding: 72px 0 0; text-align: left; }
+        .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.12); }
+        .footer-newsletter h3 { color: var(--white); font-size: 20px; margin-bottom: 10px; }
+        .footer-newsletter > p { color: rgba(255,255,255,.6); font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+        .footer-newsletter form { display: flex; gap: 10px; max-width: 420px; }
+        .footer-newsletter input[type="email"] { flex: 1; min-width: 0; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); color: var(--white); font-family: var(--font-main); font-size: 14px; }
+        .footer-newsletter input[type="email"]::placeholder { color: rgba(255,255,255,.4); }
+        .footer-newsletter input[type="email"]:focus { outline: none; border-color: var(--gold); }
+        .footer-newsletter form button { padding: 14px 20px; border-radius: 10px; border: 1px solid var(--gold); background: transparent; color: var(--gold); font-family: var(--font-main); font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .footer-newsletter form button:hover { background: var(--gold); color: var(--navy); }
+        .footer-social { display: flex; gap: 10px; margin-top: 24px; }
+        .footer-social a { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; color: var(--white); text-decoration: none; transition: 0.2s; }
+        .footer-social a:hover { background: var(--gold); color: var(--navy); }
+        .footer-col h4 { color: rgba(255,255,255,.5); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px; font-weight: 800; }
+        .footer-col a, .footer-col button { display: block; width: 100%; text-align: left; padding: 0; border: 0; background: none; color: rgba(255,255,255,.72); text-decoration: none; font-family: inherit; font-size: 14px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
+        .footer-col a:hover, .footer-col button:hover { color: var(--gold); }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; flex-wrap: wrap; gap: 12px; font-size: 13px; color: rgba(255,255,255,.5); }
+        .footer-bottom a { color: rgba(255,255,255,.5); text-decoration: none; }
+        .footer-bottom a:hover { color: var(--white); }
+        .footer-legal { display: flex; gap: 10px; }
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+            .footer-newsletter { grid-column: 1 / -1; }
+        }
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+        }
         @media (max-width: 992px) {
             .stats-grid, .contact-grid, .db-card, .lc-row, .programs-grid { grid-template-columns: 1fr !important; flex-direction: column !important; text-align: center; }
             .lc-row::after { display: none; }
@@ -829,17 +862,59 @@
             <div id="connect-work" class="connect-panel" role="tabpanel" hidden></div>
         </div>
     </dialog>
-<footer class="site-footer">
+    <section class="final-cta">
+        <div class="final-cta-bg"></div>
+        <div class="final-cta-overlay"></div>
         <div class="container">
-            <p class="footer-copyright">
-                © 2026 DeepSync_EU — EU Grants & Innovation Strategy
-            </p>
-            <p class="footer-programs">
-                Supporting Horizon Europe | EIC | Erasmus+ | Digital Europe
-            </p>
-            <p class="footer-legal">
-                <a href="/privacy/">Privacy Policy</a> · <a href="#" onclick="event.preventDefault(); window.deepsyncOpenCookieSettings && window.deepsyncOpenCookieSettings();">Cookie settings</a>
-            </p>
+            <h2 class="reveal">How can we help you?</h2>
+            <div class="final-cta-divider"></div>
+            <p class="reveal">From first EU funding fit to a submission-ready proposal — tell us where you are today and we'll map the path from there.</p>
+            <button type="button" class="btn btn-gold connect-trigger" data-connect-tab="work">Get in touch with our experts</button>
+        </div>
+    </section>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for the weekly EU funding radar and policy analysis.</p>
+                    <form onsubmit="event.preventDefault(); const email = this.querySelector('[name=email]').value; window.location.href = 'mailto:sofia@deep-sync.eu?subject=' + encodeURIComponent('Newsletter subscription') + '&body=' + encodeURIComponent('Please subscribe this address to the DeepSync newsletter: ' + email);">
+                        <input type="email" name="email" placeholder="Your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                    <div class="footer-social">
+                        <a href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener noreferrer" aria-label="DeepSync on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <a href="#about">About</a>
+                    <a href="#evaluator">AI Evaluator</a>
+                    <a href="#services">Expert Support</a>
+                    <a href="#database">Funding Radar</a>
+                    <button type="button" class="connect-trigger" data-connect-tab="partnerships">Partnerships</button>
+                    <button type="button" class="connect-trigger" data-connect-tab="work">Work with us</button>
+                </div>
+                <div class="footer-col">
+                    <h4>Programmes</h4>
+                    <a href="https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en" target="_blank" rel="noopener noreferrer">Horizon Europe</a>
+                    <a href="https://eic.ec.europa.eu/index_en" target="_blank" rel="noopener noreferrer">EIC</a>
+                    <a href="https://digital-strategy.ec.europa.eu/en/activities/digital-programme" target="_blank" rel="noopener noreferrer">Digital Europe</a>
+                    <a href="https://eit.europa.eu/" target="_blank" rel="noopener noreferrer">EIT</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <a href="mailto:sofia@deep-sync.eu">sofia@deep-sync.eu</a>
+                    <a href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2026 DeepSync_EU — EU Grants &amp; Innovation Strategy · Supporting Horizon Europe | EIC | Erasmus+ | Digital Europe</p>
+                <p class="footer-legal">
+                    <a href="/privacy/">Privacy Policy</a>
+                    <a href="#" onclick="event.preventDefault(); window.deepsyncOpenCookieSettings && window.deepsyncOpenCookieSettings();">Cookie settings</a>
+                </p>
+            </div>
         </div>
     </footer>
     <script>
