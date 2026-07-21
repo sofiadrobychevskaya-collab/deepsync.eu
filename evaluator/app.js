@@ -569,7 +569,8 @@ function assessCallRequirements(proposalText, requirements) {
       if (start > 0) evidence = `…${evidence}`;
       if (end < proposalText.length) evidence = `${evidence}…`;
     }
-    return { ...requirement, keywords, matched, status, covered: status === "covered", evidence };
+    const unmatched = keywords.filter(keyword => !matched.includes(keyword));
+    return { ...requirement, keywords, matched, unmatched, status, covered: status === "covered", commitmentSignal, requiredNumbers, numberEvidence, evidence };
   });
 }
 
@@ -656,6 +657,21 @@ async function fetchCallIntelligence(input) {
   };
 }
 
+function callGapRecommendation(requirement) {
+  if (requirement.status === "missing") {
+    return requirement.unmatched.length
+      ? `Your proposal has no passage addressing this requirement — it doesn't mention ${requirement.unmatched.slice(0, 5).join(", ")}. Add a paragraph that names the activity, the responsible partner and how you'll evidence it.`
+      : "Your proposal has no passage addressing this requirement. Add a paragraph that names the activity, the responsible partner and how you'll evidence it.";
+  }
+  const gaps = [];
+  if (requirement.unmatched.length) gaps.push(`it doesn't mention ${requirement.unmatched.slice(0, 5).join(", ")}`);
+  if (!requirement.commitmentSignal) gaps.push("it describes the topic without committing to who does it or when");
+  if (!requirement.numberEvidence && requirement.requiredNumbers.length) gaps.push(`it doesn't restate the figure${requirement.requiredNumbers.length > 1 ? "s" : ""} the call specifies (${requirement.requiredNumbers.join(", ")})`);
+  return gaps.length
+    ? `Your text touches this requirement, but ${gaps.join("; and ")}.`
+    : "Your text touches this requirement but the match is thin — strengthen it with a concrete owner, timing and evidence.";
+}
+
 function applyCallAssessment(analysis, proposalText, callData) {
   if (!callData) return;
   callData.coverage = assessCallRequirements(proposalText, callData.requirements);
@@ -668,16 +684,15 @@ function applyCallAssessment(analysis, proposalText, callData) {
   }
   const missing = callData.coverage.filter(item => item.status !== "covered");
   missing.slice(0, 3).forEach((requirement, index) => {
-    const direction = callFitFeedback(requirement);
     analysis.findings.unshift({
       id: `call-gap-${index}`,
       criterion: firstCriterion,
       kind: "priority",
       severity: .2,
-      title: compactText(`${requirement.status === "partial" ? "Partially addressed" : "Not addressed"}: ${explainRequirementSimply(requirement.text)}`, 110),
+      title: compactText(`${requirement.status === "partial" ? "Partially addressed" : "Not addressed"}: ${requirement.text}`, 100),
       location: `Funding Portal · ${callData.identifier}`,
       explanation: requirement.text,
-      recommendation: requirement.matched.length ? `${direction} (Terms detected in your text: ${requirement.matched.join(", ")}.)` : direction
+      recommendation: callGapRecommendation(requirement)
     });
   });
 }
