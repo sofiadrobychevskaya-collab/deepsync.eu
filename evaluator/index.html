@@ -1,14 +1,22 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SJ5S5XWG7V"></script>
+  <!-- Google tag (gtag.js) — only loaded after cookie consent, see widget/deepsync-cookie-consent.js -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-SJ5S5XWG7V');
+    window.deepsyncLoadAnalytics = function () {
+      if (window.__deepsyncGaLoaded) return;
+      window.__deepsyncGaLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SJ5S5XWG7V';
+      document.head.appendChild(s);
+      gtag('js', new Date());
+      gtag('config', 'G-SJ5S5XWG7V');
+    };
   </script>
+  <script src="/widget/deepsync-cookie-consent.js" defer></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="DeepSync EU proposal readiness evaluator beta">
@@ -124,7 +132,7 @@
           </div>
           <label class="consent-check" for="email-consent">
             <input id="email-consent" type="checkbox" required>
-            <span>I agree that DeepSync may store my email and contact me about this diagnostic. Proposal content is not submitted.</span>
+            <span>I agree that DeepSync may store my email and contact me about this diagnostic, per the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a>. Proposal content is not submitted.</span>
           </label>
           <label class="consent-check consortium-option" for="consortium-interest">
             <input id="consortium-interest" type="checkbox">
