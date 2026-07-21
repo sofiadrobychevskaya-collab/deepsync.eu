@@ -149,6 +149,13 @@
         .nav-links .nav-cta { margin-left: 8px; padding: 12px 18px; border: 1px solid var(--navy); background: var(--navy); color: white; opacity: 1; }
         .nav-links .nav-cta:hover { background: transparent; color: var(--navy); transform: translateY(-1px); }
         .mobile-nav-cta { display: none; padding: 10px 13px; border: 1px solid var(--navy); border-radius: 10px; color: var(--navy); font-size: 12px; font-weight: 750; text-decoration: none; }
+        .mobile-nav-actions { display: none; align-items: center; gap: 10px; }
+        .mobile-menu-toggle { display: none; flex-direction: column; justify-content: center; align-items: center; gap: 4px; width: 40px; height: 40px; flex: 0 0 auto; border: 1px solid var(--navy); border-radius: 10px; background: transparent; cursor: pointer; }
+        .mobile-menu-toggle span { width: 18px; height: 2px; background: var(--navy); border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+        .mobile-menu-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .mobile-menu-toggle.open span:nth-child(2) { opacity: 0; }
+        .mobile-menu-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+        .mobile-menu { display: none; }
         /* Hero */
         .hero { background: linear-gradient(180deg, #030f1f 0%, #063056 45%, #0a4d7a 100%); color: var(--white); padding: 120px 0 160px; position: relative; overflow: hidden; }
         .hero-content { position: relative; z-index: 2; max-width: 1040px; }
@@ -325,7 +332,13 @@
             .lc-step { padding: 0 0 30px 0; }
             .lc-step::before { left: 50%; margin-left: -6px; top: -15px; }
             .nav-links { display: none; }
+            .mobile-nav-actions { display: flex; }
+            .mobile-menu-toggle { display: flex; }
             .mobile-nav-cta { display: inline-flex; }
+            .mobile-menu[hidden] { display: none; }
+            .mobile-menu { display: flex; flex-direction: column; gap: 2px; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid rgba(15,31,55,.08); padding: 8px 20px 18px; box-shadow: 0 20px 40px rgba(15,31,55,.12); }
+            .mobile-menu a, .mobile-menu button { display: block; width: 100%; text-align: left; padding: 13px 4px; border: 0; border-bottom: 1px solid rgba(15,31,55,.06); background: transparent; color: var(--text); font-family: inherit; font-weight: 700; font-size: 15px; text-decoration: none; cursor: pointer; }
+            .mobile-menu .connect-trigger[data-connect-tab="work"] { color: var(--navy); border-bottom: 0; }
             .program-card { flex-direction: column; text-align: center; }
             .founder-header { justify-content: center; text-align: left; }
             .bridge-paths { grid-template-columns: 1fr; text-align: left; }
@@ -365,7 +378,20 @@
                 <button type="button" class="connect-trigger" data-connect-tab="partnerships">Partnerships</button>
                 <button type="button" class="nav-cta connect-trigger" data-connect-tab="work">Work with us</button>
             </div>
-            <a href="#evaluator" class="mobile-nav-cta">AI Evaluator</a>
+            <div class="mobile-nav-actions">
+                <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <a href="#evaluator" class="mobile-nav-cta">AI Evaluator</a>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu" hidden>
+            <a href="#about">About</a>
+            <a href="#evaluator">AI Evaluator</a>
+            <a href="#services">Expert Support</a>
+            <a href="#database">Funding Radar</a>
+            <button type="button" class="connect-trigger" data-connect-tab="partnerships">Partnerships</button>
+            <button type="button" class="connect-trigger" data-connect-tab="work">Work with us</button>
         </div>
     </nav>
     <header class="hero">
@@ -836,6 +862,23 @@
             connectDialog.querySelectorAll('.connect-tab').forEach(tab => {
                 tab.setAttribute('aria-selected', String(tab.dataset.connectTab === tabName));
             });
+        }
+
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuToggle && mobileMenu) {
+            const closeMobileMenu = () => {
+                mobileMenu.hidden = true;
+                mobileMenuToggle.classList.remove('open');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            };
+            mobileMenuToggle.addEventListener('click', () => {
+                const opening = mobileMenu.hidden;
+                mobileMenu.hidden = !opening;
+                mobileMenuToggle.classList.toggle('open', opening);
+                mobileMenuToggle.setAttribute('aria-expanded', String(opening));
+            });
+            mobileMenu.querySelectorAll('a, button').forEach(el => el.addEventListener('click', closeMobileMenu));
         }
 
         document.querySelectorAll('.connect-trigger').forEach(trigger => {
