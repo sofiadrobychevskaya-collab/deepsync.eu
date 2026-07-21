@@ -454,7 +454,30 @@ function detectProgramme(text) {
   return null;
 }
 
-function evidenceGapFinding(criterion) {
+function criterionSectionHeading(criterion) {
+  return {
+    Relevance: /\b1\.?\s*Relevance\b/i,
+    Excellence: /\b1\.?\s*Excellence\b/i,
+    Impact: /\b2\.?\s*Impact\b/i,
+    Implementation: /\b3\.?\s*(Quality and efficiency of the implementation|Implementation)\b/i,
+    "Risk & implementation": /\b3\.?\s*(Implementation|Risk)\b/i
+  }[criterion] || null;
+}
+
+function criterionEvidenceSignal(text, criterion) {
+  const headingRegex = criterionSectionHeading(criterion);
+  const match = headingRegex ? text.match(headingRegex) : null;
+  if (!match) return { headingFound: false, words: 0, quantified: 0, commitment: 0 };
+  const rest = text.slice(match.index);
+  const nextHeadingOffset = rest.slice(30).search(/\n\s*[1-4]\.?\s*(Excellence|Impact|Implementation|Relevance|Quality and efficiency)\b/i);
+  const section = nextHeadingOffset > -1 ? rest.slice(0, nextHeadingOffset + 30) : rest.slice(0, 6000);
+  const words = section.trim().split(/\s+/).filter(Boolean).length;
+  const quantified = (section.match(/\b\d+(?:[.,]\d+)?\s?%|€\s?\d[\d,.]*|\bKPI\b/gi) || []).length;
+  const commitment = (section.match(/\b(will|shall|responsible|owner|milestone|deliverable|baseline|target)\b/gi) || []).length;
+  return { headingFound: true, words, quantified, commitment };
+}
+
+function evidenceGapFinding(criterion, text) {
   const guidance = {
     Relevance: "Add an explicit call-requirement matrix linking each expected outcome to activities, deliverables, target groups and measurable evidence.",
     Excellence: "Make the ambition, state of the art, methodology, assumptions and validation evidence explicit and easy for an evaluator to trace.",
@@ -462,14 +485,30 @@ function evidenceGapFinding(criterion) {
     Implementation: "Make work-package dependencies, task ownership, resources, milestones, risks and acceptance criteria explicit.",
     "Risk & implementation": "Provide technical, commercial and execution risks with evidence, owners, triggers, mitigations, resources and decision gates."
   };
+  const signal = criterionEvidenceSignal(text, criterion);
+  let explanation;
+  let score;
+  if (!signal.headingFound) {
+    explanation = `No "${criterion}" section heading was found anywhere in the extracted text. This criterion may be missing, merged into another section, or not extracted from the uploaded file.`;
+    score = 2.8;
+  } else if (!signal.quantified && !signal.commitment) {
+    explanation = `A "${criterion}" section is present (~${signal.words} words), but it contains no quantified figures (%, €, KPI) and no ownership language (will/shall/responsible/milestone) — it reads as description rather than a committed plan.`;
+    score = 3.0;
+  } else {
+    explanation = `A "${criterion}" section is present (~${signal.words} words) with ${signal.quantified} quantified reference${signal.quantified === 1 ? "" : "s"} and ${signal.commitment} ownership/commitment phrase${signal.commitment === 1 ? "" : "s"}, but it didn't match any of the analyser's known evaluator patterns. That means no specific issue was detected — not that the section is strong.`;
+    score = 3.4;
+  }
   return {
-    criterion,
-    kind: "priority",
-    severity: 0,
-    title: `Insufficient evidence detected for ${criterion}`,
-    location: "Document coverage check",
-    explanation: `The parser did not find enough criterion-specific evidence to justify a high ${criterion} score. This may mean the section is missing, too implicit, image-based, or was not extracted from the uploaded file.`,
-    recommendation: guidance[criterion] || "Make the criterion evidence explicit and upload a complete text-searchable proposal."
+    score,
+    finding: {
+      criterion,
+      kind: "priority",
+      severity: 0,
+      title: signal.headingFound ? `No specific pattern matched in ${criterion}` : `${criterion} section could not be located`,
+      location: "Document coverage check",
+      explanation,
+      recommendation: guidance[criterion] || "Make the criterion evidence explicit and upload a complete text-searchable proposal."
+    }
   };
 }
 
@@ -491,7 +530,7 @@ const domainTerms = [
   ["climate", /climate|decarbon|greenhouse gas/i], ["manufacturing", /manufactur|factory|industrial production/i]
 ];
 
-const callStopWords = new Set("about above across after also among based been being between both call could each expected from further have into more must other outcomes proposal proposals project projects should such than that their these they this those through under using where which will with within would".split(" "));
+const callStopWords = new Set("about above across after also among based been being between both call could each expected from further have into more must other outcomes proposal proposals project projects should such than that their these they this those through under using where which will with within would along become becomes become available provide provides providing provided support supports supporting supported process processes quality utilizing utilise utilide utilize inclusive tailored needs need ensure ensuring ensures relevant relevance wide wider range various several including include includes related appropriate effective effectively efficient efficiently comprehensive robust innovative innovation innovations activities activity results result outcome output outputs level levels towards toward solutions solution stakeholders stakeholder".split(" "));
 
 function extractTopicIdentifier(value) {
   const decoded = decodeURIComponent(String(value || ""));
@@ -569,7 +608,8 @@ function assessCallRequirements(proposalText, requirements) {
       if (start > 0) evidence = `…${evidence}`;
       if (end < proposalText.length) evidence = `${evidence}…`;
     }
-    return { ...requirement, keywords, matched, status, covered: status === "covered", evidence };
+    const unmatched = keywords.filter(keyword => !matched.includes(keyword));
+    return { ...requirement, keywords, matched, unmatched, status, covered: status === "covered", commitmentSignal, requiredNumbers, numberEvidence, evidence };
   });
 }
 
@@ -656,6 +696,21 @@ async function fetchCallIntelligence(input) {
   };
 }
 
+function callGapRecommendation(requirement) {
+  if (requirement.status === "missing") {
+    return requirement.unmatched.length
+      ? `Your proposal has no passage addressing this requirement — it doesn't mention ${requirement.unmatched.slice(0, 5).join(", ")}. Add a paragraph that names the activity, the responsible partner and how you'll evidence it.`
+      : "Your proposal has no passage addressing this requirement. Add a paragraph that names the activity, the responsible partner and how you'll evidence it.";
+  }
+  const gaps = [];
+  if (requirement.unmatched.length) gaps.push(`it doesn't mention ${requirement.unmatched.slice(0, 5).join(", ")}`);
+  if (!requirement.commitmentSignal) gaps.push("it describes the topic without committing to who does it or when");
+  if (!requirement.numberEvidence && requirement.requiredNumbers.length) gaps.push(`it doesn't restate the figure${requirement.requiredNumbers.length > 1 ? "s" : ""} the call specifies (${requirement.requiredNumbers.join(", ")})`);
+  return gaps.length
+    ? `Your text touches this requirement, but ${gaps.join("; and ")}.`
+    : "Your text touches this requirement but the match is thin — strengthen it with a concrete owner, timing and evidence.";
+}
+
 function applyCallAssessment(analysis, proposalText, callData) {
   if (!callData) return;
   callData.coverage = assessCallRequirements(proposalText, callData.requirements);
@@ -668,16 +723,15 @@ function applyCallAssessment(analysis, proposalText, callData) {
   }
   const missing = callData.coverage.filter(item => item.status !== "covered");
   missing.slice(0, 3).forEach((requirement, index) => {
-    const direction = callFitFeedback(requirement);
     analysis.findings.unshift({
       id: `call-gap-${index}`,
       criterion: firstCriterion,
       kind: "priority",
       severity: .2,
-      title: compactText(`${requirement.status === "partial" ? "Partially addressed" : "Not addressed"}: ${explainRequirementSimply(requirement.text)}`, 110),
+      title: compactText(`${requirement.status === "partial" ? "Partially addressed" : "Not addressed"}: ${requirement.text}`, 100),
       location: `Funding Portal · ${callData.identifier}`,
       explanation: requirement.text,
-      recommendation: requirement.matched.length ? `${direction} (Terms detected in your text: ${requirement.matched.join(", ")}.)` : direction
+      recommendation: callGapRecommendation(requirement)
     });
   });
 }
@@ -1021,8 +1075,9 @@ function analyseText(text, programme, pages, esrBenchmarks = null) {
   criteria.forEach(criterion => {
     const criterionFindings = findings.filter(f => f.criterion === criterion);
     if (!criterionFindings.length) {
-      findings.push(evidenceGapFinding(criterion));
-      scores[criterion] = 3.0;
+      const gap = evidenceGapFinding(criterion, text);
+      findings.push(gap.finding);
+      scores[criterion] = lowCoverage ? Math.min(3.0, gap.score) : gap.score;
       return;
     }
     const penalties = criterionFindings.filter(f => f.kind !== "strength").reduce((sum, f) => sum + f.severity, 0);
