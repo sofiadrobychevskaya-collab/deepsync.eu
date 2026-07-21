@@ -7,7 +7,7 @@
     style.id = "deepsync-cookie-consent-style";
     style.textContent = `
       .deepsync-cookie-banner { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9999; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; max-width: 900px; margin: 0 auto; padding: 18px 22px; border-radius: 16px; background: var(--navy, #0A1628); color: #fff; box-shadow: 0 20px 50px rgba(3,15,31,.35); font-family: var(--font-main, 'Manrope', sans-serif); }
-      .deepsync-cookie-banner p { flex: 1 1 320px; margin: 0; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.82); }
+      .deepsync-cookie-banner p { flex: 1 1 auto; min-width: 260px; margin: 0; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.82); }
       .deepsync-cookie-banner a { color: var(--gold, #FFCC00); text-decoration: underline; }
       .deepsync-cookie-actions { display: flex; flex: 0 0 auto; gap: 10px; }
       .deepsync-cookie-actions button { padding: 10px 16px; border-radius: 10px; border: 1px solid transparent; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
