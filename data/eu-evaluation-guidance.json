@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-07-22T00:00:00.000Z",
+  "source_note": "Verbatim excerpts from the official EU Grants Standard Evaluation Form (Horizon Europe RIA/IA), version 4.0, published 12 November 2025 — the actual rubric evaluators score against. Only the short official criteria definitions and scoring scale are reproduced here (not the full administrative form), to ground the evaluator's AI review in the real, current rubric rather than a paraphrase.",
+  "form_version": "4.0",
+  "form_published": "2025-11-12",
+  "form_source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-ria-ia_en.pdf",
+  "scoring_scale": {
+    "range": "0-5, half-marks allowed",
+    "levels": [
+      { "score": 0, "meaning": "The proposal fails to address the criterion or cannot be assessed due to missing or incomplete information." },
+      { "score": 1, "meaning": "Poor. The criterion is inadequately addressed, or there are serious inherent weaknesses." },
+      { "score": 2, "meaning": "Fair. The proposal broadly addresses the criterion, but there are significant weaknesses." },
+      { "score": 3, "meaning": "Good. The proposal addresses the criterion well, but a number of shortcomings are present." },
+      { "score": 4, "meaning": "Very Good. The proposal addresses the criterion very well, but a small number of shortcomings are present." },
+      { "score": 5, "meaning": "Excellent. The proposal successfully addresses all relevant aspects of the criterion. Any shortcomings are minor." }
+    ],
+    "individual_threshold": 3,
+    "overall_threshold": 10,
+    "overall_max": 15,
+    "note": "Specific calls/topics may set different thresholds or weighting; this is the standard rule."
+  },
+  "criteria": {
+    "Excellence": {
+      "aspects": [
+        "Clarity and pertinence of the project's objectives, and the extent to which the proposed work is ambitious, and goes beyond the state of the art.",
+        "Soundness of the proposed methodology, including the underlying concepts, models, assumptions, inter-disciplinary approaches, appropriate consideration of the gender dimension in research and innovation content, and the quality of open science practices, including sharing and management of research outputs and engagement of citizens, civil society and end users where appropriate."
+      ]
+    },
+    "Impact": {
+      "aspects": [
+        "Credibility of the pathways to achieve the expected outcomes and impacts specified in the work programme.",
+        "Suitability and quality of the measures to maximise expected outcomes and impacts, as set out in the dissemination and exploitation plan, including communication activities."
+      ]
+    },
+    "Implementation": {
+      "label": "Quality and efficiency of the implementation",
+      "aspects": [
+        "Quality and effectiveness of the work plan, assessment of risks, and appropriateness of the effort assigned to work packages, and the resources overall.",
+        "Capacity and role of each participant, and the extent to which the consortium as a whole brings together the necessary expertise."
+      ]
+    }
+  },
+  "reference_documents": [
+    { "title": "Standard Evaluator Briefing (incl. Lump Sum guidance, slides 64–80)", "summary": "Official briefing given to Horizon Europe expert evaluators before scoring.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/experts/standard-briefing-slides-for-experts_he_en.pdf" },
+    { "title": "Standard Evaluation Form — CSA (v4.0)", "summary": "The equivalent evaluation-form template for Coordination and Support Actions.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-csa_en.pdf" },
+    { "title": "General Annexes (Horizon Europe Work Programme 2025)", "summary": "Cross-cutting eligibility, admissibility, evaluation and award rules that apply across Horizon Europe calls.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/wp-call/2025/wp-14-general-annexes_horizon-2025_en.pdf" },
+    { "title": "Horizon Europe Programme Guide", "summary": "The Commission's consolidated guidance for applicants and beneficiaries.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/programme-guide_horizon_en.pdf" },
+    { "title": "Proposal Template — RIA/IA Application Form (Part B)", "summary": "Official application-form template; equivalent templates for other action types live in the same portal folder.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/af/af_he-ria-ia_en.pdf" },
+    { "title": "Ethics Self-Assessment Guidance", "summary": "How to complete the ethics self-assessment (human subjects research, data protection, other sensitive areas) and the mitigation measures expected.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/common/guidance/how-to-complete-your-ethics-self-assessment_en.pdf" },
+    { "title": "Open Science Guidance for Horizon Europe", "summary": "EC IP Helpdesk guide on integrating open science principles — transparency, accessibility, data sharing — into a proposal, referenced under the Excellence criterion.", "source_url": "https://intellectual-property-helpdesk.ec.europa.eu/ip-management-and-resources/publications/your-guide-open-science-horizon-europe_en" },
+    { "title": "Gender Dimension / Inclusive Gender Analysis Framework", "summary": "Framework for integrating the gender dimension into research content from an intersectional perspective, referenced under the Excellence criterion's methodology aspect.", "source_url": "https://european-research-area.ec.europa.eu/node/15427" }
+  ]
+}
