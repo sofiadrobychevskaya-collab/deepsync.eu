@@ -2,6 +2,7 @@ let pdfjsPromise;
 let mammothPromise;
 let esrBenchmarksPromise;
 let policyLibraryPromise;
+let evaluationGuidancePromise;
 let lastProposalText = "";
 const leadEndpoint = "https://script.google.com/macros/s/AKfycbxk1JF4WnWba_hvRKOd8vVM2DiKyl41F8_CQ3QskC2T93vtES2PUkQAICJeGfdq2xDo/exec";
 // Set this after deploying scripts/deep-ai-check.gs as a Google Apps Script Web App (see that file for setup steps).
@@ -47,6 +48,15 @@ async function getPolicyLibrary() {
       .catch(() => null);
   }
   return policyLibraryPromise;
+}
+
+async function getEvaluationGuidance() {
+  if (!evaluationGuidancePromise) {
+    evaluationGuidancePromise = fetch("/data/eu-evaluation-guidance.json")
+      .then(response => response.ok ? response.json() : null)
+      .catch(() => null);
+  }
+  return evaluationGuidancePromise;
 }
 
 const els = {
@@ -1372,7 +1382,7 @@ async function runDeepCheck() {
   els.runDeepCheck.textContent = "Analysing…";
   els.deepCheckStatus.textContent = "Sending your Impact section and matched EU policy references for review…";
   try {
-    const library = await getPolicyLibrary();
+    const [library, guidance] = await Promise.all([getPolicyLibrary(), getEvaluationGuidance()]);
     const policies = relevantPolicies(library, impactText);
     const payload = {
       proposalText: impactText,
@@ -1384,7 +1394,13 @@ async function runDeepCheck() {
           scope: currentAnalysis.callData.scope,
           destination: currentAnalysis.callData.destination
         } : { note: "No official call was linked to this analysis — review is based on the Impact text and EU policy references only." },
-        policies: policies.map(policy => ({ title: policy.title, summary: policy.summary, source_url: policy.source_url }))
+        policies: policies.map(policy => ({ title: policy.title, summary: policy.summary, source_url: policy.source_url })),
+        officialImpactCriterion: guidance ? {
+          formVersion: guidance.form_version,
+          formPublished: guidance.form_published,
+          aspects: guidance.criteria?.Impact?.aspects || [],
+          scoringScale: guidance.scoring_scale
+        } : null
       }
     };
     const response = await fetch(deepCheckEndpoint, {
@@ -1408,13 +1424,15 @@ function renderDeepCheckResult(data) {
   els.deepCheckResult.hidden = false;
   const matched = Array.isArray(data.matched_policies) ? data.matched_policies : [];
   const gaps = Array.isArray(data.gaps) ? data.gaps : [];
+  const hasScore = typeof data.indicative_score === "number";
   els.deepCheckResult.innerHTML = `
+    ${hasScore ? `<h4>Indicative score (official 0-5 scale)</h4><p><strong>${escapeHtml(data.indicative_score)}/5</strong> — ${escapeHtml(data.score_reasoning || "")}</p>` : ""}
     <h4>Alignment summary</h4>
     <p>${escapeHtml(data.alignment_summary || "No summary returned.")}</p>
     ${matched.length ? `<ul class="dc-policy-list">${matched.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
-    ${gaps.length ? `<h4>Gaps to address</h4><ul>${gaps.map(gap => `<li><strong>${escapeHtml(gap.issue || "")}</strong> — ${escapeHtml(gap.why_it_matters || "")} <em>Fix:</em> ${escapeHtml(gap.fix || "")}</li>`).join("")}</ul>` : ""}
+    ${gaps.length ? `<h4>Gaps to address</h4><ul>${gaps.map(gap => `<li>${gap.aspect ? `<em>${escapeHtml(gap.aspect)}</em> — ` : ""}<strong>${escapeHtml(gap.issue || "")}</strong> — ${escapeHtml(gap.why_it_matters || "")} <em>Fix:</em> ${escapeHtml(gap.fix || "")}</li>`).join("")}</ul>` : ""}
     ${data.missing_quantified_targets ? `<p class="dc-note">No quantified targets were detected in this section.</p>` : ""}
-    <p class="dc-note">${escapeHtml(data.overall_note || "This is a diagnostic aid, not a guaranteed score.")}</p>
+    <p class="dc-note">${escapeHtml(data.overall_note || "This is a diagnostic aid using the real evaluation rubric, not a guaranteed score.")}</p>
   `;
 }
 

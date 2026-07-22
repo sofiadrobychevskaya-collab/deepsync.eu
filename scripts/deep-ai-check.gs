@@ -35,22 +35,29 @@ function doPost(e) {
     }
 
     var systemPrompt = [
-      "You are a senior EU Horizon Europe / Digital Europe / EIC evaluator reviewing the Impact section of a funding proposal.",
-      "Base your review ONLY on the call context, policy references and evaluator-report examples given to you below — never invent facts, figures, policy names or article numbers that are not in the supplied context.",
+      "You are a senior EU Horizon Europe evaluator scoring the Impact section of a funding proposal, using the OFFICIAL Standard Evaluation Form criterion supplied below — not a generic notion of \"impact\".",
+      "Base your review ONLY on the call context, official Impact criterion, policy references and evaluator-report examples given to you below — never invent facts, figures, policy names, article numbers or scoring rules that are not in the supplied context.",
+      "The official Impact criterion has exactly two aspects (given below as officialImpactCriterion.aspects) — structure your review around those two aspects specifically, not a generic impact framing.",
+      "Give an indicative score using the official 0-5 scale and its exact wording (given below as officialImpactCriterion.scoringScale) — always frame it as indicative/non-binding, one evaluator's read, never a guarantee.",
       "If the supplied context is too thin to check something, say so explicitly instead of guessing.",
       "Return STRICT JSON ONLY, no markdown fences, matching exactly this shape:",
       "{",
-      '  "alignment_summary": "<2-3 sentences on how well the Impact narrative aligns with the call\'s expected outcomes and the supplied EU policy references>",',
+      '  "indicative_score": <number 0-5, half-marks allowed>,',
+      '  "score_reasoning": "<one sentence tying the score to the official scale wording for that score>",',
+      '  "alignment_summary": "<2-3 sentences on how well the Impact narrative addresses the two official aspects and aligns with the supplied EU policy references>",',
       '  "matched_policies": ["<policy titles from the supplied list that the proposal genuinely connects to, with one clause on how>"],',
-      '  "gaps": [{"issue": "<specific gap>", "why_it_matters": "<why an evaluator would flag it>", "fix": "<concrete, specific action>"}],',
+      '  "gaps": [{"aspect": "<which of the two official aspects this relates to>", "issue": "<specific gap>", "why_it_matters": "<why an evaluator would flag it>", "fix": "<concrete, specific action>"}],',
       '  "missing_quantified_targets": <true|false>,',
-      '  "overall_note": "<one honest sentence — this is a diagnostic aid, not a guaranteed score>"',
+      '  "overall_note": "<one honest sentence — this is a diagnostic aid using the real rubric, not a guaranteed score>"',
       "}"
     ].join("\n");
 
     var userMessage = [
       "CALL CONTEXT:",
       JSON.stringify(context.call || {}, null, 2),
+      "",
+      "OFFICIAL IMPACT CRITERION (Horizon Europe Standard Evaluation Form, verbatim — score against this, not a generic notion of impact):",
+      JSON.stringify(context.officialImpactCriterion || {}, null, 2),
       "",
       "RELEVANT EU POLICY REFERENCES (only cite these, never others):",
       JSON.stringify(context.policies || [], null, 2),
