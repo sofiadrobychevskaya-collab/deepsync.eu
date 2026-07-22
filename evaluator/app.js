@@ -515,7 +515,21 @@ function criterionEvidenceSignal(text, criterion) {
   return { headingFound: true, words, quantified, commitment };
 }
 
-function evidenceGapFinding(criterion, text) {
+const impactPathwayStages = [
+  { label: "Inputs", pattern: /\b(grant|budget|human resources|expertise|consortium)\b/i },
+  { label: "Project results", pattern: /\b(result|output|deliverable|prototype|demonstrat\w*)\b/i },
+  { label: "Dissemination & exploitation", pattern: /\b(dissemination|exploitation|communication)\b/i },
+  { label: "Contribution to the expected outcome", pattern: /\boutcome/i },
+  { label: "Contribution to the expected impact", pattern: /\bimpact\b/i }
+];
+
+function impactPathwayGaps(text) {
+  const section = extractCriterionText(text, "Impact");
+  if (!section) return null;
+  return impactPathwayStages.filter(stage => !stage.pattern.test(section)).map(stage => stage.label);
+}
+
+function evidenceGapFinding(criterion, text, evaluationGuidance) {
   const guidance = {
     Relevance: "Add an explicit call-requirement matrix linking each expected outcome to activities, deliverables, target groups and measurable evidence.",
     Excellence: "Make the ambition, state of the art, methodology, assumptions and validation evidence explicit and easy for an evaluator to trace.",
@@ -536,6 +550,17 @@ function evidenceGapFinding(criterion, text) {
     explanation = `A "${criterion}" section is present (~${signal.words} words) with ${signal.quantified} quantified reference${signal.quantified === 1 ? "" : "s"} and ${signal.commitment} ownership/commitment phrase${signal.commitment === 1 ? "" : "s"}, but it didn't match any of the analyser's known evaluator patterns. That means no specific issue was detected — not that the section is strong.`;
     score = 3.4;
   }
+  let recommendation = guidance[criterion] || "Make the criterion evidence explicit and upload a complete text-searchable proposal.";
+  const evaluatorQuestions = evaluationGuidance?.criteria?.[criterion]?.evaluator_questions;
+  if (signal.headingFound && evaluatorQuestions?.length) {
+    recommendation = `Per the official HE Evaluator Briefing, an evaluator checks: “${evaluatorQuestions[0]}” — address that directly, with specifics an evaluator can verify.`;
+  }
+  if (signal.headingFound && criterion === "Impact") {
+    const missingStages = impactPathwayGaps(text);
+    if (missingStages?.length) {
+      recommendation = `The official HE impact-pathway model expects inputs → results → dissemination/exploitation → contribution to outcome → contribution to impact. Your Impact section shows no clear language for: ${missingStages.join(", ")}.`;
+    }
+  }
   return {
     score,
     finding: {
@@ -545,7 +570,7 @@ function evidenceGapFinding(criterion, text) {
       title: signal.headingFound ? `No specific pattern matched in ${criterion}` : `${criterion} section could not be located`,
       location: "Document coverage check",
       explanation,
-      recommendation: guidance[criterion] || "Make the criterion evidence explicit and upload a complete text-searchable proposal."
+      recommendation
     }
   };
 }
@@ -592,6 +617,39 @@ function relevantPolicies(library, text) {
   });
   if (!tags.size) return [];
   return library.policies.filter(policy => policy.sector_tags.some(tag => tags.has(tag))).slice(0, 6);
+}
+
+function escapeRegex(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function policyAlignmentFindings(library, text) {
+  const matched = relevantPolicies(library, text);
+  if (!matched.length) return [];
+  const cited = matched.filter(policy => new RegExp(escapeRegex(policy.title), "i").test(text));
+  if (cited.length) {
+    return cited.slice(0, 2).map(policy => ({
+      id: `policy-cited-${policy.title}`,
+      criterion: "Impact",
+      kind: "strength",
+      severity: 0.12,
+      title: `Impact narrative names a relevant EU policy: ${policy.title}`,
+      location: locate(text, new RegExp(escapeRegex(policy.title), "i")),
+      explanation: `The document explicitly references "${policy.title}", which evaluators read as evidence that the impact pathway is grounded in the real EU policy context rather than a generic claim.`,
+      recommendation: `Keep the reference specific — show how the project's results feed into ${policy.title}, not just that it exists.`
+    }));
+  }
+  const top = matched[0];
+  return [{
+    id: `policy-gap-${top.title}`,
+    criterion: "Impact",
+    kind: "priority",
+    severity: 0.12,
+    title: `Impact narrative doesn't name a directly relevant EU policy`,
+    location: "Impact section",
+    explanation: `The proposal's domain matches "${top.title}" (${top.summary}), but the document doesn't name it. Evaluators read explicit policy alignment as stronger evidence for the credibility of the impact pathway than an implied connection.`,
+    recommendation: `Name "${top.title}" explicitly and state how the project's results contribute to it. Source: ${top.source_url}`
+  }];
 }
 
 const callStopWords = new Set("about above across after also among based been being between both call could each expected from further have into more must other outcomes proposal proposals project projects should such than that their these they this those through under using where which will with within would along become becomes become available provide provides providing provided support supports supporting supported process processes quality utilizing utilise utilide utilize inclusive tailored needs need ensure ensuring ensures relevant relevance wide wider range various several including include includes related appropriate effective effectively efficient efficiently comprehensive robust innovative innovation innovations activities activity results result outcome output outputs level levels towards toward solutions solution stakeholders stakeholder".split(" "));
@@ -1113,7 +1171,7 @@ async function searchCordis() {
   }
 }
 
-function analyseText(text, programme, pages, esrBenchmarks = null) {
+function analyseText(text, programme, pages, esrBenchmarks = null, policyLibrary = null, evaluationGuidance = null) {
   const findings = patterns.filter(pattern => pattern.test(text)).map(pattern => ({
     ...pattern,
     criterion: programme === "digital" && pattern.criterion === "Excellence"
@@ -1123,6 +1181,7 @@ function analyseText(text, programme, pages, esrBenchmarks = null) {
         : pattern.criterion,
     location: pattern.location(text)
   }));
+  findings.push(...policyAlignmentFindings(policyLibrary, text));
   const criteria = programme === "digital"
     ? ["Relevance", "Implementation", "Impact"]
     : programme === "eic"
@@ -1144,7 +1203,7 @@ function analyseText(text, programme, pages, esrBenchmarks = null) {
   criteria.forEach(criterion => {
     const criterionFindings = findings.filter(f => f.criterion === criterion);
     if (!criterionFindings.length) {
-      const gap = evidenceGapFinding(criterion, text);
+      const gap = evidenceGapFinding(criterion, text, evaluationGuidance);
       findings.push(gap.finding);
       scores[criterion] = lowCoverage ? Math.min(3.0, gap.score) : gap.score;
       return;
@@ -1203,8 +1262,8 @@ async function runFileAnalysis(event) {
     }
     programme = programmeFromCall(callData, programme);
     document.querySelector("#programme").value = programme;
-    const esrBenchmarks = await getEsrBenchmarks();
-    const analysis = analyseText(text, programme, pages, esrBenchmarks);
+    const [esrBenchmarks, policyLibrary, evaluationGuidance] = await Promise.all([getEsrBenchmarks(), getPolicyLibrary(), getEvaluationGuidance()]);
+    const analysis = analyseText(text, programme, pages, esrBenchmarks, policyLibrary, evaluationGuidance);
     const callId = extractTopicIdentifier(callInput) || callInput;
     const programmeLabel = programmeName(programme);
     analysis.meta = `${programmeLabel}${callId ? ` · ${callId}` : ""} · ${pages ? `${pages} pages` : "DOCX"}`;
