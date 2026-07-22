@@ -1,7 +1,11 @@
 let pdfjsPromise;
 let mammothPromise;
 let esrBenchmarksPromise;
+let policyLibraryPromise;
+let lastProposalText = "";
 const leadEndpoint = "https://script.google.com/macros/s/AKfycbxk1JF4WnWba_hvRKOd8vVM2DiKyl41F8_CQ3QskC2T93vtES2PUkQAICJeGfdq2xDo/exec";
+// Set this after deploying scripts/deep-ai-check.gs as a Google Apps Script Web App (see that file for setup steps).
+const deepCheckEndpoint = "";
 
 async function getPdfjs() {
   if (!pdfjsPromise) {
@@ -34,6 +38,15 @@ async function getEsrBenchmarks() {
       .catch(() => null);
   }
   return esrBenchmarksPromise;
+}
+
+async function getPolicyLibrary() {
+  if (!policyLibraryPromise) {
+    policyLibraryPromise = fetch("/data/eu-policy-library.json")
+      .then(response => response.ok ? response.json() : null)
+      .catch(() => null);
+  }
+  return policyLibraryPromise;
 }
 
 const els = {
@@ -76,6 +89,10 @@ const els = {
   criterionGateScores: document.querySelector("#criterion-gate-scores"),
   unlockReport: document.querySelector("#unlock-report"),
   detailedResults: document.querySelector("#detailed-results"),
+  deepCheck: document.querySelector("#deep-check"),
+  runDeepCheck: document.querySelector("#run-deep-check"),
+  deepCheckStatus: document.querySelector("#deep-check-status"),
+  deepCheckResult: document.querySelector("#deep-check-result"),
   humanSupport: document.querySelector("#human-support"),
   recommendedSupportReason: document.querySelector("#recommended-support-reason"),
   recommendedServiceCard: document.querySelector("#recommended-service-card"),
@@ -464,13 +481,18 @@ function criterionSectionHeading(criterion) {
   }[criterion] || null;
 }
 
-function criterionEvidenceSignal(text, criterion) {
+function extractCriterionText(text, criterion) {
   const headingRegex = criterionSectionHeading(criterion);
   const match = headingRegex ? text.match(headingRegex) : null;
-  if (!match) return { headingFound: false, words: 0, quantified: 0, commitment: 0 };
+  if (!match) return "";
   const rest = text.slice(match.index);
   const nextHeadingOffset = rest.slice(30).search(/\n\s*[1-4]\.?\s*(Excellence|Impact|Implementation|Relevance|Quality and efficiency)\b/i);
-  const section = nextHeadingOffset > -1 ? rest.slice(0, nextHeadingOffset + 30) : rest.slice(0, 6000);
+  return nextHeadingOffset > -1 ? rest.slice(0, nextHeadingOffset + 30) : rest.slice(0, 9000);
+}
+
+function criterionEvidenceSignal(text, criterion) {
+  const section = extractCriterionText(text, criterion);
+  if (!section) return { headingFound: false, words: 0, quantified: 0, commitment: 0 };
   const words = section.trim().split(/\s+/).filter(Boolean).length;
   const quantified = (section.match(/\b\d+(?:[.,]\d+)?\s?%|€\s?\d[\d,.]*|\bKPI\b/gi) || []).length;
   const commitment = (section.match(/\b(will|shall|responsible|owner|milestone|deliverable|baseline|target)\b/gi) || []).length;
@@ -529,6 +551,32 @@ const domainTerms = [
   ["semiconductors", /semiconductor|microelectronics|chip/i], ["robotics", /robotic|automation/i],
   ["climate", /climate|decarbon|greenhouse gas/i], ["manufacturing", /manufactur|factory|industrial production/i]
 ];
+
+const policyDomainMap = {
+  "artificial intelligence": ["AI & Data"],
+  "generative AI": ["AI & Data"],
+  "education technology": ["EdTech", "Digital Skills"],
+  "digital skills": ["Digital Skills"],
+  "agriculture": ["AgriTech", "Green Tech"],
+  "health": ["Health & Life Sciences"],
+  "energy": ["Energy", "Green Tech"],
+  "circular economy": ["Green Tech"],
+  "cybersecurity": ["Online Safety", "Critical Tech"],
+  "semiconductors": ["Critical Tech"],
+  "robotics": ["DeepTech"],
+  "climate": ["Green Tech"],
+  "manufacturing": ["Critical Tech"]
+};
+
+function relevantPolicies(library, text) {
+  if (!library?.policies?.length) return [];
+  const tags = new Set();
+  domainTerms.forEach(([term, pattern]) => {
+    if (policyDomainMap[term] && pattern.test(text)) policyDomainMap[term].forEach(tag => tags.add(tag));
+  });
+  if (!tags.size) return [];
+  return library.policies.filter(policy => policy.sector_tags.some(tag => tags.has(tag))).slice(0, 6);
+}
 
 const callStopWords = new Set("about above across after also among based been being between both call could each expected from further have into more must other outcomes proposal proposals project projects should such than that their these they this those through under using where which will with within would along become becomes become available provide provides providing provided support supports supporting supported process processes quality utilizing utilise utilide utilize inclusive tailored needs need ensure ensuring ensures relevant relevance wide wider range various several including include includes related appropriate effective effectively efficient efficiently comprehensive robust innovative innovation innovations activities activity results result outcome output outputs level levels towards toward solutions solution stakeholders stakeholder".split(" "));
 
@@ -1122,6 +1170,7 @@ async function runFileAnalysis(event) {
   try {
     const isDocx = selectedFile.name.toLowerCase().endsWith(".docx");
     const { text, pages } = isDocx ? await extractDocx(selectedFile) : await extractPdf(selectedFile);
+    lastProposalText = text;
     updateLoading(72, "Checking objectives, KPIs, TRL and impact logic", "Applying evaluator patterns…");
     await pause(500);
     let programme = document.querySelector("#programme").value;
@@ -1213,6 +1262,7 @@ function renderResults(analysis) {
 function unlockDetailedResults() {
   els.emailGate.hidden = true;
   els.detailedResults.hidden = false;
+  els.deepCheck.hidden = !extractCriterionText(lastProposalText, "Impact");
   els.humanSupport.hidden = false;
   els.feedbackBar.hidden = false;
   els.printReport.disabled = false;
@@ -1305,6 +1355,69 @@ function escapeHtml(value) {
 
 function pause(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
+async function runDeepCheck() {
+  els.deepCheckStatus.hidden = false;
+  els.deepCheckResult.hidden = true;
+  if (!deepCheckEndpoint) {
+    els.deepCheckStatus.textContent = "This feature isn't connected yet — ask DeepSync to finish setup (see scripts/deep-ai-check.gs).";
+    return;
+  }
+  const impactText = extractCriterionText(lastProposalText, "Impact");
+  if (!impactText) {
+    els.deepCheckStatus.textContent = "No Impact section heading was found in this document.";
+    return;
+  }
+  const originalLabel = els.runDeepCheck.textContent;
+  els.runDeepCheck.disabled = true;
+  els.runDeepCheck.textContent = "Analysing…";
+  els.deepCheckStatus.textContent = "Sending your Impact section and matched EU policy references for review…";
+  try {
+    const library = await getPolicyLibrary();
+    const policies = relevantPolicies(library, impactText);
+    const payload = {
+      proposalText: impactText,
+      context: {
+        call: currentAnalysis?.callData ? {
+          identifier: currentAnalysis.callData.identifier,
+          title: currentAnalysis.callData.title,
+          expectedOutcome: currentAnalysis.callData.expectedOutcome,
+          scope: currentAnalysis.callData.scope,
+          destination: currentAnalysis.callData.destination
+        } : { note: "No official call was linked to this analysis — review is based on the Impact text and EU policy references only." },
+        policies: policies.map(policy => ({ title: policy.title, summary: policy.summary, source_url: policy.source_url }))
+      }
+    };
+    const response = await fetch(deepCheckEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json();
+    if (data.error) throw new Error(data.error);
+    renderDeepCheckResult(data);
+  } catch (error) {
+    els.deepCheckStatus.textContent = `Could not complete the check: ${error.message || "please try again."}`;
+  } finally {
+    els.runDeepCheck.disabled = false;
+    els.runDeepCheck.textContent = originalLabel;
+  }
+}
+
+function renderDeepCheckResult(data) {
+  els.deepCheckStatus.hidden = true;
+  els.deepCheckResult.hidden = false;
+  const matched = Array.isArray(data.matched_policies) ? data.matched_policies : [];
+  const gaps = Array.isArray(data.gaps) ? data.gaps : [];
+  els.deepCheckResult.innerHTML = `
+    <h4>Alignment summary</h4>
+    <p>${escapeHtml(data.alignment_summary || "No summary returned.")}</p>
+    ${matched.length ? `<ul class="dc-policy-list">${matched.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
+    ${gaps.length ? `<h4>Gaps to address</h4><ul>${gaps.map(gap => `<li><strong>${escapeHtml(gap.issue || "")}</strong> — ${escapeHtml(gap.why_it_matters || "")} <em>Fix:</em> ${escapeHtml(gap.fix || "")}</li>`).join("")}</ul>` : ""}
+    ${data.missing_quantified_targets ? `<p class="dc-note">No quantified targets were detected in this section.</p>` : ""}
+    <p class="dc-note">${escapeHtml(data.overall_note || "This is a diagnostic aid, not a guaranteed score.")}</p>
+  `;
+}
+
 els.file.addEventListener("change", event => setFile(event.target.files[0]));
 els.form.addEventListener("submit", runFileAnalysis);
 els.emailGateForm.addEventListener("submit", submitEmailGate);
@@ -1326,6 +1439,7 @@ els.dropzone.addEventListener("drop", event => {
   setFile(event.dataTransfer.files[0]);
 });
 els.printReport.addEventListener("click", () => window.print());
+els.runDeepCheck.addEventListener("click", runDeepCheck);
 els.openConsortium.addEventListener("click", () => {
   els.consortiumDetails.hidden = false;
   els.openConsortium.hidden = true;
@@ -1347,6 +1461,9 @@ els.newAnalysis.addEventListener("click", () => {
   els.analyse.disabled = true;
   els.emailGate.hidden = false;
   els.detailedResults.hidden = true;
+  els.deepCheck.hidden = true;
+  els.deepCheckStatus.hidden = true;
+  els.deepCheckResult.hidden = true;
   els.humanSupport.hidden = true;
   els.supportRequest.hidden = true;
   activeService = "";
