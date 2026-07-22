@@ -3,6 +3,7 @@
   "source_note": "Verbatim excerpts from two official EC documents: the EU Grants Standard Evaluation Form (Horizon Europe RIA/IA, v4.0, 12 Nov 2025) and the Standard HE Evaluator Briefing (v14.0, 15 Apr 2026 — the current version, read directly from the source PDF). Only the criteria text, evaluator question checklists, scoring rules and structural models are reproduced (not the full administrative slide deck), to ground the evaluator's AI review in the real, current rubric rather than a paraphrase.",
   "documents": [
     { "title": "EU Grants Standard Evaluation Form (HE RIA/IA)", "version": "4.0", "published": "2025-11-12", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-ria-ia_en.pdf" },
+    { "title": "EU Grants Standard Evaluation Form (HE CSA)", "version": "5.0", "published": "2025-11-12", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-csa_en.pdf" },
     { "title": "Standard HE Evaluator Briefing", "version": "14.0", "published": "2026-04-15", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/experts/standard-briefing-slides-for-experts_he_en.pdf" }
   ],
   "scoring_scale": {
@@ -92,6 +93,15 @@
       ]
     }
   },
+  "action_type_variants": {
+    "CSA": {
+      "note": "Coordination and Support Actions use the same Impact and Implementation criteria wording as RIA/IA, but a different Excellence criterion (no state-of-the-art / gender / open-science bullet — coordination proposals are judged on coordination quality instead).",
+      "excellence_aspects": [
+        "Clarity and pertinence of the project's objectives.",
+        "Quality of the proposed coordination and/or support measures including soundness of methodology."
+      ]
+    }
+  },
   "open_science": {
     "mandatory_practices": [
       "Open access to publications",
@@ -108,6 +118,7 @@
   },
   "dnsh_and_ai_robustness_simplification": {
     "note": "IMPORTANT — do not flag these as missing unless the call/topic conditions explicitly require them. From WP2025 onwards, applicants only need to address the Do No Significant Harm (DNSH) principle and AI technical-robustness when the topic conditions specifically require it — currently this is limited to EIC Accelerator topics for DNSH. For other calls, do not penalise a proposal for not discussing DNSH or AI robustness unless the supplied call context says it's required.",
+    "confirmed_by": "EU Grants Standard Evaluation Form (HE CSA) v4.0, 28.02.2025 change note: 'Removed references to Do No Significant Harm principle and AI robustness' — independently confirms this is a real, dated rubric simplification, not a paraphrase.",
     "dnsh_environmental_objectives": ["Climate change mitigation", "Sustainable use & protection of water & marine resources", "Pollution prevention & control", "Climate change adaptation", "Transition to a circular economy", "Protection and restoration of biodiversity & ecosystems"]
   },
   "consensus_report_quality_standard": {
@@ -122,7 +133,6 @@
     ]
   },
   "reference_documents": [
-    { "title": "Standard Evaluation Form — CSA (v4.0)", "summary": "The equivalent evaluation-form template for Coordination and Support Actions — Excellence criterion differs slightly (no state-of-the-art/methodology soundness bullet, focuses on coordination/support measure quality).", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-csa_en.pdf" },
     { "title": "General Annexes (Horizon Europe Work Programme 2025)", "summary": "Cross-cutting eligibility, admissibility, evaluation and award rules that apply across Horizon Europe calls.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/wp-call/2025/wp-14-general-annexes_horizon-2025_en.pdf" },
     { "title": "Horizon Europe Programme Guide", "summary": "The Commission's consolidated guidance for applicants and beneficiaries.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/programme-guide_horizon_en.pdf" },
     { "title": "Proposal Template — RIA/IA Application Form (Part B)", "summary": "Official application-form template; equivalent templates for other action types live in the same portal folder.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/af/af_he-ria-ia_en.pdf" },
