@@ -687,54 +687,6 @@ function assessCallRequirements(proposalText, requirements) {
   });
 }
 
-function explainRequirementSimply(text) {
-  const value = String(text || "");
-  const rules = [
-    [/three open calls|at least one call per year/i, "Run at least three annual open calls and fund at least 20 EdTech startups or SMEs across eligible countries."],
-    [/60%.*financial support|financial support.*60%/i, "Reserve at least 60% of the project budget for FSTP, with up to €150,000 for each selected third party."],
-    [/12-month.*incubation|incubation and acceleration programme/i, "Deliver a 12-month acceleration programme combining mentoring, training, networking and market-access support."],
-    [/short pilots.*real education|real education.*impact assessment/i, "Test selected solutions in real education settings and collect measurable impact evidence."],
-    [/human-centric design|learning design methodologies/i, "Use human-centred and learning-design methods throughout the pilots."],
-    [/European-wide communication|awareness raising/i, "Run EU-wide communication and awareness activities."],
-    [/investor|access.to.market|market support/i, "Show how selected companies will reach customers, investors and the European market."],
-    [/replicat|scalab|uptake/i, "Explain how successful results will be replicated, scaled and adopted beyond the initial pilots."],
-    [/KPI|indicator|measure/i, "Define measurable targets, baselines, owners and evidence sources."],
-    [/open science|FAIR|data management/i, "Explain how data and results will be managed, shared and made reusable."],
-    [/dissemination|communication|exploitation/i, "Show who will use the results and how communication and exploitation will lead to uptake."]
-  ];
-  return rules.find(([pattern]) => pattern.test(value))?.[1] || compactText(value.replace(/\s+/g, " "), 180);
-}
-
-function callFitFeedback(item) {
-  const text = item.text;
-  const actions = [
-    [/three open calls|at least one call per year/i, "Add an FSTP delivery table with three call dates, at least 20 selected SMEs in total, eligible-country coverage, the lead partner and the selection timetable."],
-    [/60%.*financial support|financial support.*60%/i, "Show in the budget that at least 60% goes to FSTP. State the amount per company (maximum €150,000), payment stages, responsible partner and audit trail."],
-    [/12-month.*incubation|incubation and acceleration programme/i, "Add a 12-month participant journey: selection, onboarding, mentoring, training, pilot preparation, market access and graduation - with an owner and KPI for every stage."],
-    [/short pilots.*real education|real education.*impact assessment/i, "Name the pilot hosts and countries, number of pilots and users, baseline and endline indicators, data-collection method and the partner responsible for validation."],
-    [/human-centric design|learning design methodologies/i, "Define who co-designs the pilots (teachers, learners and trainers), when workshops happen, which usability and pedagogical criteria are tested and who signs off the results."],
-    [/European-wide communication|awareness raising/i, "Set EU-wide reach targets: countries, audience groups, channels, events, qualified leads and the partner accountable for converting awareness into uptake."],
-    [/big event|investors.*ministr|market partners/i, "Commit to at least one annual flagship event and specify target numbers for investors, ministries, education providers, meetings and documented follow-up decisions."],
-    [/ethic|inclusion|accessibility|privacy|security/i, "Add mandatory selection and pilot checks for ethics, inclusion, accessibility, privacy and security, with pass/fail criteria and a responsible reviewer."],
-    [/market|commercial|investor/i, "Define the market-access route for selected SMEs: customer introductions, investor meetings, procurement readiness, conversion targets and evidence of commercial follow-up."],
-    [/impact|indicator|assessment/i, "Add a measurement table with baseline, target, data source, collection date, responsible partner and verification method for every claimed outcome."]
-  ];
-  const action = actions.find(([pattern]) => pattern.test(text))?.[1] || "Add one explicit paragraph stating the activity, quantified target, responsible partner, timing, beneficiary group and evidence used to verify completion.";
-  return item.status === "covered" ? `Evidence is present. Verify that the final text keeps all of these elements: ${action.replace(/^Add |^Show |^Define |^Set |^Commit /, "")}` : action;
-}
-
-function renderFitRow(item, index) {
-  return `<article class="fit-action ${item.status}">
-    <span class="fit-action-number">${index + 1}</span>
-    <div>
-      <div class="fit-action-meta"><small>${item.status === "covered" ? "KEEP" : "PRIORITY ACTION"}</small><span class="finding-tag">${escapeHtml(item.criterion)}</span></div>
-      <strong>${escapeHtml(explainRequirementSimply(item.text))}</strong>
-      <p>${escapeHtml(callFitFeedback(item))}</p>
-      <span class="finding-location">${escapeHtml(item.location || "Not found in your document")}</span>
-    </div>
-  </article>`;
-}
-
 async function fetchCallIntelligence(input) {
   const identifier = extractTopicIdentifier(input);
   if (!identifier) throw new Error("No valid EU topic identifier was found in the link.");
@@ -895,24 +847,47 @@ function renderCallIntelligence(callData) {
     ["Deadline", deadline],
     ["Submission", callData.deadlineModel]
   ].map(([label, value]) => `<div class="call-fact"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
-  const coverage = callData.coverage || [];
-  const order = { missing: 0, partial: 1, covered: 2 };
-  const orderedCoverage = [...coverage].sort((a, b) => order[a.status] - order[b.status]);
-  const coveragePercent = Math.round(callData.coverageRate * 100);
-  const coverageMessage = coveragePercent >= 75
-    ? "Strong call alignment. Protect the evidence and make ownership explicit."
-    : coveragePercent >= 50
-      ? "The direction fits the call, but important delivery evidence is still missing."
-      : "The concept is relevant, but it does not yet prove how the call requirements will be delivered.";
-  els.requirementCoverage.innerHTML = coverage.length ? `
-    <div class="coverage-heading">
-      <div><p class="eyebrow">CALL-TO-CONCEPT FIT</p><h3>${escapeHtml(coverageMessage)}</h3></div>
-      <div class="coverage-summary"><strong>${coveragePercent}%</strong><span>call-fit evidence</span></div>
-    </div>
-    <p class="priority-intro">Focus on these three changes first:</p>
-    <div class="fit-actions">${orderedCoverage.slice(0, 3).map(renderFitRow).join("")}</div>` : `<div class="coverage-unavailable"><strong>Call-to-concept comparison unavailable</strong><p>Open the official topic to verify the requirements.</p></div>`;
+  loadSimilarFundedProjects(callData);
   els.callDetails.innerHTML = "";
   els.callDetails.hidden = true;
+}
+
+function fundedProjectsHeading(inner) {
+  return `<div class="coverage-heading"><div><p class="eyebrow">SIMILAR FUNDED PROJECTS</p><h3>${inner}</h3></div></div>`;
+}
+
+function renderFundedProjectCard(hit) {
+  const project = hit.project || hit;
+  const summary = projectConsortiumSummary(hit);
+  const snippet = compactText(htmlToText(project.teaser || project.objective || ""), 200);
+  const year = String(project.startDate || "").slice(0, 4);
+  return `<article class="funded-project-card">
+    <div class="funded-project-head"><strong>${escapeHtml(project.acronym || project.title || "CORDIS project")}</strong>${year ? `<span class="funded-project-year">${escapeHtml(year)}</span>` : ""}</div>
+    <p class="funded-project-title">${escapeHtml(compactText(project.title || "", 140))}</p>
+    ${snippet ? `<p class="funded-project-snippet">${escapeHtml(snippet)}</p>` : ""}
+    <div class="funded-project-meta">${summary.organisations.length} organisation${summary.organisations.length === 1 ? "" : "s"} · ${summary.countries.length} countr${summary.countries.length === 1 ? "y" : "ies"}${summary.associated ? ` · ${summary.associated} Associated Partner${summary.associated === 1 ? "" : "s"}` : ""}</div>
+    <a href="https://cordis.europa.eu/project/id/${encodeURIComponent(project.id || "")}" target="_blank" rel="noopener">View on CORDIS ↗</a>
+  </article>`;
+}
+
+async function loadSimilarFundedProjects(callData) {
+  const query = suggestCordisQuery(lastProposalText || "", callData.identifier) || callData.title;
+  els.requirementCoverage.innerHTML = `${fundedProjectsHeading("Projects CORDIS has funded for comparable topics")}
+    <p class="priority-intro">Searching CORDIS for “${escapeHtml(query)}”…</p>`;
+  try {
+    const hits = await fetchCordisProjects(query);
+    if (!hits.length) {
+      els.requirementCoverage.innerHTML = `${fundedProjectsHeading("No comparable funded projects were found")}
+        <p class="priority-intro">Try browsing CORDIS directly for <a href="https://cordis.europa.eu/search/en?q=${encodeURIComponent(query)}" target="_blank" rel="noopener">“${escapeHtml(query)}”</a>.</p>`;
+      return;
+    }
+    els.requirementCoverage.innerHTML = `${fundedProjectsHeading(`${hits.length} funded project${hits.length === 1 ? "" : "s"} matched “${escapeHtml(query)}”`)}
+      <p class="priority-intro">Real Horizon Europe projects CORDIS has funded on comparable topics — use them to calibrate scope, consortium size and framing before you write.</p>
+      <div class="funded-projects-grid">${hits.slice(0, 6).map(renderFundedProjectCard).join("")}</div>`;
+  } catch (error) {
+    els.requirementCoverage.innerHTML = `${fundedProjectsHeading("CORDIS could not be reached")}
+      <p class="priority-intro">Try again in a moment, or search directly on <a href="https://cordis.europa.eu/search/en?q=${encodeURIComponent(query)}" target="_blank" rel="noopener">cordis.europa.eu</a>.</p>`;
+  }
 }
 
 function renderDiagnosis(analysis) {
@@ -1095,6 +1070,16 @@ function renderCordisResults(candidates, query, hits) {
   els.cordisResults.innerHTML = `${renderSimilarConsortia(hits)}${candidateMarkup}`;
 }
 
+async function fetchCordisProjects(query) {
+  const cordisQuery = `${query} AND contenttype='project' AND frameworkProgramme='HORIZON' AND language='en'`;
+  const url = new URL("https://cordis.europa.eu/search/en");
+  url.search = new URLSearchParams({ q: cordisQuery, p: "1", num: "50", srt: "Relevance:decreasing", format: "json" });
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`CORDIS returned ${response.status}`);
+  const data = await response.json();
+  return asArray(data?.hits?.hit);
+}
+
 async function searchCordis() {
   if (!currentAnalysis?.consortium) return;
   const query = els.cordisQuery.value.trim();
@@ -1106,13 +1091,7 @@ async function searchCordis() {
   els.cordisStatus.textContent = "Comparing the proposal with similar funded projects and participation histories…";
   els.cordisResults.innerHTML = "";
   try {
-    const cordisQuery = `${query} AND contenttype='project' AND frameworkProgramme='HORIZON' AND language='en'`;
-    const url = new URL("https://cordis.europa.eu/search/en");
-    url.search = new URLSearchParams({ q: cordisQuery, p: "1", num: "50", srt: "Relevance:decreasing", format: "json" });
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`CORDIS returned ${response.status}`);
-    const data = await response.json();
-    const hits = asArray(data?.hits?.hit);
+    const hits = await fetchCordisProjects(query);
     const candidates = rankCordisOrganisations(hits, query, currentAnalysis.consortium);
     renderCordisResults(candidates, query, hits);
   } catch (error) {

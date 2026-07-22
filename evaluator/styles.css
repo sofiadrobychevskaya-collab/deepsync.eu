@@ -128,20 +128,17 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
 .requirement-coverage h3 { margin: 0 0 10px; font: 600 18px "Manrope", sans-serif; }
 .coverage-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 14px; }
 .coverage-heading .eyebrow { margin-bottom: 5px; }
-.coverage-summary { text-align: right; }
-.coverage-summary strong, .coverage-summary span { display: block; }
-.coverage-summary strong { font: 700 28px "Manrope", sans-serif; color: var(--green-2); }
-.coverage-summary span { color: var(--muted); font-size: 11px; }
 .priority-intro { margin: 8px 0 12px; color: var(--muted); font-size: 13px; }
-.fit-actions { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.fit-action { display: grid; grid-template-columns: 30px 1fr; gap: 14px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); }
-.fit-action-number { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--lime); font-size: 12px; font-weight: 700; }
-.fit-action-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
-.fit-action small, .fit-action strong { display: block; }
-.fit-action small { color: var(--green-2); font-size: 9px; font-weight: 700; letter-spacing: .05em; }
-.fit-action strong { font-size: 15px; line-height: 1.4; }
-.fit-action p { margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
-.fit-action .finding-location { display: block; margin-top: 8px; }
+.priority-intro a { color: var(--green-2); font-weight: 600; }
+.funded-projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.funded-project-card { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); }
+.funded-project-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.funded-project-head strong { font-size: 14px; }
+.funded-project-year { color: var(--muted); font-size: 11px; }
+.funded-project-title { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4; }
+.funded-project-snippet { margin: 0; font-size: 12px; line-height: 1.5; }
+.funded-project-meta { color: var(--muted); font-size: 11px; }
+.funded-project-card a { margin-top: 4px; color: var(--green-2); font-weight: 600; font-size: 12px; text-decoration: none; }
 .fit-table { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .fit-row { display: grid; grid-template-columns: 76px minmax(240px, 1fr) minmax(280px, 1.15fr); gap: 16px; align-items: start; padding: 14px 16px; border-bottom: 1px solid var(--line); }
 .fit-row:last-child { border-bottom: 0; }
@@ -161,8 +158,6 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
 .requirement-status { padding: 4px 8px; border-radius: 99px; background: #E7F6EF; font-size: 10px; font-weight: 700; color: var(--green-2); text-transform: uppercase; letter-spacing: .04em; }
 .requirement-status.partial { color: #8A5A00; background: #FFF3D7; }
 .requirement-status.missing { color: var(--rose); background: #FCE8E6; }
-.coverage-unavailable { padding: 16px; border-radius: 11px; background: var(--soft); }
-.coverage-unavailable p { margin: 5px 0 0; color: var(--muted); }
 .call-details { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 18px; }
 .call-details details { padding: 14px 15px; border: 1px solid var(--line); border-radius: 11px; }
 .call-details summary { cursor: pointer; font-weight: 600; }
@@ -302,10 +297,8 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus { border-color
   .consortium-heading { flex-direction: column; gap: 12px; }
   .call-intelligence-head { flex-direction: column; }
   .coverage-heading { align-items: flex-start; flex-direction: column; }
-  .coverage-summary { text-align: left; }
   .fit-row { grid-template-columns: 1fr; gap: 8px; }
   .fit-row .requirement-status { width: fit-content; }
-  .fit-actions { grid-template-columns: 1fr; }
   .consortium-profile { grid-template-columns: 1fr; }
   .consortium-profile.compact { grid-template-columns: 1fr; }
   .cordis-search-row { grid-template-columns: 1fr; }
