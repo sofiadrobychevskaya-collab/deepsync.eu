@@ -51,7 +51,7 @@
       .dscr-sector-filter.active { background:var(--primary,#003399); color:white; }
       .dscr-audience-filter { flex:0 0 auto; padding:7px 11px; border:1px solid #dfe4eb; border-radius:7px; background:white; color:var(--muted,#5A6A85); font:750 10px var(--font-main,'Manrope',sans-serif); cursor:pointer; }
       .dscr-audience-filter.active { border-color:var(--navy,#0A1628); background:var(--navy,#0A1628); color:white; }
-      .dscr-grid { display:grid; grid-template-rows:repeat(2,auto); grid-auto-flow:column; grid-auto-columns:calc(50% - 6px); gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:1px 1px 8px; scrollbar-width:none; }
+      .dscr-grid { display:grid; grid-template-rows:1fr; grid-auto-flow:column; grid-auto-columns:calc(33.333% - 8px); gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:1px 1px 8px; scrollbar-width:none; }
       .dscr-grid::-webkit-scrollbar { display:none; }
       .dscr-card { display:flex; flex-direction:column; padding:14px 16px; border:1px solid #e0e5ec; border-radius:14px; background:white; box-shadow:0 10px 30px rgba(15,31,55,.04); }
       .dscr-card { scroll-snap-align:start; }
@@ -100,7 +100,7 @@
         <div class="dscr-sector-row" role="group" aria-label="Filter calls by sector"></div>
         <div class="dscr-audience-row" role="group" aria-label="Filter calls by applicant type"></div>
         <div class="dscr-grid"></div>
-        <div class="dscr-controls"><span class="dscr-updated">Showing two rows · use arrows for more calls</span><div class="dscr-arrows"><button type="button" class="dscr-arrow dscr-prev" aria-label="Previous calls">←</button><button type="button" class="dscr-arrow dscr-next" aria-label="Next calls">→</button></div></div>
+        <div class="dscr-controls"><span class="dscr-updated">Scroll or use arrows for more calls</span><div class="dscr-arrows"><button type="button" class="dscr-arrow dscr-prev" aria-label="Previous calls">←</button><button type="button" class="dscr-arrow dscr-next" aria-label="Next calls">→</button></div></div>
         <div class="dscr-footer"><span>Data is checked against official EU sources. Always verify conditions before applying.</span><a class="dscr-linkedin" href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener">Follow all new calls on LinkedIn →</a></div>
       </div>`;
     const filters = container.querySelector('.dscr-filters');
@@ -175,6 +175,7 @@
     });
     audienceFilters.insertAdjacentHTML('afterbegin', '<span class="dscr-sector-label">For</span>');
     draw();
+    setInterval(draw, 30 * 60 * 1000);
   }
 
   function init() {
