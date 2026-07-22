@@ -175,6 +175,7 @@
     });
     audienceFilters.insertAdjacentHTML('afterbegin', '<span class="dscr-sector-label">For</span>');
     draw();
+    setInterval(draw, 30 * 60 * 1000);
   }
 
   function init() {
