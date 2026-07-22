@@ -1396,10 +1396,15 @@ async function runDeepCheck() {
         } : { note: "No official call was linked to this analysis — review is based on the Impact text and EU policy references only." },
         policies: policies.map(policy => ({ title: policy.title, summary: policy.summary, source_url: policy.source_url })),
         officialImpactCriterion: guidance ? {
-          formVersion: guidance.form_version,
-          formPublished: guidance.form_published,
+          sourceDocuments: guidance.documents || [],
           aspects: guidance.criteria?.Impact?.aspects || [],
-          scoringScale: guidance.scoring_scale
+          simplificationNote: guidance.criteria?.Impact?.simplification_note,
+          evaluatorQuestions: guidance.criteria?.Impact?.evaluator_questions || [],
+          impactPathwayModel: guidance.criteria?.Impact?.impact_pathway_model,
+          scoringScale: guidance.scoring_scale,
+          scoreDescriptors: guidance.score_descriptors,
+          dnshAndAiRobustnessSimplification: guidance.dnsh_and_ai_robustness_simplification,
+          consensusReportQualityStandard: guidance.consensus_report_quality_standard
         } : null
       }
     };
