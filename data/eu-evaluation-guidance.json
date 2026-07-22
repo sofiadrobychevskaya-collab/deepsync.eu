@@ -1,9 +1,10 @@
 {
   "generated_at": "2026-07-22T00:00:00.000Z",
-  "source_note": "Verbatim excerpts from the official EU Grants Standard Evaluation Form (Horizon Europe RIA/IA), version 4.0, published 12 November 2025 — the actual rubric evaluators score against. Only the short official criteria definitions and scoring scale are reproduced here (not the full administrative form), to ground the evaluator's AI review in the real, current rubric rather than a paraphrase.",
-  "form_version": "4.0",
-  "form_published": "2025-11-12",
-  "form_source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-ria-ia_en.pdf",
+  "source_note": "Verbatim excerpts from two official EC documents: the EU Grants Standard Evaluation Form (Horizon Europe RIA/IA, v4.0, 12 Nov 2025) and the Standard HE Evaluator Briefing (v14.0, 15 Apr 2026 — the current version, read directly from the source PDF). Only the criteria text, evaluator question checklists, scoring rules and structural models are reproduced (not the full administrative slide deck), to ground the evaluator's AI review in the real, current rubric rather than a paraphrase.",
+  "documents": [
+    { "title": "EU Grants Standard Evaluation Form (HE RIA/IA)", "version": "4.0", "published": "2025-11-12", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-ria-ia_en.pdf" },
+    { "title": "Standard HE Evaluator Briefing", "version": "14.0", "published": "2026-04-15", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/experts/standard-briefing-slides-for-experts_he_en.pdf" }
+  ],
   "scoring_scale": {
     "range": "0-5, half-marks allowed",
     "levels": [
@@ -17,37 +18,116 @@
     "individual_threshold": 3,
     "overall_threshold": 10,
     "overall_max": 15,
+    "two_stage_first_stage_threshold": 4,
+    "innovation_action_impact_weight": "For Innovation Actions, Impact is weighted 1.5x for RANKING purposes only — it does not change whether a proposal passes the threshold.",
     "note": "Specific calls/topics may set different thresholds or weighting; this is the standard rule."
+  },
+  "score_descriptors": {
+    "minor_shortcoming": "An issue that relates only to a marginal aspect of the proposal with respect to the criterion and/or can easily be rectified. Does not impact the score.",
+    "shortcoming": "A problem that relates to an important aspect of the proposal. Impacts the score but does not render the proposal inappropriate for funding — still expected to lead to useful results with positive impact.",
+    "significant_weakness": "The proposal addresses the criterion in a limited and/or not sufficiently effective way — lowers the score below threshold. Can also result from a large number of individually-minor shortcomings that together mean the criterion isn't addressed effectively."
   },
   "criteria": {
     "Excellence": {
       "aspects": [
-        "Clarity and pertinence of the project's objectives, and the extent to which the proposed work is ambitious, and goes beyond the state of the art.",
+        "Clarity and pertinence of the project's objectives, and the extent to which the proposed work is ambitious, and goes beyond the state-of-the-art.",
         "Soundness of the proposed methodology, including the underlying concepts, models, assumptions, inter-disciplinary approaches, appropriate consideration of the gender dimension in research and innovation content, and the quality of open science practices, including sharing and management of research outputs and engagement of citizens, civil society and end users where appropriate."
+      ],
+      "evaluator_questions": [
+        "Are the objectives clear and pertinent to the topic?",
+        "Are the objectives measurable and verifiable?",
+        "Are the objectives realistically achievable?",
+        "Is the proposed work ambitious and does it go beyond the state-of-the-art (interpreted relative to the project's TRL/positioning — expectations differ for low-TRL RIAs vs high-TRL IAs)?",
+        "Does the proposal include ground-breaking R&I, novel concepts, new products/services/business models?",
+        "Is the scientific methodology (concepts, models, assumptions) clear and sound?",
+        "Is it clear how expertise from different disciplines will be integrated (or is a justified absence of interdisciplinarity credible)?",
+        "Has the gender dimension in research and innovation content been properly addressed (mandatory unless the topic explicitly states it isn't required)?",
+        "Are open science practices implemented as an integral part of the methodology (see open_science rules below)?",
+        "Is research data management properly addressed?",
+        "For SSH-flagged topics, is the role of social sciences and humanities properly addressed?"
       ]
     },
     "Impact": {
       "aspects": [
         "Credibility of the pathways to achieve the expected outcomes and impacts specified in the work programme.",
         "Suitability and quality of the measures to maximise expected outcomes and impacts, as set out in the dissemination and exploitation plan, including communication activities."
-      ]
+      ],
+      "simplification_note": "NEW from WP2026/7 onwards: scale and significance of contributions are no longer considered for Impact — only credibility of the pathway and suitability/quality of the dissemination-exploitation-communication measures.",
+      "evaluator_questions": [
+        "Is the project's contribution to (1) the topic's expected outcomes and (2) the destination's wider expected impacts credible?",
+        "Are potential barriers to the expected outcomes/impacts identified (other R&I work, regulatory environment, target markets, user behaviour) with mitigation measures proposed?",
+        "Is any potential negative environmental outcome identified and properly managed, including at scale/commercial level?",
+        "Are the dissemination, exploitation and communication measures suitable, good quality, and proportionate to the project's scale, with concrete actions during AND after the project?",
+        "Are target groups for these measures identified (scientific community, end users, financial actors, public at large)?",
+        "Is the IP management strategy properly outlined and suitable to support exploitation?",
+        "If exploitation is expected primarily in non-associated third countries, is it justified how that's still in the Union's interest?"
+      ],
+      "impact_pathway_model": {
+        "description": "The official model applicants should follow when describing impact — evaluators check whether this full causal chain is present, not just an impact claim in isolation.",
+        "chain": [
+          "INPUTS (grant, human resources, expertise)",
+          "PROJECT RESULTS (what the project actually produces)",
+          "DISSEMINATION & EXPLOITATION (how results reach users)",
+          "PROJECT'S CONTRIBUTION TO THE EXPECTED OUTCOME (the topic's outcome, medium-term)",
+          "PROJECT'S CONTRIBUTION TO THE EXPECTED IMPACT (the destination's impact, longer-term)"
+        ]
+      }
     },
     "Implementation": {
       "label": "Quality and efficiency of the implementation",
       "aspects": [
         "Quality and effectiveness of the work plan, assessment of risks, and appropriateness of the effort assigned to work packages, and the resources overall.",
         "Capacity and role of each participant, and the extent to which the consortium as a whole brings together the necessary expertise."
+      ],
+      "evaluator_questions": [
+        "Is the work plan good quality and effective, with quantified information so progress can be monitored?",
+        "Does it follow a logical structure (e.g. timing of work packages)?",
+        "Are resources allocated to work packages in line with their objectives/deliverables? (Applicants are NOT required to provide a detailed cost breakdown — do not penalise for its absence, except lump sum calls which require a detailed budget table.)",
+        "Are critical implementation risks identified with proper mitigation measures?",
+        "Does the consortium match the project's objectives and bring together the necessary disciplinary/interdisciplinary knowledge?",
+        "Does the consortium include open-science and gender-aspect expertise where appropriate?",
+        "Do partners have access to critical infrastructure needed for the activities?",
+        "Are participants complementary and covering the value chain where appropriate, each with a valid role and adequate resources/operational capacity?",
+        "Is there industrial/commercial involvement to ensure exploitation, where relevant?"
       ]
     }
   },
+  "open_science": {
+    "mandatory_practices": [
+      "Open access to publications",
+      "Research data management in line with FAIR principles, including data management plans",
+      "Open access to research data unless exceptions apply ('as open as possible, as closed as necessary')",
+      "Access/information to research outputs and tools/instruments needed to validate publication conclusions and re-use data"
+    ],
+    "recommended_practices": "All open science practices beyond the mandatory ones (e.g. pre-registration, pre-prints, reproducibility measures, open peer review, citizen/civil-society co-creation).",
+    "scoring_rule": "Mandatory practices not sufficiently addressed should lower the score. Recommended practices should be evaluated positively when sufficiently addressed, but their absence should not be penalised if duly justified as not appropriate for the project."
+  },
+  "gender_dimension": {
+    "rule": "Integrating the gender dimension (sex and gender analysis) into research and innovation content is MANDATORY under Horizon Europe, unless the topic description explicitly states it is not a mandatory requirement for that topic.",
+    "assessed_under": "Excellence criterion, as part of methodology soundness."
+  },
+  "dnsh_and_ai_robustness_simplification": {
+    "note": "IMPORTANT — do not flag these as missing unless the call/topic conditions explicitly require them. From WP2025 onwards, applicants only need to address the Do No Significant Harm (DNSH) principle and AI technical-robustness when the topic conditions specifically require it — currently this is limited to EIC Accelerator topics for DNSH. For other calls, do not penalise a proposal for not discussing DNSH or AI robustness unless the supplied call context says it's required.",
+    "dnsh_environmental_objectives": ["Climate change mitigation", "Sustainable use & protection of water & marine resources", "Pollution prevention & control", "Climate change adaptation", "Transition to a circular economy", "Protection and restoration of biodiversity & ecosystems"]
+  },
+  "consensus_report_quality_standard": {
+    "guiding_question": "Would the applicant find this fair, accurate, clear and complete, even if it brings bad news?",
+    "rules": [
+      "Comments must relate only to the criterion being assessed, and to what is requested in the call.",
+      "Comments must be precise, definite, and avoid unverified factual claims.",
+      "Comments must not be discriminatory, offending, based on assumptions, or suggest ignorance/doubt.",
+      "Comments must not contain recommendations or suggestions to improve the project — only explain shortcomings.",
+      "The same weakness must not be used to penalise two different criteria (no double penalisation).",
+      "The comment, taken as a whole, must be consistent with the score awarded."
+    ]
+  },
   "reference_documents": [
-    { "title": "Standard Evaluator Briefing (incl. Lump Sum guidance, slides 64–80)", "summary": "Official briefing given to Horizon Europe expert evaluators before scoring.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/experts/standard-briefing-slides-for-experts_he_en.pdf" },
-    { "title": "Standard Evaluation Form — CSA (v4.0)", "summary": "The equivalent evaluation-form template for Coordination and Support Actions.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-csa_en.pdf" },
+    { "title": "Standard Evaluation Form — CSA (v4.0)", "summary": "The equivalent evaluation-form template for Coordination and Support Actions — Excellence criterion differs slightly (no state-of-the-art/methodology soundness bullet, focuses on coordination/support measure quality).", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/ef/ef_he-csa_en.pdf" },
     { "title": "General Annexes (Horizon Europe Work Programme 2025)", "summary": "Cross-cutting eligibility, admissibility, evaluation and award rules that apply across Horizon Europe calls.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/wp-call/2025/wp-14-general-annexes_horizon-2025_en.pdf" },
     { "title": "Horizon Europe Programme Guide", "summary": "The Commission's consolidated guidance for applicants and beneficiaries.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/programme-guide_horizon_en.pdf" },
     { "title": "Proposal Template — RIA/IA Application Form (Part B)", "summary": "Official application-form template; equivalent templates for other action types live in the same portal folder.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/temp-form/af/af_he-ria-ia_en.pdf" },
     { "title": "Ethics Self-Assessment Guidance", "summary": "How to complete the ethics self-assessment (human subjects research, data protection, other sensitive areas) and the mitigation measures expected.", "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/common/guidance/how-to-complete-your-ethics-self-assessment_en.pdf" },
-    { "title": "Open Science Guidance for Horizon Europe", "summary": "EC IP Helpdesk guide on integrating open science principles — transparency, accessibility, data sharing — into a proposal, referenced under the Excellence criterion.", "source_url": "https://intellectual-property-helpdesk.ec.europa.eu/ip-management-and-resources/publications/your-guide-open-science-horizon-europe_en" },
-    { "title": "Gender Dimension / Inclusive Gender Analysis Framework", "summary": "Framework for integrating the gender dimension into research content from an intersectional perspective, referenced under the Excellence criterion's methodology aspect.", "source_url": "https://european-research-area.ec.europa.eu/node/15427" }
+    { "title": "Open Science Guidance for Horizon Europe", "summary": "EC IP Helpdesk guide on integrating open science principles into a proposal.", "source_url": "https://intellectual-property-helpdesk.ec.europa.eu/ip-management-and-resources/publications/your-guide-open-science-horizon-europe_en" },
+    { "title": "Gender Dimension / Inclusive Gender Analysis Framework", "summary": "Framework for integrating the gender dimension into research content from an intersectional perspective.", "source_url": "https://european-research-area.ec.europa.eu/node/15427" }
   ]
 }
