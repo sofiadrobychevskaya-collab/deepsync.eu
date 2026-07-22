@@ -125,6 +125,7 @@ const els = {
   consortiumCount: document.querySelector("#consortium-count"),
   openConsortium: document.querySelector("#open-consortium"),
   consortiumDetails: document.querySelector("#consortium-details"),
+  consortiumSearch: document.querySelector(".consortium-search"),
   cordisQuery: document.querySelector("#cordis-query"),
   cordisSearch: document.querySelector("#cordis-search"),
   cordisStatus: document.querySelector("#cordis-status"),
@@ -776,10 +777,10 @@ function programmeFromCall(callData, fallback) {
   return fallback;
 }
 
-function deriveConsortiumProfile(text, programme, callId) {
+function deriveConsortiumProfile(text, programme, callId, callData) {
   if (programme === "eic") {
     return {
-      query: suggestCordisQuery(text, callId),
+      query: suggestCordisQuery(text, callId, callData),
       roles: [{ label: "EIC applicant structure", present: true, legalRole: "Single applicant", need: "EIC Accelerator normally funds a single startup or SME; CORDIS candidates should be treated as validators, customers or ecosystem supporters rather than consortium beneficiaries.", basis: "Programme rule — verify against the current call documents" }]
     };
   }
@@ -796,10 +797,18 @@ function deriveConsortiumProfile(text, programme, callId) {
         : `${programmeName(programme)} role-coverage heuristic; to be checked against the exact call conditions and similar CORDIS projects`
     };
   });
-  return { query: suggestCordisQuery(text, callId), roles };
+  return { query: suggestCordisQuery(text, callId, callData), roles };
 }
 
-function suggestCordisQuery(text, callId = "") {
+function callTopicKeywords(callData) {
+  if (!callData) return [];
+  const text = [callData.title, callData.expectedOutcome, callData.objective, callData.scope].filter(Boolean).join(" ");
+  return requirementKeywords(text).slice(0, 5);
+}
+
+function suggestCordisQuery(text, callId = "", callData = null) {
+  const callKeywords = callTopicKeywords(callData);
+  if (callKeywords.length) return callKeywords.join(" ");
   const found = domainTerms.filter(([, pattern]) => pattern.test(text)).map(([term]) => term).slice(0, 3);
   const topicTokens = callId.split("-").filter(token => token.length > 3 && !/^(HORIZON|DIGITAL|20\d{2})$/i.test(token)).map(token => token.toLowerCase()).slice(-2);
   return [...new Set([...found, ...topicTokens])].join(" ") || "European innovation digital transformation";
@@ -817,13 +826,14 @@ function renderConsortiumProfile(profile) {
     </article>`).join("") || `<article class="profile-signal present"><span>Coverage detected</span><strong>No obvious role gaps</strong><small>Validate eligibility, commitments and task-level capacity before submission.</small></article>`;
   els.consortiumCount.textContent = gaps.length ? `${gaps.length} potential gap${gaps.length === 1 ? "" : "s"}` : "No obvious gaps";
   els.consortiumIntro.textContent = gaps.length
-    ? "We found potential role gaps that may weaken delivery credibility. Review them before searching for organisations."
-    : "The main role categories appear covered. You can still compare the group with similar funded consortia.";
-  els.openConsortium.textContent = gaps.length ? "Find suitable partners →" : "Compare with similar consortia →";
-  els.consortiumDetails.hidden = true;
+    ? "We found potential role gaps that may weaken delivery credibility. Similar funded projects and candidate organisations are loaded below."
+    : "The main role categories appear covered. Similar funded projects and candidate organisations are loaded below.";
+  els.openConsortium.textContent = "Refine search →";
+  els.openConsortium.hidden = false;
+  els.consortiumDetails.hidden = false;
+  els.consortiumSearch.hidden = true;
   els.cordisQuery.value = profile.query;
-  els.cordisResults.innerHTML = "";
-  els.cordisStatus.hidden = true;
+  searchCordis();
 }
 
 function compactText(value, limit = 900) {
@@ -871,7 +881,7 @@ function renderFundedProjectCard(hit) {
 }
 
 async function loadSimilarFundedProjects(callData) {
-  const query = suggestCordisQuery(lastProposalText || "", callData.identifier) || callData.title;
+  const query = suggestCordisQuery(lastProposalText || "", callData.identifier, callData) || callData.title;
   els.requirementCoverage.innerHTML = `${fundedProjectsHeading("Projects CORDIS has funded for comparable topics")}
     <p class="priority-intro">Searching CORDIS for “${escapeHtml(query)}”…</p>`;
   try {
@@ -1071,7 +1081,8 @@ function renderCordisResults(candidates, query, hits) {
 }
 
 async function fetchCordisProjects(query) {
-  const cordisQuery = `${query} AND contenttype='project' AND frameworkProgramme='HORIZON' AND language='en'`;
+  const safeQuery = query.replace(/[^\p{L}\p{N} ]+/gu, " ").replace(/\s+/g, " ").trim();
+  const cordisQuery = `${safeQuery} AND contenttype='project' AND frameworkProgramme='HORIZON' AND language='en'`;
   const url = new URL("https://cordis.europa.eu/search/en");
   url.search = new URLSearchParams({ q: cordisQuery, p: "1", num: "50", srt: "Relevance:decreasing", format: "json" });
   const response = await fetch(url);
@@ -1202,7 +1213,7 @@ async function runFileAnalysis(event) {
       callId,
       coverage: pages ? `${pages} pages` : "DOCX"
     };
-    analysis.consortium = deriveConsortiumProfile(text, programme, callId);
+    analysis.consortium = deriveConsortiumProfile(text, programme, callId, callData);
     analysis.documentType = documentType;
     analysis.callData = callData;
     if (callId && !callData) analysis.warnings.push("The Funding Portal topic could not be verified. Call-specific requirements were not used in scoring; check the link or try again.");
@@ -1464,9 +1475,7 @@ els.dropzone.addEventListener("drop", event => {
 els.printReport.addEventListener("click", () => window.print());
 els.runDeepCheck.addEventListener("click", runDeepCheck);
 els.openConsortium.addEventListener("click", () => {
-  els.consortiumDetails.hidden = false;
-  els.openConsortium.hidden = true;
-  searchCordis();
+  els.consortiumSearch.hidden = !els.consortiumSearch.hidden;
 });
 els.cordisSearch.addEventListener("click", searchCordis);
 els.cordisQuery.addEventListener("keydown", event => {
