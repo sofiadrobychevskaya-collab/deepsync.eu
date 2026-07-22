@@ -9,6 +9,28 @@
     return Math.max(0, Math.ceil((new Date(deadline).getTime() - Date.now()) / 86400000));
   }
 
+  function csvCell(value) {
+    return `"${String(value == null ? "" : value).replace(/"/g, '""')}"`;
+  }
+
+  function exportCsv(calls) {
+    const headers = ["Programme", "Type", "Sector", "Best for", "Title", "Budget", "Deadline", "Days left", "Remaining cut-offs", "Summary", "Official link"];
+    const rows = calls.map(call => [
+      call.programme, call.type, call.sector, (call.audiences || []).join(" · "), call.title, call.budget,
+      call.deadline_label, daysUntil(call.deadline), (call.cutoffs || []).join(" · "), call.summary, call.source_url
+    ]);
+    const csv = [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\r\n");
+    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `deepsync-eu-funding-radar-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
   function injectStyles() {
     if (document.getElementById("dscr-styles")) return;
     const style = document.createElement("style");
@@ -40,11 +62,14 @@
       .dscr-sector { margin:0 0 8px; color:var(--muted,#5A6A85); font-size:11px; font-weight:700; }
       .dscr-for { margin:-4px 0 8px; color:#39465a; font-size:10.5px; line-height:1.4; }
       .dscr-for strong { color:var(--navy,#0A1628); }
-      .dscr-summary { margin:0 0 12px; color:#39465a; font-size:12.5px; line-height:1.5; }
+      .dscr-summary { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; margin:0 0 12px; color:#39465a; font-size:12.5px; line-height:1.5; }
       .dscr-facts { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding-top:10px; border-top:1px solid #edf0f4; }
       .dscr-fact small { display:block; margin-bottom:3px; color:var(--muted,#5A6A85); font-size:9px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
       .dscr-fact strong { color:var(--navy,#0A1628); font-size:11.5px; }
-      .dscr-cutoffs { grid-column:1/-1; margin:2px 0 0; color:var(--muted,#5A6A85); font-size:10.5px; line-height:1.45; }
+      .dscr-cutoffs { grid-column:1/-1; margin:2px 0 0; overflow:hidden; color:var(--muted,#5A6A85); font-size:10.5px; line-height:1.45; white-space:nowrap; text-overflow:ellipsis; }
+      .dscr-head-meta { display:flex; flex-direction:column; align-items:flex-end; gap:8px; flex:0 0 auto; }
+      .dscr-export { padding:9px 14px; border:1px solid #dfe4eb; border-radius:999px; background:white; color:var(--navy,#0A1628); font:750 11px var(--font-main,'Manrope',sans-serif); cursor:pointer; white-space:nowrap; }
+      .dscr-export:hover { border-color:var(--navy,#0A1628); }
       .dscr-link { display:inline-flex; margin-top:12px; color:var(--primary,#003399); font-size:11.5px; font-weight:800; text-decoration:none; }
       .dscr-empty { padding:30px; border-radius:18px; background:white; color:var(--muted,#5A6A85); }
       .dscr-controls { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:18px; }
@@ -66,7 +91,10 @@
       <div class="dscr">
         <div class="dscr-head">
           <div><span class="db-tag">LIVE EU CALLS</span><h2>EU Funding Radar</h2><p>Open opportunities, translated into plain language. Start with the deadline, budget and what the Commission is actually looking to fund.</p></div>
-          <span class="dscr-updated">Verified: ${esc(new Date(data.generated_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}))}</span>
+          <div class="dscr-head-meta">
+            <span class="dscr-updated">Verified: ${esc(new Date(data.generated_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}))}</span>
+            <button type="button" class="dscr-export">Export to Excel ↓</button>
+          </div>
         </div>
         <div class="dscr-filters" role="group" aria-label="Filter funding calls"></div>
         <div class="dscr-sector-row" role="group" aria-label="Filter calls by sector"></div>
@@ -85,6 +113,7 @@
     const next = container.querySelector('.dscr-next');
     prev.addEventListener('click', () => grid.scrollBy({ left: -grid.clientWidth, behavior: 'smooth' }));
     next.addEventListener('click', () => grid.scrollBy({ left: grid.clientWidth, behavior: 'smooth' }));
+    container.querySelector('.dscr-export').addEventListener('click', () => exportCsv(validCalls));
 
     function draw() {
       const calls = validCalls.filter(call => {
