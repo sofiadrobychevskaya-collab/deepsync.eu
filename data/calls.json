@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T15:42:06.000Z",
+  "generated_at": "2026-07-22T09:00:00.000Z",
   "calls": [
     {
       "programme": "HORIZON EUROPE",
@@ -297,6 +297,21 @@
       "deadline_label": "16 Oct 2026",
       "summary": "Funds consortia from RIS-eligible regions running 1–2 year Innovation Projects in sustainable mining, processing, circularity, recycling or substitution across the raw materials value chain.",
       "source_url": "https://eitrawmaterials.eu/call-ris-projects"
+    },
+    {
+      "programme": "ESA",
+      "categories": ["ESA"],
+      "type": "Kick-start Activity",
+      "sector": "Space-enabled services",
+      "sector_tags": ["DeepTech", "Critical Tech"],
+      "audiences": ["Startups", "Industry", "Scaleups"],
+      "title": "ESA BASS Open Call for Kick-Starts",
+      "budget": "Up to €75,000 EU contribution · 75% funded (max €100,000 total cost)",
+      "deadline": "2026-08-28T13:00:00+02:00",
+      "deadline_label": "28 Aug 2026",
+      "cutoffs": ["28 Aug 2026", "30 Oct 2026"],
+      "summary": "Funds six-month feasibility studies testing whether a space-based service concept — using satellite EO, SatCom or GNSS — is technically feasible, commercially viable and genuinely in demand, for businesses in any sector from ESA Member States.",
+      "source_url": "https://business.esa.int/funding/open-call-for-proposals-kick-starts"
     }
   ]
 }
