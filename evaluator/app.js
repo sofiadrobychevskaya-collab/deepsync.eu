@@ -415,13 +415,18 @@ const patterns = [
 ];
 
 
+function locateAtIndex(text, index) {
+  if (index == null || index < 0) return null;
+  const before = text.slice(0, index);
+  const page = (before.match(/\[PAGE \d+\]/g) || []).at(-1);
+  const section = [...before.matchAll(/\b(1\.?\s*Excellence|2\.?\s*Impact|3\.?\s*Quality and efficiency|3\.?\s*Implementation)\b/gi)].at(-1);
+  return [section?.[1], page?.replace(/[\[\]]/g, "")].filter(Boolean).join(" · ") || null;
+}
+
 function locate(text, regex) {
   const match = text.match(regex);
   if (!match || match.index == null) return "Proposal text";
-  const before = text.slice(0, match.index);
-  const page = (before.match(/\[PAGE \d+\]/g) || []).at(-1);
-  const section = [...before.matchAll(/\b(1\.?\s*Excellence|2\.?\s*Impact|3\.?\s*Quality and efficiency|3\.?\s*Implementation)\b/gi)].at(-1);
-  return [section?.[1], page?.replace(/[\[\]]/g, "")].filter(Boolean).join(" · ") || "Proposal text";
+  return locateAtIndex(text, match.index) || "Proposal text";
 }
 
 function setFile(file) {
@@ -630,6 +635,15 @@ function requirementKeywords(value) {
   return [...new Set(String(value).toLowerCase().match(/[a-z][a-z-]{3,}/g) || [])].filter(word => !callStopWords.has(word)).slice(0, 12);
 }
 
+function callRequirementCriterion(source) {
+  return {
+    "Expected outcome": "Impact",
+    "Objective": "Excellence",
+    "Scope / activity": "Implementation",
+    "Official topic summary": "Excellence"
+  }[source] || "Excellence";
+}
+
 function buildCallRequirements(sections, descriptionHtml = "") {
   const sources = [
     ["Expected outcome", sections["Expected Outcome"] || sections["Expected Outcomes"]],
@@ -667,7 +681,9 @@ function assessCallRequirements(proposalText, requirements) {
       if (end < proposalText.length) evidence = `${evidence}…`;
     }
     const unmatched = keywords.filter(keyword => !matched.includes(keyword));
-    return { ...requirement, keywords, matched, unmatched, status, covered: status === "covered", commitmentSignal, requiredNumbers, numberEvidence, evidence };
+    const criterion = callRequirementCriterion(requirement.source);
+    const location = firstMatch ? locateAtIndex(proposalText, firstMatch.index) : null;
+    return { ...requirement, keywords, matched, unmatched, status, covered: status === "covered", commitmentSignal, requiredNumbers, numberEvidence, evidence, criterion, location };
   });
 }
 
@@ -710,7 +726,12 @@ function callFitFeedback(item) {
 function renderFitRow(item, index) {
   return `<article class="fit-action ${item.status}">
     <span class="fit-action-number">${index + 1}</span>
-    <div><small>${item.status === "covered" ? "KEEP" : "PRIORITY ACTION"}</small><strong>${escapeHtml(explainRequirementSimply(item.text))}</strong><p>${escapeHtml(callFitFeedback(item))}</p></div>
+    <div>
+      <div class="fit-action-meta"><small>${item.status === "covered" ? "KEEP" : "PRIORITY ACTION"}</small><span class="finding-tag">${escapeHtml(item.criterion)}</span></div>
+      <strong>${escapeHtml(explainRequirementSimply(item.text))}</strong>
+      <p>${escapeHtml(callFitFeedback(item))}</p>
+      <span class="finding-location">${escapeHtml(item.location || "Not found in your document")}</span>
+    </div>
   </article>`;
 }
 
@@ -783,11 +804,11 @@ function applyCallAssessment(analysis, proposalText, callData) {
   missing.slice(0, 3).forEach((requirement, index) => {
     analysis.findings.unshift({
       id: `call-gap-${index}`,
-      criterion: firstCriterion,
+      criterion: requirement.criterion,
       kind: "priority",
       severity: .2,
       title: compactText(`${requirement.status === "partial" ? "Partially addressed" : "Not addressed"}: ${requirement.text}`, 100),
-      location: `Funding Portal · ${callData.identifier}`,
+      location: requirement.location || `Not found in your document · call requirement (${callData.identifier})`,
       explanation: requirement.text,
       recommendation: callGapRecommendation(requirement)
     });
