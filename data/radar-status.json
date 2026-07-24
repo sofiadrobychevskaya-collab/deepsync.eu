@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-07-23T08:41:11.858Z",
+  "checked_at": "2026-07-24T08:36:47.247Z",
   "telegram_configured": true,
   "telegram_ok": true,
   "telegram_updates": 1,
@@ -8,7 +8,7 @@
   "telegram_webhook_removed": false,
   "telegram_error": null,
   "ai_ok": false,
-  "ai_error": "Anthropic API 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CdJh1HpS6cUe5tui66Awi\"}",
+  "ai_error": "Anthropic API 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CdLaUgqyiC1P7GQ9N9PUH\"}",
   "calls_received": 0,
   "message": "Generation failed; previous verified calls preserved"
 }
