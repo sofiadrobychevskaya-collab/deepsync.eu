@@ -1,9 +1,12 @@
 name: Update Deep-Sync News Wire
 
 on:
-  schedule:
-    # Runs every day at 06:00 UTC. Adjust the cron if you want a different time/frequency.
-    - cron: "0 6 * * *"
+  # Scheduled cron disabled — needs a funded ANTHROPIC_API_KEY, which we're not
+  # paying for right now. Claude drafts the digest manually via chat instead
+  # (see NEWS-WIRE-README.md). Re-enable the schedule block below if the API
+  # key gets funded again.
+  # schedule:
+  #   - cron: "0 6 * * *"
   workflow_dispatch: {}   # adds a "Run workflow" button in the Actions tab, for manual runs / testing
   push:
     branches: [main]
@@ -11,7 +14,8 @@ on:
       - ".github/radar-trigger"
 
 permissions:
-  contents: write         # needed so the workflow can commit data/news.json back to the repo
+  contents: write         # needed so the workflow can push the draft branch
+  pull-requests: write    # needed so the workflow can open/update the review PR
 
 jobs:
   update-news:
@@ -36,11 +40,18 @@ jobs:
         if: always()
         run: cat data/radar-status.json || true
 
-      - name: Commit and push if changed
+      - name: Open review PR if changed
         if: always()
-        run: |
-          git config user.name "deepsync-news-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/news.json data/calls.json data/radar-status.json
-          git diff --cached --quiet || git commit -m "chore: update news wire $(date -u +%F)"
-          git push
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: update news wire draft"
+          title: "News wire draft — ${{ github.run_id }}"
+          body: |
+            Automated Deep-Sync News Wire draft. Review the news items and open calls below,
+            then merge this PR to publish them to the live site (or close it to discard).
+          branch: auto/news-wire-update
+          delete-branch: true
+          add-paths: |
+            data/news.json
+            data/calls.json
+            data/radar-status.json
