@@ -89,56 +89,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        /* Контейнер для центрирования или выравнивания (по умолчанию влево) */
-.hero-badge-container {
-    margin-bottom: 34px;
-}
-/* Сама оболочка (пилюля) */
-.custom-badge {
-    display: inline-flex;
-    align-items: center;
-    background: rgba(5, 16, 31, .42);
-    border: 1px solid rgba(255,255,255,.22);
-    border-radius: 50px;
-    padding: 10px 16px;
-    gap: 10px;
-    backdrop-filter: blur(14px);
-}
-/* Эмодзи/Иконка */
-.megaphone {
-    display: none;
-}
-/* Золотой текст EU FUNDING RADAR */
-.badge-title {
-    color: rgba(255,255,255,.74);
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-/* Ссылка с подчеркиванием */
-.badge-action {
-    color: white;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 650;
-    transition: opacity 0.2s;
-}
-.badge-action:hover {
-    opacity: 0.8;
-    text-decoration: none;
-}
-/* Адаптивность для мобилок */
-@media (max-width: 600px) {
-    .custom-badge {
-        padding: 6px 16px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .badge-title, .badge-action {
-        font-size: 12px;
-    }
-}
         nav { background: rgba(243, 241, 234, 0.94); backdrop-filter: blur(20px); padding: 12px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(15,31,55,.08); }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; width: 118px; height: 62px; align-items: center; }
@@ -166,6 +116,49 @@
         .hero-action:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.62); background: rgba(255,255,255,.1); }
         .hero-action-primary { border-color: white; background: white; color: var(--navy); }
         .hero-action-primary:hover { background: #f1f4f7; color: var(--navy); }
+        .hero-badge-container { margin-bottom: 34px; }
+        .custom-badge { display: inline-flex; align-items: center; background: rgba(5, 16, 31, .42); border: 1px solid rgba(255,255,255,.22); border-radius: 50px; padding: 10px 16px; gap: 10px; backdrop-filter: blur(14px); }
+        .megaphone { display: none; }
+        .badge-title { color: rgba(255,255,255,.74); font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+        .badge-action { color: white; text-decoration: none; font-size: 12px; font-weight: 650; transition: opacity 0.2s; }
+        .badge-action:hover { opacity: 0.8; text-decoration: none; }
+        @media (max-width: 600px) {
+            .custom-badge { padding: 6px 16px; flex-wrap: wrap; justify-content: center; }
+            .badge-title, .badge-action { font-size: 12px; }
+        }
+        #hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover; z-index: 0; pointer-events: none; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+            background: linear-gradient(180deg, rgba(3,15,31,0.88) 0%, rgba(6,48,86,0.8) 45%, rgba(10,77,122,0.82) 100%); }
+        @media (prefers-reduced-motion: reduce) { #hero-video { display: none; } }
+        /* Hero extras (policy directions, process steps, who we work with) */
+        .hero-extras { padding: 56px 0 0; background: var(--bg); }
+        /* Policy bar */
+        .policy-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 36px; margin-bottom: 44px; padding: 26px 32px; border-radius: 18px; background: var(--navy); }
+        .policy-bar-label { position: relative; flex: 0 0 auto; padding-bottom: 10px; }
+        .policy-bar-label span { color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+        .policy-bar-label::after { content: ""; position: absolute; left: 0; bottom: 0; width: 26px; height: 2px; background: var(--gold); }
+        .policy-bar-list { display: flex; flex: 1 1 auto; flex-wrap: wrap; gap: 0; }
+        .policy-bar-list span { position: relative; padding: 0 24px; color: rgba(255,255,255,.86); font-size: 14px; font-weight: 600; line-height: 1.4; }
+        .policy-bar-list span:first-child { padding-left: 0; }
+        .policy-bar-list span::before { content: ""; position: absolute; left: 0; top: 2px; bottom: 2px; width: 1px; background: rgba(255,204,0,.5); }
+        .policy-bar-list span:first-child::before { display: none; }
+        /* Process steps */
+        .process-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .process-card { display: flex; gap: 20px; padding: 30px 28px; border: 1px solid var(--border); border-radius: 20px; background: var(--white); }
+        .process-num { flex: 0 0 auto; padding-right: 20px; border-right: 2px solid var(--gold); font-family: var(--font-mono); font-size: 34px; font-weight: 800; line-height: 1; color: var(--navy); }
+        .process-body { flex: 1 1 auto; min-width: 0; }
+        .process-label { display: block; margin-bottom: 8px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+        .process-card h3 { margin: 0 0 12px; font-size: 17px; line-height: 1.35; color: var(--text); }
+        .process-card p { margin: 0; padding-top: 12px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.6; }
+        /* Who we work with */
+        .who-section { padding-bottom: 8px; }
+        .who-eyebrow { display: block; margin-bottom: 16px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+        .who-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+        .who-chips { display: flex; flex: 1 1 auto; flex-wrap: wrap; gap: 10px; }
+        .who-chip { display: inline-flex; align-items: center; gap: 9px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--white); color: var(--text); font-size: 13px; font-weight: 700; }
+        .who-chip i { color: var(--navy); font-size: 14px; }
+        .who-cta { flex: 0 0 auto; padding: 15px 22px; font-size: 14px; }
+        .who-note { margin: 16px 0 0; color: var(--muted); font-size: 12.5px; }
         /* About */
         .about-section { padding: 110px 0; background: #fff; }
         .about-intro { display: grid; grid-template-columns: 1.05fr .95fr; gap: 72px; align-items: end; }
@@ -173,25 +166,12 @@
         .about-intro h2 { margin: 0; max-width: 680px; font-size: clamp(34px, 5vw, 58px); }
         .about-lead { margin: 0; color: var(--muted); font-size: 18px; line-height: 1.72; }
         .about-principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 48px; }
-        .about-principle { position: relative; overflow: hidden; min-height: 218px; padding: 30px 28px 28px; border: 1px solid #e4e8ee; border-radius: 22px; background: var(--bg); transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
-        .about-principle::before { content: ""; position: absolute; top: 0; left: 28px; right: 28px; height: 3px; border-radius: 0 0 3px 3px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
-        .about-principle:hover { transform: translateY(-6px); border-color: rgba(10,22,40,.14); box-shadow: 0 24px 48px rgba(15,31,55,.1); }
-        .about-principle:hover::before { transform: scaleX(1); }
-        .about-principle .principle-tag { display: flex; align-items: baseline; gap: 10px; margin-bottom: 28px; }
-        .about-principle .principle-num { font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--navy); line-height: 1; }
-        .about-principle .principle-label { color: var(--muted); font-family: var(--font-mono); font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
-        .about-principle h3 { margin: 0 0 10px; color: var(--navy); font-size: 20px; }
-        .about-principle p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.62; }
         .about-cooperation { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 18px; padding: 30px 34px; border-radius: 22px; background: linear-gradient(135deg, var(--navy) 0%, #0d1f38 100%); color: white; box-shadow: 0 24px 60px rgba(15,31,55,.18); }
         .about-cooperation::after { content: ""; position: absolute; top: -60%; right: -8%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,204,0,.16), transparent 70%); pointer-events: none; }
         .about-cooperation strong { position: relative; display: block; margin-bottom: 6px; font-size: 19px; }
         .about-cooperation p { position: relative; margin: 0; max-width: 760px; color: rgba(255,255,255,.7); font-size: 14px; line-height: 1.6; }
         .about-cooperation a, .about-cooperation button { position: relative; flex: 0 0 auto; padding: 13px 22px; border: 1px solid transparent; border-radius: 12px; background: var(--gold); color: var(--navy); font-family: inherit; font-size: 13px; font-weight: 800; text-decoration: none; cursor: pointer; transition: transform .25s ease, box-shadow .25s ease; }
         .about-cooperation a:hover, .about-cooperation button:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,204,0,.35); }
-        #hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover; z-index: 0; pointer-events: none; }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
-            background: linear-gradient(180deg, rgba(3,15,31,0.88) 0%, rgba(6,48,86,0.8) 45%, rgba(10,77,122,0.82) 100%); }
-        @media (prefers-reduced-motion: reduce) { #hero-video { display: none; } }
         /* Stats Section */
         .stats { padding: 100px 0; background: var(--white); border-bottom: 1px solid #E2DFD5; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
@@ -383,6 +363,13 @@
             .bridge-paths { grid-template-columns: 1fr; text-align: left; }
             .bridge-arrow { transform: rotate(90deg); }
             .hero-actions { grid-template-columns: 1fr; max-width: 520px; }
+            .policy-bar { flex-direction: column; align-items: flex-start; }
+            .policy-bar-list { flex-direction: column; gap: 10px; }
+            .policy-bar-list span { padding: 0 0 0 16px; }
+            .policy-bar-list span::before { top: 4px; bottom: 4px; }
+            .process-grid { grid-template-columns: 1fr; }
+            .who-row { flex-direction: column; align-items: flex-start; }
+            .who-cta { width: 100%; justify-content: center; }
             .about-intro, .about-principles { grid-template-columns: 1fr; text-align: left; }
             .about-cooperation { align-items: flex-start; flex-direction: column; text-align: left; }
             .service-card-grid { grid-template-columns: 1fr; }
@@ -459,6 +446,66 @@
             </div>
         </div>
     </header>
+    <section class="hero-extras">
+        <div class="container">
+            <div class="policy-bar reveal">
+                <div class="policy-bar-label">
+                    <span>EU Policy Directions We Follow</span>
+                </div>
+                <div class="policy-bar-list">
+                    <span>Competitiveness &amp; industrial resilience</span>
+                    <span>AI, data &amp; digital sovereignty</span>
+                    <span>Clean industry &amp; energy</span>
+                    <span>Health, life sciences &amp; biotech</span>
+                    <span>Critical technologies &amp; security</span>
+                    <span>Skills &amp; innovation ecosystems</span>
+                </div>
+            </div>
+            <div class="process-grid">
+                <article class="process-card reveal">
+                    <span class="process-num">01</span>
+                    <div class="process-body">
+                        <span class="process-label">Find the right call</span>
+                        <h3>We identify where an organisation can contribute.</h3>
+                        <p>We track EU work programmes and calls to find a strong match with existing capabilities and plans.</p>
+                    </div>
+                </article>
+                <article class="process-card reveal">
+                    <span class="process-num">02</span>
+                    <div class="process-body">
+                        <span class="process-label">Join the right consortium</span>
+                        <h3>We connect organisations with experienced coordinators.</h3>
+                        <p>The aim is to join a credible consortium where the organisation's contribution is genuinely needed.</p>
+                    </div>
+                </article>
+                <article class="process-card reveal">
+                    <span class="process-num">03</span>
+                    <div class="process-body">
+                        <span class="process-label">Build a clear role</span>
+                        <h3>We help define a meaningful contribution.</h3>
+                        <p>Research, technology, infrastructure, data, validation, deployment or access to end users.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="who-section reveal">
+                <span class="who-eyebrow">Who we work with</span>
+                <div class="who-row">
+                    <div class="who-chips">
+                        <span class="who-chip"><i class="fas fa-graduation-cap" aria-hidden="true"></i>Universities</span>
+                        <span class="who-chip"><i class="fas fa-microscope" aria-hidden="true"></i>Research organisations</span>
+                        <span class="who-chip"><i class="fas fa-rocket" aria-hidden="true"></i>Startups &amp; SMEs</span>
+                        <span class="who-chip"><i class="fas fa-industry" aria-hidden="true"></i>Industry</span>
+                        <span class="who-chip"><i class="fas fa-landmark" aria-hidden="true"></i>Public authorities</span>
+                        <span class="who-chip"><i class="fas fa-hospital" aria-hidden="true"></i>Hospitals</span>
+                        <span class="who-chip"><i class="fas fa-location-dot" aria-hidden="true"></i>Cities &amp; regions</span>
+                        <span class="who-chip"><i class="fas fa-people-group" aria-hidden="true"></i>NGOs &amp; networks</span>
+                    </div>
+                    <a href="#database" class="btn btn-gold who-cta">Explore EU calls &rarr;</a>
+                </div>
+                <p class="who-note">Eligibility and consortium requirements vary by programme and call.</p>
+            </div>
+        </div>
+    </section>
     <!-- STATS SECTION -->
     <section class="stats">
         <div class="container stats-grid">
@@ -491,20 +538,29 @@
                 <p class="about-lead">DeepSync is an EU programme development partner. We connect policy, research, public authorities, industry and investment to build credible concepts, capable consortia and practical pathways — from idea to implementation and scale.</p>
             </div>
             <div class="about-principles">
-                <article class="about-principle reveal">
-                    <div class="principle-tag"><span class="principle-num">01</span><span class="principle-label">Policy to project</span></div>
-                    <h3>We understand what Europe is trying to achieve.</h3>
-                    <p>We translate EU priorities and call requirements into a clear project logic — with the evidence to back it up.</p>
+                <article class="process-card reveal">
+                    <span class="process-num">01</span>
+                    <div class="process-body">
+                        <span class="process-label">Policy to project</span>
+                        <h3>We understand what Europe is trying to achieve.</h3>
+                        <p>We translate EU priorities and call requirements into a clear project logic — with the evidence to back it up.</p>
+                    </div>
                 </article>
-                <article class="about-principle reveal">
-                    <div class="principle-tag"><span class="principle-num">02</span><span class="principle-label">Right ecosystem</span></div>
-                    <h3>We build around missing capabilities, not logos.</h3>
-                    <p>Our consortium work brings together the right scientific, industrial, public-sector and market partners — with real ownership and contribution, not just names on a page.</p>
+                <article class="process-card reveal">
+                    <span class="process-num">02</span>
+                    <div class="process-body">
+                        <span class="process-label">Right ecosystem</span>
+                        <h3>We build around missing capabilities, not logos.</h3>
+                        <p>Our consortium work brings together the right scientific, industrial, public-sector and market partners — with real ownership and contribution, not just names on a page.</p>
+                    </div>
                 </article>
-                <article class="about-principle reveal">
-                    <div class="principle-tag"><span class="principle-num">03</span><span class="principle-label">Continuous intelligence</span></div>
-                    <h3>We combine data with professional judgement.</h3>
-                    <p>We track Commission evaluation patterns and funding data, but every project is shaped by expert review — not just automated matching.</p>
+                <article class="process-card reveal">
+                    <span class="process-num">03</span>
+                    <div class="process-body">
+                        <span class="process-label">Continuous intelligence</span>
+                        <h3>We combine data with professional judgement.</h3>
+                        <p>We track Commission evaluation patterns and funding data, but every project is shaped by expert review — not just automated matching.</p>
+                    </div>
                 </article>
             </div>
             <div class="about-cooperation reveal">
