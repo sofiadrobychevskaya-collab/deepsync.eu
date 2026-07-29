@@ -1,6 +1,15 @@
 {
-  "generated_at": "2026-07-19T09:37:38.660Z",
+  "generated_at": "2026-07-29T00:00:00.000Z",
   "items": [
+    {
+      "category": "AI ACT",
+      "date_label": "27 JUL 2026",
+      "headline": "Digital Omnibus on AI enters into force",
+      "body": "The Digital Omnibus on AI — Regulation (EU) 2026/1744 — was published in the Official Journal on 24 July and entered into force on 27 July, three days ahead of the standard timeline so it could take effect before the 2 August deadline it amends. Article 50 transparency obligations (AI-system disclosure, deepfake labelling, disclosure of AI-generated content published on matters of public interest) still apply from 2 August 2026. The compliance deadline for stand-alone high-risk AI systems listed in Annex III is now 2 December 2027, and for high-risk AI embedded in regulated products (Annex I) it is 2 August 2028.",
+      "what_it_means": "Deep-tech clients building Annex III high-risk systems — employment, education, critical infrastructure — get genuine breathing room on compliance, and those embedding high-risk AI in regulated products now have until August 2028; but the 2 August transparency duties still apply regardless of either extension, so it's worth flagging all three clocks separately. Also a timely compliance-relief note for any client who was scrambling ahead of the original 2 August deadline.",
+      "source_name": "European Commission",
+      "source_url": "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force"
+    },
     {
       "category": "AI ACT",
       "date_label": "07 JUL 2026",
