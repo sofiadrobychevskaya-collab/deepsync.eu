@@ -61,7 +61,8 @@
               <option value="horizon">Horizon Europe RIA / IA</option>
               <option value="horizon-csa">Horizon Europe CSA</option>
               <option value="digital">Digital Europe</option>
-              <option value="eic">EIC Accelerator Open</option>
+              <option value="eic-short">EIC Accelerator Open — Short Application</option>
+              <option value="eic-full">EIC Accelerator Open — Full Application</option>
             </select>
           </label>
           <label>
@@ -225,6 +226,15 @@
         <button type="button" class="secondary-button" id="run-deep-check">Run Deep AI Check on Impact →</button>
         <p class="deep-check-status" id="deep-check-status" hidden></p>
         <div class="deep-check-result" id="deep-check-result" hidden></div>
+      </section>
+
+      <section class="deep-check eic-check" id="eic-check" hidden aria-labelledby="eic-check-title">
+        <p class="eyebrow">BETA · OPT-IN · SENDS DATA</p>
+        <h3 id="eic-check-title">EIC Accelerator Short Application evaluation</h3>
+        <p class="deep-check-copy">Runs the official EIC Accelerator Short Application rubric (effective 12 June 2026) against your full document, simulating four independent evaluators — technology, market and investment, implementation, and a sceptical reviewer. Sends your full document text to DeepSync's AI service. Nothing is sent until you click the button below.</p>
+        <button type="button" class="secondary-button" id="run-eic-check">Run EIC evaluation →</button>
+        <p class="deep-check-status" id="eic-check-status" hidden></p>
+        <div class="deep-check-result eic-check-result" id="eic-check-result" hidden></div>
       </section>
 
       <section class="human-support" id="human-support" hidden aria-labelledby="human-support-title">

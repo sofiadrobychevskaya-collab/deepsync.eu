@@ -103,6 +103,10 @@ const els = {
   runDeepCheck: document.querySelector("#run-deep-check"),
   deepCheckStatus: document.querySelector("#deep-check-status"),
   deepCheckResult: document.querySelector("#deep-check-result"),
+  eicCheck: document.querySelector("#eic-check"),
+  runEicCheck: document.querySelector("#run-eic-check"),
+  eicCheckStatus: document.querySelector("#eic-check-status"),
+  eicCheckResult: document.querySelector("#eic-check-result"),
   humanSupport: document.querySelector("#human-support"),
   recommendedSupportReason: document.querySelector("#recommended-support-reason"),
   recommendedServiceCard: document.querySelector("#recommended-service-card"),
@@ -469,18 +473,27 @@ async function extractDocx(file) {
   return { text: result.value, pages: null };
 }
 
+function isEicProgramme(programme) {
+  return programme === "eic" || programme === "eic-short" || programme === "eic-full";
+}
+
 function programmeName(programme) {
   return programme === "digital"
     ? "Digital Europe"
-    : programme === "eic"
-      ? "EIC Accelerator Open"
-      : programme === "horizon-csa"
-        ? "Horizon Europe CSA"
-        : "Horizon Europe RIA / IA";
+    : programme === "eic-short"
+      ? "EIC Accelerator Open — Short Application"
+      : programme === "eic-full"
+        ? "EIC Accelerator Open — Full Application"
+        : programme === "eic"
+          ? "EIC Accelerator Open"
+          : programme === "horizon-csa"
+            ? "Horizon Europe CSA"
+            : "Horizon Europe RIA / IA";
 }
 
 function detectProgramme(text) {
   const source = `${selectedFile?.name || ""}\n${text.slice(0, 20000)}`;
+  if (/short application|TRL\s*5.{0,20}TRL\s*6/i.test(source) && /EIC\s*Accelerator/i.test(source)) return "eic-short";
   if (/EIC\s*Accelerator|EIC-ACC|stage\s*2\s*-?\s*full\s*application/i.test(source)) return "eic";
   if (/Digital Europe|\bDIGITAL-20\d{2}-/i.test(source)) return "digital";
   if (/Horizon Europe|\bHORIZON-/i.test(source)) return "horizon";
@@ -829,14 +842,14 @@ function applyCallAssessment(analysis, proposalText, callData) {
 function programmeFromCall(callData, fallback) {
   if (!callData) return fallback;
   if (callData.identifier.startsWith("DIGITAL-")) return "digital";
-  if (callData.identifier.startsWith("EIC-")) return "eic";
+  if (callData.identifier.startsWith("EIC-")) return isEicProgramme(fallback) ? fallback : "eic-short";
   if (callData.identifier.startsWith("HORIZON-") && /\bCSA\b|Support Action/i.test(callData.actionType)) return "horizon-csa";
   if (callData.identifier.startsWith("HORIZON-")) return "horizon";
   return fallback;
 }
 
 function deriveConsortiumProfile(text, programme, callId, callData) {
-  if (programme === "eic") {
+  if (isEicProgramme(programme)) {
     return {
       query: suggestCordisQuery(text, callId, callData),
       roles: [{ label: "EIC applicant structure", present: true, legalRole: "Single applicant", need: "EIC Accelerator normally funds a single startup or SME; CORDIS candidates should be treated as validators, customers or ecosystem supporters rather than consortium beneficiaries.", basis: "Programme rule — verify against the current call documents" }]
@@ -1176,7 +1189,7 @@ function analyseText(text, programme, pages, esrBenchmarks = null, policyLibrary
     ...pattern,
     criterion: programme === "digital" && pattern.criterion === "Excellence"
       ? "Relevance"
-      : programme === "eic" && pattern.criterion === "Implementation"
+      : isEicProgramme(programme) && pattern.criterion === "Implementation"
         ? "Risk & implementation"
         : pattern.criterion,
     location: pattern.location(text)
@@ -1184,7 +1197,7 @@ function analyseText(text, programme, pages, esrBenchmarks = null, policyLibrary
   findings.push(...policyAlignmentFindings(policyLibrary, text));
   const criteria = programme === "digital"
     ? ["Relevance", "Implementation", "Impact"]
-    : programme === "eic"
+    : isEicProgramme(programme)
       ? ["Excellence", "Impact", "Risk & implementation"]
       : ["Excellence", "Impact", "Implementation"];
   const scores = {};
@@ -1196,7 +1209,7 @@ function analyseText(text, programme, pages, esrBenchmarks = null, policyLibrary
   if (lowCoverage) {
     warnings.push(`Only ${pages === 1 ? "one page was" : "a small amount of text was"} extracted. Scores are capped because this is unlikely to represent a complete Part B proposal.`);
   }
-  if (detectedProgramme && detectedProgramme !== programme && !(detectedProgramme === "horizon" && programme === "horizon-csa")) {
+  if (detectedProgramme && detectedProgramme !== programme && !(detectedProgramme === "horizon" && programme === "horizon-csa") && !(isEicProgramme(detectedProgramme) && isEicProgramme(programme))) {
     warnings.push(`The document appears to be ${programmeName(detectedProgramme)}, but ${programmeName(programme)} was selected. Choose the matching programme and run the analysis again.`);
   }
 
@@ -1264,6 +1277,7 @@ async function runFileAnalysis(event) {
     document.querySelector("#programme").value = programme;
     const [esrBenchmarks, policyLibrary, evaluationGuidance] = await Promise.all([getEsrBenchmarks(), getPolicyLibrary(), getEvaluationGuidance()]);
     const analysis = analyseText(text, programme, pages, esrBenchmarks, policyLibrary, evaluationGuidance);
+    analysis.programme = programme;
     const callId = extractTopicIdentifier(callInput) || callInput;
     const programmeLabel = programmeName(programme);
     analysis.meta = `${programmeLabel}${callId ? ` · ${callId}` : ""} · ${pages ? `${pages} pages` : "DOCX"}`;
@@ -1343,6 +1357,7 @@ function unlockDetailedResults() {
   els.emailGate.hidden = true;
   els.detailedResults.hidden = false;
   els.deepCheck.hidden = !extractCriterionText(lastProposalText, "Impact");
+  els.eicCheck.hidden = currentAnalysis?.programme !== "eic-short";
   els.humanSupport.hidden = false;
   els.feedbackBar.hidden = false;
   els.printReport.disabled = false;
@@ -1511,6 +1526,116 @@ function renderDeepCheckResult(data) {
   `;
 }
 
+async function runEicCheck() {
+  els.eicCheckStatus.hidden = false;
+  els.eicCheckResult.hidden = true;
+  if (!deepCheckEndpoint) {
+    els.eicCheckStatus.textContent = "This feature isn't connected yet — ask DeepSync to finish setup (see scripts/deep-ai-check.gs).";
+    return;
+  }
+  if (!lastProposalText.trim()) {
+    els.eicCheckStatus.textContent = "No document text was found to review.";
+    return;
+  }
+  const originalLabel = els.runEicCheck.textContent;
+  els.runEicCheck.disabled = true;
+  els.runEicCheck.textContent = "Evaluating…";
+  els.eicCheckStatus.textContent = "Simulating four independent EIC evaluators against your full document — this can take a minute…";
+  try {
+    const payload = {
+      mode: "eic-short",
+      proposalText: lastProposalText.slice(0, 60000),
+      context: {
+        call: currentAnalysis?.callData ? {
+          identifier: currentAnalysis.callData.identifier,
+          title: currentAnalysis.callData.title,
+          expectedOutcome: currentAnalysis.callData.expectedOutcome,
+          scope: currentAnalysis.callData.scope,
+          destination: currentAnalysis.callData.destination
+        } : { note: "No official call was linked to this analysis." }
+      }
+    };
+    const response = await fetch(deepCheckEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json();
+    if (data.error) throw new Error(data.error);
+    renderEicCheckResult(data);
+  } catch (error) {
+    els.eicCheckStatus.textContent = `Could not complete the evaluation: ${error.message || "please try again."}`;
+  } finally {
+    els.runEicCheck.disabled = false;
+    els.runEicCheck.textContent = originalLabel;
+  }
+}
+
+function renderEicCheckResult(data) {
+  els.eicCheckStatus.hidden = true;
+  els.eicCheckResult.hidden = false;
+  const verdict = data.executive_verdict || {};
+  const matrix = Array.isArray(data.evaluation_matrix) ? data.evaluation_matrix : [];
+  const evaluators = Array.isArray(data.evaluator_reports) ? data.evaluator_reports : [];
+  const claims = Array.isArray(data.claim_audit) ? data.claim_audit : [];
+  const consistency = Array.isArray(data.consistency_audit) ? data.consistency_audit : [];
+  const missing = Array.isArray(data.missing_information_request) ? data.missing_information_request : [];
+  const revision = Array.isArray(data.revision_strategy) ? data.revision_strategy : [];
+  const checklist = Array.isArray(data.final_checklist) ? data.final_checklist : [];
+
+  const missingByGroup = missing.reduce((groups, item) => {
+    const key = item.group || "Other";
+    (groups[key] = groups[key] || []).push(item);
+    return groups;
+  }, {});
+
+  els.eicCheckResult.innerHTML = `
+    <div class="eic-report-actions"><button type="button" class="secondary-button" id="download-eic-report">Download report (PDF) →</button></div>
+    <h4>A. Executive verdict</h4>
+    <p class="eic-verdict-headline"><strong>${escapeHtml(verdict.overall_result || "Not returned")}</strong> — ${escapeHtml(verdict.readiness || "")}</p>
+    <ul>
+      <li><strong>Strongest part:</strong> ${escapeHtml(verdict.strongest_part || "—")}</li>
+      <li><strong>Weakest part:</strong> ${escapeHtml(verdict.weakest_part || "—")}</li>
+      <li><strong>Main reason it could pass:</strong> ${escapeHtml(verdict.main_reason_could_pass || "—")}</li>
+      <li><strong>Main reason it could fail:</strong> ${escapeHtml(verdict.main_reason_could_fail || "—")}</li>
+    </ul>
+
+    <h4>B. Evaluation matrix</h4>
+    ${matrix.length ? `<div class="eic-table-wrap"><table class="eic-matrix"><thead><tr><th>Criterion</th><th>Score</th><th>Rating</th><th>Convincing</th><th>Missing</th><th>Rejection risk</th><th>Priority</th></tr></thead><tbody>
+      ${matrix.map(row => `<tr><td>${escapeHtml(row.criterion || "")}</td><td>${escapeHtml(row.score ?? "")}/4</td><td>${escapeHtml(row.rating || "")}</td><td>${escapeHtml(row.convincing || "")}</td><td>${escapeHtml(row.missing || "")}</td><td>${escapeHtml(row.rejection_risk || "")}</td><td><span class="eic-priority eic-priority-${escapeHtml((row.priority || "").toLowerCase())}">${escapeHtml(row.priority || "")}</span></td></tr>`).join("")}
+    </tbody></table></div>` : "<p class=\"dc-note\">No matrix returned.</p>"}
+
+    <h4>C. Four independent evaluator reports</h4>
+    <div class="eic-evaluators">${evaluators.map(item => `
+      <article class="eic-evaluator-card">
+        <div class="eic-evaluator-head"><strong>${escapeHtml(item.evaluator || "Evaluator")}</strong><span class="eic-decision eic-decision-${(item.decision || "").toLowerCase() === "go" ? "go" : "nogo"}">${escapeHtml(item.decision || "")}</span></div>
+        <p><em>Strongest reasons:</em> ${(item.strongest_reasons || []).map(escapeHtml).join("; ")}</p>
+        <p><em>Principal concerns:</em> ${(item.principal_concerns || []).map(escapeHtml).join("; ")}</p>
+        <p><em>Decisive issue:</em> ${escapeHtml(item.decisive_issue || "")}</p>
+      </article>`).join("")}</div>
+
+    <h4>D. Claim and evidence audit</h4>
+    ${claims.length ? `<ul>${claims.map(item => `<li><strong>${escapeHtml(item.classification || "")}:</strong> ${escapeHtml(item.claim || "")}${item.evidence_needed ? ` — <em>needs:</em> ${escapeHtml(item.evidence_needed)}` : ""}</li>`).join("")}</ul>` : "<p class=\"dc-note\">No claims returned.</p>"}
+
+    <h4>E. Consistency audit</h4>
+    ${consistency.length ? `<ul>${consistency.map(item => `<li><strong>${escapeHtml(item.area || "")}:</strong> ${escapeHtml(item.issue || "")}</li>`).join("")}</ul>` : "<p class=\"dc-note\">No inconsistencies detected.</p>"}
+
+    <h4>F. Missing-information request</h4>
+    ${Object.keys(missingByGroup).length ? Object.entries(missingByGroup).map(([group, items]) => `
+      <p class="eic-group-label">${escapeHtml(group)}</p>
+      <ul>${items.map(item => `<li><strong>${escapeHtml(item.item || "")}</strong> (${escapeHtml(item.priority || "")}, owner: ${escapeHtml(item.owner || "—")}) — ${escapeHtml(item.why || "")}</li>`).join("")}</ul>`).join("") : "<p class=\"dc-note\">No outstanding information requests.</p>"}
+
+    <h4>G. Revision strategy</h4>
+    ${revision.length ? `<ul>${revision.map(item => `<li><strong>${escapeHtml(item.section || "")}:</strong> strengthen — ${escapeHtml(item.strengthen || "—")}; insert evidence — ${escapeHtml(item.evidence_to_insert || "—")}</li>`).join("")}</ul>` : "<p class=\"dc-note\">No revision strategy returned.</p>"}
+
+    <h4>H. Final checklist</h4>
+    ${checklist.length ? `<ul>${checklist.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : "<p class=\"dc-note\">No checklist returned.</p>"}
+
+    <p class="dc-note">This is an analytical simulation based on evaluator behaviour, not an official Commission decision.</p>
+  `;
+  document.querySelector("#download-eic-report")?.addEventListener("click", () => window.print());
+}
+
 els.file.addEventListener("change", event => setFile(event.target.files[0]));
 els.form.addEventListener("submit", runFileAnalysis);
 els.emailGateForm.addEventListener("submit", submitEmailGate);
@@ -1533,6 +1658,7 @@ els.dropzone.addEventListener("drop", event => {
 });
 els.printReport.addEventListener("click", () => window.print());
 els.runDeepCheck.addEventListener("click", runDeepCheck);
+els.runEicCheck.addEventListener("click", runEicCheck);
 els.openConsortium.addEventListener("click", () => {
   els.consortiumSearch.hidden = !els.consortiumSearch.hidden;
 });
@@ -1555,6 +1681,9 @@ els.newAnalysis.addEventListener("click", () => {
   els.deepCheck.hidden = true;
   els.deepCheckStatus.hidden = true;
   els.deepCheckResult.hidden = true;
+  els.eicCheck.hidden = true;
+  els.eicCheckStatus.hidden = true;
+  els.eicCheckResult.hidden = true;
   els.humanSupport.hidden = true;
   els.supportRequest.hidden = true;
   activeService = "";
