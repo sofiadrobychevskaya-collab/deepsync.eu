@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T09:00:00.000Z",
+  "generated_at": "2026-07-30T00:00:00.000Z",
   "calls": [
     {
       "programme": "HORIZON EUROPE",
@@ -312,6 +312,20 @@
       "cutoffs": ["28 Aug 2026", "30 Oct 2026"],
       "summary": "Funds six-month feasibility studies testing whether a space-based service concept — using satellite EO, SatCom or GNSS — is technically feasible, commercially viable and genuinely in demand, for businesses in any sector from ESA Member States.",
       "source_url": "https://business.esa.int/funding/open-call-for-proposals-kick-starts"
+    },
+    {
+      "programme": "SINGLE MARKET PROGRAMME",
+      "categories": ["SINGLE MARKET PROGRAMME", "CASCADE FUNDING"],
+      "type": "Cascade grant (FSTP)",
+      "sector": "Dual-use drone technology",
+      "sector_tags": ["Critical Tech", "Mobility"],
+      "audiences": ["Startups", "Industry"],
+      "title": "ECDI Dual-Use Drones Innovative Programme — 2nd Open Call",
+      "budget": "Up to €35,000 equity-free per SME · 80% funding rate (min. 20% co-financing required) · ~10 SMEs supported",
+      "deadline": "2026-09-30T17:00:00+02:00",
+      "deadline_label": "30 Sep 2026",
+      "summary": "Equity-free funding plus mentoring, technical/regulatory/business support and internationalisation help for manufacturing SMEs in the dual-use drone sector (at least one product at TRL6+) established in an EU Member State or eligible Single Market Programme/COSME country, to mature drone solutions and pivot into new markets. Software-only, service-only and consultancy applicants are not eligible. Run by the European Cluster for Drone Innovation (ECDI, Grant Agreement 101236201).",
+      "source_url": "https://ecdi-euroclusters.eu/opencalls/,2.html"
     }
   ]
 }
