@@ -124,6 +124,7 @@ const els = {
   newAnalysis: document.querySelector("#new-analysis"),
   printReport: document.querySelector("#print-report"),
   feedbackLink: document.querySelector("#feedback-link"),
+  consortiumTitle: document.querySelector("#consortium-title"),
   consortiumProfile: document.querySelector("#consortium-profile"),
   consortiumIntro: document.querySelector("#consortium-intro"),
   consortiumCount: document.querySelector("#consortium-count"),
@@ -842,7 +843,7 @@ function applyCallAssessment(analysis, proposalText, callData) {
 function programmeFromCall(callData, fallback) {
   if (!callData) return fallback;
   if (callData.identifier.startsWith("DIGITAL-")) return "digital";
-  if (callData.identifier.startsWith("EIC-")) return isEicProgramme(fallback) ? fallback : "eic-short";
+  if (/\bEIC\b/i.test(callData.identifier)) return isEicProgramme(fallback) ? fallback : "eic-short";
   if (callData.identifier.startsWith("HORIZON-") && /\bCSA\b|Support Action/i.test(callData.actionType)) return "horizon-csa";
   if (callData.identifier.startsWith("HORIZON-")) return "horizon";
   return fallback;
@@ -852,6 +853,7 @@ function deriveConsortiumProfile(text, programme, callId, callData) {
   if (isEicProgramme(programme)) {
     return {
       query: suggestCordisQuery(text, callId, callData),
+      singleApplicant: true,
       roles: [{ label: "EIC applicant structure", present: true, legalRole: "Single applicant", need: "EIC Accelerator normally funds a single startup or SME; CORDIS candidates should be treated as validators, customers or ecosystem supporters rather than consortium beneficiaries.", basis: "Programme rule — verify against the current call documents" }]
     };
   }
@@ -886,19 +888,35 @@ function suggestCordisQuery(text, callId = "", callData = null) {
 }
 
 function renderConsortiumProfile(profile) {
-  const gaps = profile.roles.filter(role => !role.present);
-  els.consortiumProfile.innerHTML = gaps.map(role => `
-    <article class="profile-signal ${role.present ? "present" : "gap"}">
-      <span>${role.present ? "Detected coverage" : "Potential gap"}</span>
-      <strong>${escapeHtml(role.label)}</strong>
-      <small>${escapeHtml(role.need)}</small>
-      <em class="role-status">${escapeHtml(role.legalRole)}</em>
-      <small><strong>Basis:</strong> ${escapeHtml(role.basis)}</small>
-    </article>`).join("") || `<article class="profile-signal present"><span>Coverage detected</span><strong>No obvious role gaps</strong><small>Validate eligibility, commitments and task-level capacity before submission.</small></article>`;
-  els.consortiumCount.textContent = gaps.length ? `${gaps.length} potential gap${gaps.length === 1 ? "" : "s"}` : "No obvious gaps";
-  els.consortiumIntro.textContent = gaps.length
-    ? "We found potential role gaps that may weaken delivery credibility. Similar funded projects and candidate organisations are loaded below."
-    : "The main role categories appear covered. Similar funded projects and candidate organisations are loaded below.";
+  if (profile.singleApplicant) {
+    const role = profile.roles[0];
+    els.consortiumTitle.textContent = "Your applicant & ecosystem check";
+    els.consortiumProfile.innerHTML = `
+      <article class="profile-signal present">
+        <span>Programme rule</span>
+        <strong>${escapeHtml(role.label)}</strong>
+        <small>${escapeHtml(role.need)}</small>
+        <em class="role-status">${escapeHtml(role.legalRole)}</em>
+        <small><strong>Basis:</strong> ${escapeHtml(role.basis)}</small>
+      </article>`;
+    els.consortiumCount.textContent = "Single applicant";
+    els.consortiumIntro.textContent = "EIC Accelerator funds a single company, not a consortium — there are no partner-role gaps to check. Similar funded projects and potential validators, customers or ecosystem partners from CORDIS are loaded below.";
+  } else {
+    els.consortiumTitle.textContent = "Your consortium coverage";
+    const gaps = profile.roles.filter(role => !role.present);
+    els.consortiumProfile.innerHTML = gaps.map(role => `
+      <article class="profile-signal ${role.present ? "present" : "gap"}">
+        <span>${role.present ? "Detected coverage" : "Potential gap"}</span>
+        <strong>${escapeHtml(role.label)}</strong>
+        <small>${escapeHtml(role.need)}</small>
+        <em class="role-status">${escapeHtml(role.legalRole)}</em>
+        <small><strong>Basis:</strong> ${escapeHtml(role.basis)}</small>
+      </article>`).join("") || `<article class="profile-signal present"><span>Coverage detected</span><strong>No obvious role gaps</strong><small>Validate eligibility, commitments and task-level capacity before submission.</small></article>`;
+    els.consortiumCount.textContent = gaps.length ? `${gaps.length} potential gap${gaps.length === 1 ? "" : "s"}` : "No obvious gaps";
+    els.consortiumIntro.textContent = gaps.length
+      ? "We found potential role gaps that may weaken delivery credibility. Similar funded projects and candidate organisations are loaded below."
+      : "The main role categories appear covered. Similar funded projects and candidate organisations are loaded below.";
+  }
   els.openConsortium.textContent = "Refine search →";
   els.openConsortium.hidden = false;
   els.consortiumDetails.hidden = false;
