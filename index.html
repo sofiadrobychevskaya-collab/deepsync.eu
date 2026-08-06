@@ -130,20 +130,14 @@
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
             background: linear-gradient(180deg, rgba(3,15,31,0.88) 0%, rgba(6,48,86,0.8) 45%, rgba(10,77,122,0.82) 100%); }
         @media (prefers-reduced-motion: reduce) { #hero-video { display: none; } }
-        /* Policy bar */
-        .policy-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 36px; margin: 48px 0 44px; padding: 26px 32px; border-radius: 18px; background: var(--navy); }
-        .policy-bar-label { position: relative; flex: 0 0 auto; padding-bottom: 10px; }
-        .policy-bar-label span { color: #fff; font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
-        .policy-bar-label::after { content: ""; position: absolute; left: 0; bottom: 0; width: 26px; height: 2px; background: var(--gold); }
-        .policy-bar-list { display: flex; flex: 1 1 auto; flex-wrap: wrap; gap: 0; }
-        .policy-bar-list span { position: relative; padding: 0 24px; color: rgba(255,255,255,.86); font-size: 14px; font-weight: 600; line-height: 1.4; }
-        .policy-bar-list span:first-child { padding-left: 0; }
-        .policy-bar-list span::before { content: ""; position: absolute; left: 0; top: 2px; bottom: 2px; width: 1px; background: rgba(255,204,0,.5); }
-        .policy-bar-list span:first-child::before { display: none; }
-        /* Sectors */
-        .about-sectors { margin: 48px 0 40px; }
-        .about-sectors-label { display: block; margin-bottom: 10px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
-        .about-sectors p { margin: 0; max-width: 900px; color: var(--muted); font-size: 15px; line-height: 1.7; }
+        /* Mission & sectors */
+        .about-mission-sectors { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; margin: 40px 0 44px; align-items: start; }
+        .about-block-label { display: block; margin-bottom: 12px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+        .about-mission p { margin: 0 0 14px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+        .about-mission-aligned { margin-top: 4px !important; padding-top: 14px; border-top: 1px solid var(--border); font-size: 13.5px !important; }
+        .about-sectors-list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
+        .about-sectors-list li { position: relative; padding-left: 17px; color: var(--text); font-size: 14.5px; font-weight: 600; }
+        .about-sectors-list li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; background: var(--gold); }
         /* Process steps */
         .about-steps { margin: 0 0 40px; }
         .about-steps-label { display: block; margin-bottom: 14px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
@@ -162,10 +156,8 @@
         .who-note { margin: 16px 0 0; color: var(--muted); font-size: 12.5px; }
         /* About */
         .about-section { padding: 110px 0; background: #fff; }
-        .about-intro { display: grid; grid-template-columns: 1.05fr .95fr; gap: 72px; align-items: end; }
         .about-kicker { display: inline-flex; align-items: center; margin-bottom: 20px; padding: 8px 14px; border: 1px solid rgba(10,22,40,.14); border-radius: 999px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
-        .about-intro h2 { margin: 0; max-width: 680px; font-size: clamp(34px, 5vw, 58px); }
-        .about-lead { margin: 0; color: var(--muted); font-size: 18px; line-height: 1.72; }
+        .about-intro h2 { margin: 0; max-width: 900px; font-size: clamp(34px, 5vw, 58px); }
         .about-cooperation { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 18px; padding: 30px 34px; border-radius: 22px; background: linear-gradient(135deg, var(--navy) 0%, #0d1f38 100%); color: white; box-shadow: 0 24px 60px rgba(15,31,55,.18); }
         .about-cooperation::after { content: ""; position: absolute; top: -60%; right: -8%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,204,0,.16), transparent 70%); pointer-events: none; }
         .about-cooperation strong { position: relative; display: block; margin-bottom: 6px; font-size: 19px; }
@@ -363,13 +355,9 @@
             .bridge-paths { grid-template-columns: 1fr; text-align: left; }
             .bridge-arrow { transform: rotate(90deg); }
             .hero-actions { grid-template-columns: 1fr; max-width: 520px; }
-            .policy-bar { flex-direction: column; align-items: flex-start; }
-            .policy-bar-list { flex-direction: column; gap: 10px; }
-            .policy-bar-list span { padding: 0 0 0 16px; }
-            .policy-bar-list span::before { top: 4px; bottom: 4px; }
+            .about-mission-sectors { grid-template-columns: 1fr; gap: 32px; }
             .who-row { flex-direction: column; align-items: flex-start; }
             .who-cta { width: 100%; justify-content: center; }
-            .about-intro { grid-template-columns: 1fr; text-align: left; }
             .about-cooperation { align-items: flex-start; flex-direction: column; text-align: left; }
             .service-card-grid { grid-template-columns: 1fr; }
             .service-card { min-height: 0; }
@@ -470,33 +458,33 @@
     <section id="about" class="about-section">
         <div class="container">
             <div class="about-intro reveal">
-                <div>
-                    <span class="about-kicker">About DeepSync</span>
-                    <h2>We turn research and technology into European projects with real-world impact.</h2>
-                </div>
-                <p class="about-lead">DeepSync is a European project development partner. We help transform promising research, technologies and public challenges into well-structured international projects. We identify the right funding opportunities, shape strong concepts, build capable consortia and support projects from idea to implementation and scale.</p>
+                <span class="about-kicker">About DeepSync</span>
+                <h2>We bridge research, policy and industry to turn innovation into European projects with real-world impact.</h2>
             </div>
-            <div class="about-sectors reveal">
-                <span class="about-sectors-label">Sectors we work across</span>
-                <p>Digital &amp; Deep Tech &middot; Climate &amp; Energy &middot; Industry &amp; Advanced Materials &middot; Health &amp; Biotechnology &middot; Food &amp; Agriculture &middot; Bioeconomy &amp; Environment &middot; Mobility &amp; Smart Cities &middot; Space &amp; Earth Observation &middot; Culture &amp; Creative Industries &middot; Security &amp; Resilience &middot; Skills &amp; Innovation Ecosystems</p>
-            </div>
-            <div class="policy-bar reveal">
-                <div class="policy-bar-label">
-                    <span>EU Policy Directions We Follow</span>
+            <div class="about-mission-sectors reveal">
+                <div class="about-mission">
+                    <span class="about-block-label">Our mission</span>
+                    <p>Europe produces world-class research, but many promising technologies struggle to move from the lab to pilots, adoption and scale. DeepSync helps bridge this gap by connecting research organisations, industry, public authorities, investors and European funding.</p>
+                    <p class="about-mission-aligned">Aligned with Europe&rsquo;s priorities in competitiveness, digital sovereignty, clean industry, resilience, health and critical technologies.</p>
                 </div>
-                <div class="policy-bar-list">
-                    <span>Competitiveness &amp; industrial resilience</span>
-                    <span>AI, data &amp; digital sovereignty</span>
-                    <span>Clean industry &amp; energy</span>
-                    <span>Health, life sciences &amp; biotech</span>
-                    <span>Critical technologies &amp; security</span>
-                    <span>Skills &amp; innovation ecosystems</span>
+                <div class="about-sectors-block">
+                    <span class="about-block-label">Sectors</span>
+                    <ul class="about-sectors-list">
+                        <li>Digital &amp; Deep Tech</li>
+                        <li>Climate, Energy &amp; Mobility</li>
+                        <li>Industry &amp; Advanced Materials</li>
+                        <li>Health &amp; Biotechnology</li>
+                        <li>Food, Agriculture &amp; Bioeconomy</li>
+                        <li>Environment &amp; Circular Economy</li>
+                        <li>Space, Security &amp; Resilience</li>
+                        <li>Skills &amp; Innovation Ecosystems</li>
+                    </ul>
                 </div>
             </div>
             <div class="about-steps reveal">
                 <span class="about-steps-label">Our process</span>
                 <div class="about-steps-row">
-                    <span class="about-step"><span class="about-step-num">1</span>Find the opportunity</span>
+                    <span class="about-step"><span class="about-step-num">1</span>Identify the opportunity</span>
                     <span class="about-step-arrow" aria-hidden="true">&rarr;</span>
                     <span class="about-step"><span class="about-step-num">2</span>Shape the project</span>
                     <span class="about-step-arrow" aria-hidden="true">&rarr;</span>
@@ -512,12 +500,14 @@
                 <div class="who-row">
                     <div class="who-chips">
                         <span class="who-chip"><i class="fas fa-graduation-cap" aria-hidden="true"></i>Universities</span>
-                        <span class="who-chip"><i class="fas fa-microscope" aria-hidden="true"></i>Research organisations</span>
+                        <span class="who-chip"><i class="fas fa-microscope" aria-hidden="true"></i>RTOs &amp; research centres</span>
                         <span class="who-chip"><i class="fas fa-rocket" aria-hidden="true"></i>Startups &amp; SMEs</span>
                         <span class="who-chip"><i class="fas fa-industry" aria-hidden="true"></i>Industry</span>
                         <span class="who-chip"><i class="fas fa-landmark" aria-hidden="true"></i>Public authorities</span>
                         <span class="who-chip"><i class="fas fa-hospital" aria-hidden="true"></i>Hospitals</span>
                         <span class="who-chip"><i class="fas fa-location-dot" aria-hidden="true"></i>Cities &amp; regions</span>
+                        <span class="who-chip"><i class="fas fa-lightbulb" aria-hidden="true"></i>Innovation agencies</span>
+                        <span class="who-chip"><i class="fas fa-chart-line" aria-hidden="true"></i>Investors &amp; accelerators</span>
                         <span class="who-chip"><i class="fas fa-people-group" aria-hidden="true"></i>NGOs &amp; networks</span>
                     </div>
                     <a href="#database" class="btn btn-gold who-cta">Explore EU calls &rarr;</a>
