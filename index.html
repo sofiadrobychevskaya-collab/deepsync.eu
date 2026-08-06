@@ -140,14 +140,17 @@
         .policy-bar-list span:first-child { padding-left: 0; }
         .policy-bar-list span::before { content: ""; position: absolute; left: 0; top: 2px; bottom: 2px; width: 1px; background: rgba(255,204,0,.5); }
         .policy-bar-list span:first-child::before { display: none; }
+        /* Sectors */
+        .about-sectors { margin: 48px 0 40px; }
+        .about-sectors-label { display: block; margin-bottom: 10px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+        .about-sectors p { margin: 0; max-width: 900px; color: var(--muted); font-size: 15px; line-height: 1.7; }
         /* Process steps */
-        .process-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .process-card { display: flex; gap: 20px; padding: 30px 28px; border: 1px solid var(--border); border-radius: 20px; background: var(--white); }
-        .process-num { flex: 0 0 auto; padding-right: 20px; border-right: 2px solid var(--gold); font-family: var(--font-mono); font-size: 34px; font-weight: 800; line-height: 1; color: var(--navy); }
-        .process-body { flex: 1 1 auto; min-width: 0; }
-        .process-label { display: block; margin-bottom: 8px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
-        .process-card h3 { margin: 0 0 12px; font-size: 17px; line-height: 1.35; color: var(--text); }
-        .process-card p { margin: 0; padding-top: 12px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.6; }
+        .about-steps { margin: 0 0 40px; }
+        .about-steps-label { display: block; margin-bottom: 14px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+        .about-steps-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 6px; }
+        .about-step { display: inline-flex; align-items: center; gap: 9px; padding: 12px 18px; border: 1px solid var(--border); border-radius: 999px; background: var(--white); color: var(--text); font-size: 13.5px; font-weight: 700; }
+        .about-step-num { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--navy); color: var(--gold); font-family: var(--font-mono); font-size: 10px; font-weight: 800; }
+        .about-step-arrow { color: var(--gold); font-size: 16px; font-weight: 800; }
         /* Who we work with */
         .who-section { padding-bottom: 8px; }
         .who-eyebrow { display: block; margin-bottom: 16px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
@@ -364,7 +367,6 @@
             .policy-bar-list { flex-direction: column; gap: 10px; }
             .policy-bar-list span { padding: 0 0 0 16px; }
             .policy-bar-list span::before { top: 4px; bottom: 4px; }
-            .process-grid { grid-template-columns: 1fr; }
             .who-row { flex-direction: column; align-items: flex-start; }
             .who-cta { width: 100%; justify-content: center; }
             .about-intro { grid-template-columns: 1fr; text-align: left; }
@@ -470,9 +472,13 @@
             <div class="about-intro reveal">
                 <div>
                     <span class="about-kicker">About DeepSync</span>
-                    <h2>We turn European priorities into programmes that can be funded and delivered.</h2>
+                    <h2>We turn research and technology into European projects with real-world impact.</h2>
                 </div>
-                <p class="about-lead">DeepSync is an EU programme development partner. We connect policy, research, public authorities, industry and investment to build credible concepts, capable consortia and practical pathways — from idea to implementation and scale.</p>
+                <p class="about-lead">DeepSync is a European project development partner. We help transform promising research, technologies and public challenges into well-structured international projects. We identify the right funding opportunities, shape strong concepts, build capable consortia and support projects from idea to implementation and scale.</p>
+            </div>
+            <div class="about-sectors reveal">
+                <span class="about-sectors-label">Sectors we work across</span>
+                <p>Digital &amp; Deep Tech &middot; Climate &amp; Energy &middot; Industry &amp; Advanced Materials &middot; Health &amp; Biotechnology &middot; Food &amp; Agriculture &middot; Bioeconomy &amp; Environment &middot; Mobility &amp; Smart Cities &middot; Space &amp; Earth Observation &middot; Culture &amp; Creative Industries &middot; Security &amp; Resilience &middot; Skills &amp; Innovation Ecosystems</p>
             </div>
             <div class="policy-bar reveal">
                 <div class="policy-bar-label">
@@ -487,31 +493,19 @@
                     <span>Skills &amp; innovation ecosystems</span>
                 </div>
             </div>
-            <div class="process-grid">
-                <article class="process-card reveal">
-                    <span class="process-num">01</span>
-                    <div class="process-body">
-                        <span class="process-label">Find the right call</span>
-                        <h3>We identify where an organisation can contribute.</h3>
-                        <p>We track EU work programmes and calls to find a strong match with existing capabilities and plans.</p>
-                    </div>
-                </article>
-                <article class="process-card reveal">
-                    <span class="process-num">02</span>
-                    <div class="process-body">
-                        <span class="process-label">Join the right consortium</span>
-                        <h3>We connect organisations with experienced coordinators.</h3>
-                        <p>The aim is to join a credible consortium where the organisation's contribution is genuinely needed.</p>
-                    </div>
-                </article>
-                <article class="process-card reveal">
-                    <span class="process-num">03</span>
-                    <div class="process-body">
-                        <span class="process-label">Build a clear role</span>
-                        <h3>We help define a meaningful contribution.</h3>
-                        <p>Research, technology, infrastructure, data, validation, deployment or access to end users.</p>
-                    </div>
-                </article>
+            <div class="about-steps reveal">
+                <span class="about-steps-label">Our process</span>
+                <div class="about-steps-row">
+                    <span class="about-step"><span class="about-step-num">1</span>Find the opportunity</span>
+                    <span class="about-step-arrow" aria-hidden="true">&rarr;</span>
+                    <span class="about-step"><span class="about-step-num">2</span>Shape the project</span>
+                    <span class="about-step-arrow" aria-hidden="true">&rarr;</span>
+                    <span class="about-step"><span class="about-step-num">3</span>Build the consortium</span>
+                    <span class="about-step-arrow" aria-hidden="true">&rarr;</span>
+                    <span class="about-step"><span class="about-step-num">4</span>Develop the proposal</span>
+                    <span class="about-step-arrow" aria-hidden="true">&rarr;</span>
+                    <span class="about-step"><span class="about-step-num">5</span>Support delivery and scale</span>
+                </div>
             </div>
             <div class="who-section reveal">
                 <span class="who-eyebrow">Who we work with</span>
