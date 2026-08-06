@@ -300,6 +300,15 @@
         .wordmark { display: grid; flex: 0 0 auto; place-items: center; min-width: 150px; min-height: 58px; padding: 8px 14px; color: var(--navy); font-size: 17px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
         .wordmark small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
         .collaboration-disclaimer { margin-top: 16px !important; max-width: none !important; font-size: 10px; }
+        .testimonials-section { padding: 90px 0; background: #fff; }
+        .testimonials { margin: 0 auto; }
+        .testimonials h3 { margin: 0 0 24px; font-size: 24px; color: var(--navy); text-align: center; }
+        .testimonial-grid { display: flex; flex-direction: column; gap: 14px; }
+        .testimonial-card { display: flex; gap: 16px; padding: 26px 30px; border-radius: 18px; background: var(--navy); }
+        .testimonial-flag { flex: 0 0 auto; font-size: 22px; line-height: 1.3; }
+        .testimonial-body { padding-left: 18px; border-left: 2px solid var(--gold); }
+        .testimonial-body blockquote { margin: 0; color: rgba(255,255,255,.9); font-size: 15px; font-style: italic; line-height: 1.65; }
+        .testimonial-body cite { display: block; margin-top: 12px; color: var(--gold); font-style: normal; font-weight: 800; font-size: 13px; }
         /* Final CTA band */
         .final-cta { position: relative; padding: 68px 0; text-align: center; overflow: hidden; }
         .final-cta-bg { position: absolute; inset: 0; background-image: url('/assets/images/cta-team-meeting.jpg'); background-size: cover; background-position: center; }
@@ -673,6 +682,49 @@
                 <div class="wordmark">Energy Storage Europe Association<small>European industry &amp; policy network</small></div>
             </div>
             <p class="collaboration-disclaimer">Organisation names are shown solely to identify past proposal or consortium work. No endorsement, sponsorship or formal institutional partnership is implied.</p>
+        </div>
+    </section>
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container testimonials reveal">
+            <h3>Testimonials</h3>
+            <div class="testimonial-grid">
+                <article class="testimonial-card">
+                    <span class="testimonial-flag" aria-hidden="true">🇩🇰</span>
+                    <div class="testimonial-body">
+                        <blockquote>&ldquo;We built a 3-country, 7-partner consortium in just a few weeks — including universities, hospitality, and associations. Special attention was given to the eligibility check for each partner and direct contact with their national contact points. The project passed the eligibility stage and is now in the final phase of evaluation.&rdquo;</blockquote>
+                        <cite>Heartery</cite>
+                    </div>
+                </article>
+                <article class="testimonial-card">
+                    <span class="testimonial-flag" aria-hidden="true">🇮🇹</span>
+                    <div class="testimonial-body">
+                        <blockquote>&ldquo;DeepSync was a huge help — they connected us with our university partner for the EIT Digital program just days before the deadline.&rdquo;</blockquote>
+                        <cite>Sirius Game</cite>
+                    </div>
+                </article>
+                <article class="testimonial-card">
+                    <span class="testimonial-flag" aria-hidden="true">🇪🇪</span>
+                    <div class="testimonial-body">
+                        <blockquote>&ldquo;The team carefully matched us with grant programs covering different components of our renewable energy project.&rdquo;</blockquote>
+                        <cite>Freen</cite>
+                    </div>
+                </article>
+                <article class="testimonial-card">
+                    <span class="testimonial-flag" aria-hidden="true">🇨🇾</span>
+                    <div class="testimonial-body">
+                        <blockquote>&ldquo;DeepSync supported us through the full cycle — from application to reporting. Thanks to them, we secured &euro;1.5M. They were literally the bridge between us and the grant.&rdquo;</blockquote>
+                        <cite>Soula</cite>
+                    </div>
+                </article>
+                <article class="testimonial-card">
+                    <span class="testimonial-flag" aria-hidden="true">🇵🇹</span>
+                    <div class="testimonial-body">
+                        <blockquote>&ldquo;DeepSync were fantastic managing the whole process from consortium building to delivering the application, from A to Z.&rdquo;</blockquote>
+                        <cite>Instituto Pedro Nunes</cite>
+                    </div>
+                </article>
+            </div>
         </div>
     </section>
     <!-- NEWS WIRE SECTION -->
