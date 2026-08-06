@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30T00:00:00.000Z",
+  "generated_at": "2026-07-31T00:00:00.000Z",
   "calls": [
     {
       "programme": "HORIZON EUROPE",
@@ -326,6 +326,47 @@
       "deadline_label": "30 Sep 2026",
       "summary": "Equity-free funding plus mentoring, technical/regulatory/business support and internationalisation help for manufacturing SMEs in the dual-use drone sector (at least one product at TRL6+) established in an EU Member State or eligible Single Market Programme/COSME country, to mature drone solutions and pivot into new markets. Software-only, service-only and consultancy applicants are not eligible. Run by the European Cluster for Drone Innovation (ECDI, Grant Agreement 101236201).",
       "source_url": "https://ecdi-euroclusters.eu/opencalls/,2.html"
+    },
+    {
+      "programme": "NATIONAL FUNDING",
+      "categories": ["NATIONAL FUNDING"],
+      "type": "Investment co-financing grant",
+      "sector": "Industrial & infrastructure FDI in Ukraine",
+      "sector_tags": ["Green Tech", "Critical Tech"],
+      "audiences": ["Industry"],
+      "title": "SECO Call for Proposals 3.0 — Swiss Private Investment in Ukraine",
+      "budget": "CHF 3–10M per project · up to 50% of costs (min. 50% co-financing) · CHF 50M total call budget",
+      "deadline": "2026-09-20T17:00:00+02:00",
+      "deadline_label": "20 Sep 2026",
+      "summary": "Co-financing (up to 50%, CHF 3–10M per project) from Switzerland's SECO for Swiss companies with a registered Ukrainian entity making long-term foreign direct investment there — new/restored/modernised production facilities, equipment or business infrastructure that will remain and operate in Ukraine for the long term. Two-stage selection; project duration up to 5 years. Not an EU programme — Swiss federal bilateral funding.",
+      "source_url": "https://www.seco-cooperation.admin.ch/de/thirdcallforproposalsukraine"
+    },
+    {
+      "programme": "EIC",
+      "type": "Pathfinder Challenge",
+      "sector": "Cognitive AI · trustworthy AI research",
+      "sector_tags": ["AI & Data", "DeepTech"],
+      "audiences": ["Research", "Startups", "Industry"],
+      "title": "EIC Pathfinder Challenges — DeepRAP (Trustworthy Cognitive AI)",
+      "budget": "€500,000–€4,000,000 per project · 100% funded lump sum · €32M challenge budget",
+      "deadline": "2026-10-28T17:00:00+01:00",
+      "deadline_label": "28 Oct 2026",
+      "summary": "Funds early-stage, high-risk research (TRL1–4) building the scientific foundation for trustworthy, human-centred cognitive AI — deep reasoning, abstraction and planning going beyond current deep learning/reinforcement learning approaches. Single legal entities or consortia in EU/Horizon Europe associated countries; mid-caps and larger companies must join a consortium. Requires a dedicated portfolio-activities work package (≥10% of budget). One of three 2026 Pathfinder Challenge topics.",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2026-PATHFINDERCHALLENGES-01-03"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE", "CASCADE FUNDING"],
+      "type": "Cascade grant (FSTP)",
+      "sector": "River sediment & water management",
+      "sector_tags": ["Green Tech", "Public Policy"],
+      "audiences": ["Public sector"],
+      "title": "SUNDANSE Open Call 2 — Sediment Management Replication",
+      "budget": "Up to €100,000 lump sum per region · 2 regions selected (€200,000 total call budget)",
+      "deadline": "2026-09-30T17:00:00+02:00",
+      "deadline_label": "30 Sep 2026",
+      "summary": "Cascade grants for local/regional public authorities across 31 eligible European and Associated countries to replicate sediment- and water-management practices piloted in the Danube–Black Sea system — water flow monitoring, sediment tracking, pollution mitigation and public-awareness work — with dedicated technical/scientific support from the SUNDANSE consortium. Single application per authority; SUNDANSE consortium-country authorities are not eligible.",
+      "source_url": "https://sundanseproject.eu/sundanse-open-call-2/"
     }
   ]
 }
