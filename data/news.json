@@ -1,6 +1,42 @@
 {
-  "generated_at": "2026-07-29T00:00:00.000Z",
+  "generated_at": "2026-10-14T12:00:00.000Z",
   "items": [
+    {
+      "category": "DEEP TECH",
+      "date_label": "09 SEP 2026",
+      "headline": "Commission proposes the European Innovation Act",
+      "body": "The European Commission published its proposal for a European Innovation Act on 9 September 2026, as a regulation that would apply directly in all Member States. It sets a common EU framework for valuing intellectual property, a digital marketplace for IP assets and a common procedure for public R&D procurement, alongside a separate proposal on regulatory sandboxes. The Commission estimates the IP-financing measures could unlock up to €10.2bn a year in IP-backed venture capital and debt. It is a proposal only: it now goes to the European Parliament and the Council, and it creates no new funding programme.",
+      "what_it_means": "Nothing changes for applicants yet, but it is worth tracking for clients whose main asset is IP: a common valuation method would make IP-backed financing easier, and joint cross-border R&D procurement could become a new route to market for deep-tech suppliers to public buyers.",
+      "source_name": "European Commission",
+      "source_url": "https://futurium.ec.europa.eu/en/promoting-enterprise/news/european-innovation-act-new-proposal-keep-europes-best-innovations-growing-europe"
+    },
+    {
+      "category": "DEEP TECH",
+      "date_label": "05 AUG 2026",
+      "headline": "Scaleup Europe Fund makes its first investment in ICEYE",
+      "body": "The €5bn-target Scaleup Europe Fund, managed by EQT, announced its first investment on 5 August 2026 by co-leading ICEYE's €1bn Series F round, which includes €450m of primary investment at a valuation above €10bn. The fund invests directly in European deep-tech companies from Series B onwards, with the Commission contributing €1bn from the EIC part of Horizon Europe alongside private investors.",
+      "what_it_means": "The fund is now deploying capital, which sets the bar for what it backs: large, late-stage rounds in strategic sectors such as space. For earlier-stage deep-tech clients it is a signal for the scale-up path after EIC Accelerator, not a source for the next round.",
+      "source_name": "EQT",
+      "source_url": "https://eqtgroup.com/news/eqts-scaleup-europe-fund-makes-first-investment-co-leads-1-billion-funding-round-in-iceye-europes-leader-in-sovereign-intelligence-from-space-2026-08-05"
+    },
+    {
+      "category": "EIC",
+      "date_label": "04 NOV 2026",
+      "headline": "EIC Accelerator: 4 November is the last 2026 cut-off",
+      "body": "The EIC Accelerator's final full-proposal cut-off of 2026 is 4 November at 17:00 Brussels time. Only companies whose short application has already received a GO can submit a full proposal for it; short applications are batched monthly with no fixed deadline, and results take about 4–6 weeks. Separately, the EIC STEP Scale Up Defence call (€100m indicative, €10–30m equity per company) closes on 28 October.",
+      "what_it_means": "For a short application submitted now, the result will most likely come after 4 November, so the next realistic full-proposal window is in 2027. Teams without a GO should plan for the first 2027 cut-off; defence and dual-use companies with a lead investor should look at STEP Scale Up Defence now.",
+      "source_name": "European Innovation Council",
+      "source_url": "https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en"
+    },
+    {
+      "category": "AI ACT",
+      "date_label": "02 DEC 2026",
+      "headline": "AI Act: grace period for AI-content marking ends 2 December",
+      "body": "Under the Digital Omnibus on AI, generative AI systems already on the market before 2 August 2026 have until 2 December 2026 to meet the Article 50(2) duty to mark synthetic output in a machine-readable format. Systems placed on the market from 2 August 2026 get no grace period, and the other Article 50 transparency duties, such as chatbot disclosure and deepfake labelling, already apply.",
+      "what_it_means": "Clients with generative AI products on the market before August have about seven weeks left to build marking in. Newer products need it from launch, and it is worth confirming the exact wording against the Official Journal text.",
+      "source_name": "Cloud Security Alliance",
+      "source_url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-eu-ai-act-article50-watermarking-deadline/"
+    },
     {
       "category": "AI ACT",
       "date_label": "27 JUL 2026",
