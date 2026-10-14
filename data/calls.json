@@ -423,6 +423,20 @@
       "deadline_label": "2 Feb 2027",
       "summary": "CSA to build a European network helping universities, RTOs and research infrastructures set up or upscale venture builder roles — people and units that co-create startups and spin-offs early and support their launch and growth. Expected outcomes: more awareness of venture builders in research organisations, new or upscaled venture builder roles, shared resources, best-practice exchange and skills development to move research from lab to market. A gender-sensitive approach addressing barriers for women innovators and entrepreneurs is required. Single-stage submission.",
       "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL4-2027-01-MAT-PROD-50"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE", "CASCADE FUNDING"],
+      "type": "Research and Innovation Action (RIA)",
+      "sector": "Applied AI · healthcare, advanced manufacturing, autonomous driving",
+      "sector_tags": ["AI & Data", "Health & Life Sciences", "Mobility", "DeepTech"],
+      "audiences": ["Industry", "Startups", "Research"],
+      "title": "Apply AI: Challenge-Driven AI Innovation Booster",
+      "budget": "~€42M total · ~€14M per project · up to 3 projects · FSTP €12M per project (10 × €300K, then 4 × €2.25M)",
+      "deadline": "2027-03-18T17:00:00+01:00",
+      "deadline_label": "18 Mar 2027",
+      "summary": "RIA running a 3-stage AI innovation competition (AI, Data and Robotics Partnership). Each proposal addresses one sector — healthcare, advanced manufacturing (incl. AI-powered robotics) or in-vehicle autonomous driving; at least one funded project should focus on autonomous driving if quality allows. Stage 1 open call: the 10 top-ranked solutions advance and get €300K each; stage 2: the 4 best advance and get €2.25M each; stage 3 grand finale picks the best performer. Consortia provide data, technical assistance and business support to the competing teams. Opens 17 Nov 2026.",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL4-2027-04-DIGITAL-EMERGING-04"
     }
   ]
 }
