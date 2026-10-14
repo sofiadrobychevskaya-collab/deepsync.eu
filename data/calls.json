@@ -381,6 +381,20 @@
       "deadline_label": "5 Jan 2027",
       "summary": "Funds two HEI/RTO-led networks of European Startup and Scaleup Hubs (the 'European combinator'): selective deep-tech startup acceleration, investor demo days, mentor exchanges and ecosystem scale-up. Opens to organisations that can join a credible network as accelerator and community-builder — own startup intake, events, founder support and investor mobilisation. A strong research/HEI hub track record is required. Opened 6 Oct 2026; managed by EISMEA (HORIZON-EIE-2027-02-CONNECT-01).",
       "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIE-2027-02-CONNECT-01"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE", "CASCADE FUNDING"],
+      "type": "Research and Innovation Action (RIA)",
+      "sector": "Valorisation of Horizon project results",
+      "sector_tags": ["DeepTech", "Green Tech", "AgriTech", "Health & Life Sciences"],
+      "audiences": ["Ecosystem builders", "Research", "Industry"],
+      "title": "Valorising Horizon Project Results via Innovation Ecosystems",
+      "budget": "€20M total · €2.5–4M per project · ~5 projects · min. 60% of EU contribution as FSTP",
+      "deadline": "2027-02-16T17:00:00+01:00",
+      "deadline_label": "16 Feb 2027",
+      "summary": "Funds consortia of innovation-ecosystem intermediaries (e.g. technology transfer offices) that build an innovation pipeline for exploitable results from Horizon 2020 Societal Challenges and Horizon Europe Pillar II projects. At least 60% of the EU contribution must go to competitive FSTP calls (grants up to €150,000 per third party) for prototyping, testing, demonstration, piloting, product validation and market replication, alongside IP/business-model support, investor readiness and routes to follow-on funding. Each project picks ONE thematic area: agriculture/food, clean transition/energy/transport, health, bioeconomy, or raw/advanced materials. Part of Bridging Actions 2027; opens 20 Oct 2026.",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-bridging-2027-06-02"
     }
   ]
 }
