@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T00:00:00.000Z",
+  "generated_at": "2026-10-14T00:00:00.000Z",
   "calls": [
     {
       "programme": "HORIZON EUROPE",
@@ -367,6 +367,20 @@
       "deadline_label": "30 Sep 2026",
       "summary": "Cascade grants for local/regional public authorities across 31 eligible European and Associated countries to replicate sediment- and water-management practices piloted in the Danube–Black Sea system — water flow monitoring, sediment tracking, pollution mitigation and public-awareness work — with dedicated technical/scientific support from the SUNDANSE consortium. Single application per authority; SUNDANSE consortium-country authorities are not eligible.",
       "source_url": "https://sundanseproject.eu/sundanse-open-call-2/"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE"],
+      "type": "Programme Cofund",
+      "sector": "Deep tech startup & scaleup ecosystems",
+      "sector_tags": ["DeepTech", "Startups"],
+      "audiences": ["Ecosystem builders", "Research"],
+      "title": "European Startup and Scaleup Hubs Pilot",
+      "budget": "€40M total · 2 networks of ~10–18 hubs each",
+      "deadline": "2027-01-05T17:00:00+01:00",
+      "deadline_label": "5 Jan 2027",
+      "summary": "Funds two HEI/RTO-led networks of European Startup and Scaleup Hubs (the 'European combinator'): selective deep-tech startup acceleration, investor demo days, mentor exchanges and ecosystem scale-up. Opens to organisations that can join a credible network as accelerator and community-builder — own startup intake, events, founder support and investor mobilisation. A strong research/HEI hub track record is required. Opened 6 Oct 2026; managed by EISMEA (HORIZON-EIE-2027-02-CONNECT-01).",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIE-2027-02-CONNECT-01"
     }
   ]
 }
