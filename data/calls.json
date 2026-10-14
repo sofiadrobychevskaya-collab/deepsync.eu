@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-14T00:00:00.000Z",
+  "generated_at": "2026-10-14T12:00:00.000Z",
   "calls": [
     {
       "programme": "HORIZON EUROPE",
@@ -409,6 +409,20 @@
       "deadline_label": "2 Feb 2027",
       "summary": "36-month CSA to build and test a pilot multi-site scheme giving startups, scaleups and innovative SMEs fast, standardised, subsidised access to technology infrastructures (labs, pilot lines, testing facilities) across the EU, managed and funded centrally with simplified access conditions. Starts with a market/needs analysis, then centralised access calls in 2–3 waves. Must build on Open Innovation Test Beds and align with the European Charter on access to research infrastructures; consortia need a critical mass of infrastructure operators (typically RTOs / test-bed coordinators) and users. Single-stage submission.",
       "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL4-2027-01-MAT-PROD-47"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE"],
+      "type": "Coordination & Support Action (CSA)",
+      "sector": "Venture builders · research commercialisation",
+      "sector_tags": ["DeepTech", "Startups"],
+      "audiences": ["Research", "Ecosystem builders"],
+      "title": "European Network for Upscaling Venture Builders' Roles in Research Performing Organisations",
+      "budget": "~€1M indicative · ~1 project · lump sum",
+      "deadline": "2027-02-02T17:00:00+01:00",
+      "deadline_label": "2 Feb 2027",
+      "summary": "CSA to build a European network helping universities, RTOs and research infrastructures set up or upscale venture builder roles — people and units that co-create startups and spin-offs early and support their launch and growth. Expected outcomes: more awareness of venture builders in research organisations, new or upscaled venture builder roles, shared resources, best-practice exchange and skills development to move research from lab to market. A gender-sensitive approach addressing barriers for women innovators and entrepreneurs is required. Single-stage submission.",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL4-2027-01-MAT-PROD-50"
     }
   ]
 }
