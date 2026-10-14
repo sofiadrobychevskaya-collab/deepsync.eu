@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T00:00:00.000Z",
+  "generated_at": "2026-10-14T00:00:00.000Z",
   "calls": [
     {
       "programme": "HORIZON EUROPE",
@@ -367,6 +367,48 @@
       "deadline_label": "30 Sep 2026",
       "summary": "Cascade grants for local/regional public authorities across 31 eligible European and Associated countries to replicate sediment- and water-management practices piloted in the Danube–Black Sea system — water flow monitoring, sediment tracking, pollution mitigation and public-awareness work — with dedicated technical/scientific support from the SUNDANSE consortium. Single application per authority; SUNDANSE consortium-country authorities are not eligible.",
       "source_url": "https://sundanseproject.eu/sundanse-open-call-2/"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE"],
+      "type": "Programme Cofund",
+      "sector": "Deep tech startup & scaleup ecosystems",
+      "sector_tags": ["DeepTech", "Startups"],
+      "audiences": ["Ecosystem builders", "Research"],
+      "title": "European Startup and Scaleup Hubs Pilot",
+      "budget": "€40M total · 2 networks of ~10–18 hubs each",
+      "deadline": "2027-01-05T17:00:00+01:00",
+      "deadline_label": "5 Jan 2027",
+      "summary": "Funds two HEI/RTO-led networks of European Startup and Scaleup Hubs (the 'European combinator'): selective deep-tech startup acceleration, investor demo days, mentor exchanges and ecosystem scale-up. Opens to organisations that can join a credible network as accelerator and community-builder — own startup intake, events, founder support and investor mobilisation. A strong research/HEI hub track record is required. Opened 6 Oct 2026; managed by EISMEA (HORIZON-EIE-2027-02-CONNECT-01).",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIE-2027-02-CONNECT-01"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE", "CASCADE FUNDING"],
+      "type": "Research and Innovation Action (RIA)",
+      "sector": "Valorisation of Horizon project results",
+      "sector_tags": ["DeepTech", "Green Tech", "AgriTech", "Health & Life Sciences"],
+      "audiences": ["Ecosystem builders", "Research", "Industry"],
+      "title": "Valorising Horizon Project Results via Innovation Ecosystems",
+      "budget": "€20M total · €2.5–4M per project · ~5 projects · min. 60% of EU contribution as FSTP",
+      "deadline": "2027-02-16T17:00:00+01:00",
+      "deadline_label": "16 Feb 2027",
+      "summary": "Funds consortia of innovation-ecosystem intermediaries (e.g. technology transfer offices) that build an innovation pipeline for exploitable results from Horizon 2020 Societal Challenges and Horizon Europe Pillar II projects. At least 60% of the EU contribution must go to competitive FSTP calls (grants up to €150,000 per third party) for prototyping, testing, demonstration, piloting, product validation and market replication, alongside IP/business-model support, investor readiness and routes to follow-on funding. Each project picks ONE thematic area: agriculture/food, clean transition/energy/transport, health, bioeconomy, or raw/advanced materials. Part of Bridging Actions 2027; opens 20 Oct 2026.",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-bridging-2027-06-02"
+    },
+    {
+      "programme": "HORIZON EUROPE",
+      "categories": ["HORIZON EUROPE"],
+      "type": "Coordination & Support Action (CSA)",
+      "sector": "Technology infrastructure access · advanced materials, clean energy, health & biotech",
+      "sector_tags": ["DeepTech", "Startups"],
+      "audiences": ["Research", "Industry", "Ecosystem builders"],
+      "title": "Pilot Access Schemes to Technology Infrastructures for Startups, Scaleups and SMEs",
+      "budget": "€5M total · €1.5–2.5M lump sum per project · ~2 projects · 100% funded",
+      "deadline": "2027-02-02T17:00:00+01:00",
+      "deadline_label": "2 Feb 2027",
+      "summary": "36-month CSA to build and test a pilot multi-site scheme giving startups, scaleups and innovative SMEs fast, standardised, subsidised access to technology infrastructures (labs, pilot lines, testing facilities) across the EU, managed and funded centrally with simplified access conditions. Starts with a market/needs analysis, then centralised access calls in 2–3 waves. Must build on Open Innovation Test Beds and align with the European Charter on access to research infrastructures; consortia need a critical mass of infrastructure operators (typically RTOs / test-bed coordinators) and users. Single-stage submission.",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL4-2027-01-MAT-PROD-47"
     }
   ]
 }
