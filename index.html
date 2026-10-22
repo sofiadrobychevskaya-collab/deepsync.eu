@@ -217,6 +217,44 @@
             .vz-curve { stroke-dashoffset: 0; }
         }
 
+        /* Services (Expert Support) */
+        .svc-section { padding: 110px 0; background: #fff; }
+        .svc-head { display: grid; grid-template-columns: 1.25fr .75fr; gap: 12px 64px; align-items: end; margin-bottom: 48px; }
+        .svc-head h2 { margin: 0; max-width: 760px; color: var(--navy); font-size: clamp(32px, 4.4vw, 52px); }
+        .svc-head h2 em { font-style: normal; color: var(--navy); background: linear-gradient(transparent 70%, rgba(255,204,0,.55) 70%); }
+        .svc-head p { margin: 0; padding-left: 28px; border-left: 1px solid var(--border); color: var(--muted); font-size: 16px; line-height: 1.7; }
+        .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+        .svc-card { position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 32px 34px 28px; border: 1px solid var(--border); border-radius: 26px; background: var(--bg); transition: transform .35s ease, box-shadow .35s ease; }
+        .svc-card:hover { transform: translateY(-4px); box-shadow: 0 22px 50px rgba(15,31,55,.1); }
+        .svc-card-top { position: relative; z-index: 1; display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
+        .svc-num { display: grid; place-items: center; min-width: 38px; height: 30px; padding: 0 8px; border-radius: 8px; background: var(--navy); color: var(--gold); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
+        .svc-for { color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .svc-watermark { position: absolute; top: 18px; right: 26px; color: var(--navy); font-size: 120px; opacity: .06; pointer-events: none; }
+        .svc-card h3 { position: relative; z-index: 1; max-width: 460px; margin: 0 0 14px; color: var(--navy); font-size: clamp(24px, 2.6vw, 31px); }
+        .svc-desc { position: relative; z-index: 1; max-width: 520px; margin: 0 0 28px; color: var(--muted); font-size: 15px; line-height: 1.65; }
+        .svc-get { display: flex; align-items: center; gap: 16px; margin-top: auto; min-height: 128px; padding-top: 22px; border-top: 1px solid var(--border); }
+        .svc-get-icon { display: grid; place-items: center; flex: 0 0 auto; width: 52px; height: 52px; border-radius: 14px; background: var(--navy); color: var(--gold); font-size: 20px; }
+        .svc-get-text { flex: 1 1 auto; min-width: 0; }
+        .svc-get-label { display: block; margin-bottom: 4px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+        .svc-get-text p { margin: 0; color: var(--text); font-size: 13.5px; line-height: 1.5; }
+        .svc-explore { display: inline-flex; align-items: center; flex: 0 0 auto; gap: 10px; padding: 0; border: 0; background: none; color: var(--navy); font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+        .svc-explore-arrow { display: grid; place-items: center; width: 38px; height: 38px; border: 1.5px solid var(--navy); border-radius: 50%; font-size: 15px; transition: background .25s, color .25s, transform .25s; }
+        .svc-explore:hover .svc-explore-arrow { background: var(--gold); border-color: var(--gold); transform: translateX(3px); }
+        .svc-cta { margin-top: 22px; }
+        @media (max-width: 900px) {
+            .svc-section { padding: 80px 0; }
+            .svc-head { grid-template-columns: 1fr; gap: 18px; }
+            .svc-head p { padding-left: 0; border-left: 0; }
+            .svc-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 560px) {
+            .svc-card { padding: 26px 22px 22px; }
+            .svc-get { flex-wrap: wrap; min-height: 0; }
+            .svc-get-text { flex-basis: calc(100% - 70px); }
+            .svc-explore { margin-left: 68px; }
+            .svc-watermark { font-size: 90px; right: 14px; }
+        }
+
         /* Case study: REWIRE */
         .case-section { padding: 110px 0; background: var(--bg); }
         .case-intro h2 { margin: 0; max-width: 900px; color: var(--navy); font-size: clamp(34px, 5vw, 58px); }
@@ -256,10 +294,6 @@
         .services-intro span { color: var(--primary); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
         .services-intro h2 { margin: 12px 0 14px; color: var(--navy); font-size: clamp(36px, 6vw, 58px); }
         .services-intro p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.65; }
-        .service-logic { display: grid; grid-template-columns: 1fr 44px 1fr 44px 1fr; align-items: center; gap: 8px; margin: 0 0 22px; padding: 22px 26px; border: 1px solid #dfe4eb; border-radius: 18px; background: white; color: var(--navy); text-align: center; }
-        .service-logic strong { font-size: 13px; }
-        .service-logic span { color: var(--primary); font-size: 20px; }
-        .service-logic-note { margin: 0 0 34px; color: var(--muted); font-size: 13px; line-height: 1.6; text-align: center; }
         .service-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
         .service-card { display: flex; flex-direction: column; min-height: 510px; padding: 42px; border: 1px solid #dde2e9; border-radius: 28px; background: white; box-shadow: 0 18px 45px rgba(15,31,55,.06); }
         .service-card-dark { border-color: var(--navy); background: var(--navy); color: white; }
@@ -441,9 +475,7 @@
             .connect-shell { padding: 18px; }
             .connect-dialog .contact-form-wrap form, .connect-dialog .investment-bridge { padding: 24px; }
             .connect-tabs { grid-template-columns: 1fr; }
-            .service-logic { grid-template-columns: 1fr; gap: 7px; }
-            .service-logic span { transform: rotate(90deg); }
-        }
+                }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
@@ -732,44 +764,79 @@
     </section>
     <script src="/widget/deepsync-call-radar.js"></script>
     <!-- SERVICES SECTION -->
-    <section id="services" class="services-section">
+    <section id="services" class="svc-section">
         <div class="container">
-            <div class="services-intro reveal">
-                <span>Two connected practices</span>
-                <h2>From policy direction to funded action.</h2>
-                <p>We combine institutional intelligence with full-cycle funding support, so projects respond to where Europe is going and can be delivered in practice.</p>
+            <div class="svc-head reveal">
+                <div>
+                    <span class="about-kicker">Our services</span>
+                    <h2>From ideas to impact &mdash; across the <em>European innovation ecosystem.</em></h2>
+                </div>
+                <p>We help startups, research organisations, innovation hubs and industry partners access funding, build strategic partnerships and turn breakthrough technologies into real-world impact.</p>
             </div>
-            <div class="service-logic reveal" aria-label="How DeepSync connects policy and funding">
-                <strong>Policy intelligence</strong><span aria-hidden="true">→</span><strong>Funding strategy</strong><span aria-hidden="true">→</span><strong>Funded action</strong>
+            <div class="svc-grid">
+                <article class="svc-card reveal">
+                    <div class="svc-card-top">
+                        <span class="svc-num">01</span>
+                        <span class="svc-for">For startups, SMEs &amp; research organisations</span>
+                    </div>
+                    <i class="fas fa-clipboard-list svc-watermark" aria-hidden="true"></i>
+                    <h3>EU Funding &amp; Consortium Access</h3>
+                    <p class="svc-desc">We identify relevant European funding opportunities and connect your organisation with consortia, coordinators and strategic partners.</p>
+                    <div class="svc-get">
+                        <span class="svc-get-icon"><i class="fas fa-clipboard-list" aria-hidden="true"></i></span>
+                        <div class="svc-get-text"><span class="svc-get-label">What you get</span><p>Funding roadmap, partner introductions and support to join European R&amp;I projects.</p></div>
+                        <button type="button" class="svc-explore connect-trigger" data-connect-tab="work"><span class="svc-explore-arrow" aria-hidden="true">&rarr;</span>Explore Service</button>
+                    </div>
+                </article>
+                <article class="svc-card reveal">
+                    <div class="svc-card-top">
+                        <span class="svc-num">02</span>
+                        <span class="svc-for">For universities, innovation hubs &amp; accelerators</span>
+                    </div>
+                    <i class="fas fa-diagram-project svc-watermark" aria-hidden="true"></i>
+                    <h3>Innovation Ecosystem Development</h3>
+                    <p class="svc-desc">We help innovation organisations build international partnerships, connect their startups with industry and investors, and develop cross-border programmes and collaborative initiatives.</p>
+                    <div class="svc-get">
+                        <span class="svc-get-icon"><i class="fas fa-diagram-project" aria-hidden="true"></i></span>
+                        <div class="svc-get-text"><span class="svc-get-label">What you get</span><p>Strategic partnerships, internationalisation programmes, corporate connections and new collaboration opportunities.</p></div>
+                        <button type="button" class="svc-explore connect-trigger" data-connect-tab="work"><span class="svc-explore-arrow" aria-hidden="true">&rarr;</span>Explore Service</button>
+                    </div>
+                </article>
+                <article class="svc-card reveal">
+                    <div class="svc-card-top">
+                        <span class="svc-num">03</span>
+                        <span class="svc-for">For deeptech companies</span>
+                    </div>
+                    <i class="fas fa-rocket svc-watermark" aria-hidden="true"></i>
+                    <h3>Technology Commercialisation &amp; Market Access</h3>
+                    <p class="svc-desc">We connect emerging technologies with industrial partners, potential pilot customers and organisations that can support market entry.</p>
+                    <div class="svc-get">
+                        <span class="svc-get-icon"><i class="fas fa-rocket" aria-hidden="true"></i></span>
+                        <div class="svc-get-text"><span class="svc-get-label">What you get</span><p>Qualified industrial connections, pilot development opportunities and support in building commercial partnerships.</p></div>
+                        <button type="button" class="svc-explore connect-trigger" data-connect-tab="work"><span class="svc-explore-arrow" aria-hidden="true">&rarr;</span>Explore Service</button>
+                    </div>
+                </article>
+                <article class="svc-card reveal">
+                    <div class="svc-card-top">
+                        <span class="svc-num">04</span>
+                        <span class="svc-for">For EU projects &amp; programmes</span>
+                    </div>
+                    <i class="fas fa-gears svc-watermark" aria-hidden="true"></i>
+                    <h3>Programme &amp; Project Implementation</h3>
+                    <p class="svc-desc">We support the design, management and delivery of EU-funded innovation programmes, from coordination and reporting to exploitation, stakeholder engagement and ecosystem activities.</p>
+                    <div class="svc-get">
+                        <span class="svc-get-icon"><i class="fas fa-gears" aria-hidden="true"></i></span>
+                        <div class="svc-get-text"><span class="svc-get-label">What you get</span><p>Reliable project delivery, coordinated partnerships, exploitation support and structured reporting.</p></div>
+                        <button type="button" class="svc-explore connect-trigger" data-connect-tab="work"><span class="svc-explore-arrow" aria-hidden="true">&rarr;</span>Explore Service</button>
+                    </div>
+                </article>
             </div>
-            <p class="service-logic-note reveal">We identify where EU policy is moving, translate those priorities into the right funding route, and build the project required to act on them.</p>
-            <div class="service-card-grid">
-                <article class="service-card reveal">
-                    <span class="service-card-number">01 / FUNDING</span>
-                    <h3>EU Funding</h3>
-                    <p>Build the right route from opportunity selection to a fundable proposal and accountable delivery.</p>
-                    <ul class="service-list">
-                        <li>Funding strategy</li>
-                        <li>Call selection</li>
-                        <li>Consortium building</li>
-                        <li>Proposal development</li>
-                        <li>Project implementation</li>
-                    </ul>
-                    <button type="button" class="service-explore connect-trigger" data-connect-tab="work">Explore EU Funding →</button>
-                </article>
-                <article class="service-card service-card-dark reveal">
-                    <span class="service-card-number">02 / POLICY</span>
-                    <h3>Public Affairs</h3>
-                    <p>Understand institutional direction, build credible relationships and position your organisation before opportunities take shape.</p>
-                    <ul class="service-list">
-                        <li>Policy intelligence</li>
-                        <li>Stakeholder mapping</li>
-                        <li>Institutional positioning</li>
-                        <li>Coalition building</li>
-                        <li>Strategic influence</li>
-                    </ul>
-                    <button type="button" class="service-explore connect-trigger" data-connect-tab="work">Explore Public Affairs →</button>
-                </article>
+            <div class="about-cooperation svc-cta reveal">
+                <div>
+                    <strong>Let&rsquo;s build your next European partnership.</strong>
+                    <p>Whether you&rsquo;re developing an EU-funded initiative, expanding your innovation ecosystem or bringing technology to market, we can help you move forward.</p>
+                </div>
+                <button type="button" class="connect-trigger" data-connect-tab="work">Discuss Your Needs &rarr;</button>
             </div>
         </div>
     </section>
