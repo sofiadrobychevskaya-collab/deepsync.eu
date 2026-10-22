@@ -194,11 +194,6 @@
             .case-side-photo { max-width: 420px; }
         }
 
-        /* Proposal Evaluator Section */
-        .evaluator-section { padding: 56px 0; background: var(--white); border-bottom: 1px solid #E2DFD5; }
-        .evaluator-frame-wrap { border-radius: 24px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #E2DFD5; }
-        .evaluator-frame-wrap iframe { width: 100%; height: 980px; border: 0; display: block; }
-        @media (max-width: 600px) { .evaluator-frame-wrap iframe { height: 720px; } }
         /* Database Section */
         .database-section { padding: 100px 0; background: var(--bg); border-bottom: 1px solid #E2DFD5; }
         .db-card { background: var(--white); padding: 60px; border-radius: 32px; display: flex; align-items: center; gap: 50px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
@@ -410,7 +405,6 @@
             <a href="#" class="logo" aria-label="DeepSync home"><img src="logo-white.png" alt="DeepSync Logo"></a>
             <div class="nav-links">
                 <a href="#about">About</a>
-                <a href="#evaluator">AI Evaluator</a>
                 <a href="#services">Expert Support</a>
                 <a href="#database">Funding Radar</a>
                 <button type="button" class="connect-trigger" data-connect-tab="partnerships">Partnerships</button>
@@ -420,12 +414,10 @@
                 <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
                     <span></span><span></span><span></span>
                 </button>
-                <a href="#evaluator" class="mobile-nav-cta">AI Evaluator</a>
             </div>
         </div>
         <div class="mobile-menu" id="mobile-menu" hidden>
             <a href="#about">About</a>
-            <a href="#evaluator">AI Evaluator</a>
             <a href="#services">Expert Support</a>
             <a href="#database">Funding Radar</a>
             <button type="button" class="connect-trigger" data-connect-tab="partnerships">Partnerships</button>
@@ -451,7 +443,6 @@
                 <h1>Europe's DeepTech Funding Partner</h1>
                 <p>DeepSync brings policy, science and industry together to transform European priorities into funded, executable innovation programmes.</p>
                 <div class="hero-actions">
-                    <a href="#evaluator" class="btn hero-action hero-action-primary">Try Proposal Evaluator</a>
                     <button type="button" class="btn hero-action connect-trigger" data-connect-tab="work">Request Strategy Session</button>
                     <a href="#database" class="btn hero-action">EU Call Alerts</a>
                 </div>
@@ -582,22 +573,6 @@
                     <img src="/assets/rewire-event.jpg" width="800" height="1200" loading="lazy" decoding="async" alt="Conversation at a REWIRE event with SPIN: Rise branding in the background.">
                 </figure>
             </div>
-        </div>
-    </section>
-    <!-- PROPOSAL EVALUATOR SECTION -->
-    <section id="evaluator" class="evaluator-section">
-        <div class="container">
-            <div class="evaluator-intro reveal" style="text-align: center; max-width: 640px; margin: 0 auto 20px;">
-                <span class="db-tag">Free Beta</span>
-                <h2 style="margin-top: 10px; font-size: 28px;">Try the Proposal Evaluator</h2>
-                <p style="font-size: 15px; color: var(--muted); margin-top: 8px;">Upload a Horizon Europe, Digital Europe or EIC proposal and see it through an evaluator's eyes — right here, no separate page needed.</p>
-            </div>
-            <div class="evaluator-frame-wrap reveal">
-                <iframe src="/evaluator/" title="DeepSync Proposal Evaluator" loading="lazy"></iframe>
-            </div>
-            <p style="text-align: center; margin-top: 20px;">
-                <a href="/evaluator/" target="_blank" rel="noopener" style="color: var(--primary); font-weight: 700; text-decoration: none;">Open full screen ↗</a>
-            </p>
         </div>
     </section>
     <!-- EU FUNDING RADAR -->
@@ -998,7 +973,6 @@
                 <div class="footer-col">
                     <h4>Explore</h4>
                     <a href="#about">About</a>
-                    <a href="#evaluator">AI Evaluator</a>
                     <a href="#services">Expert Support</a>
                     <a href="#database">Funding Radar</a>
                     <button type="button" class="connect-trigger" data-connect-tab="partnerships">Partnerships</button>
