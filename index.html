@@ -169,6 +169,58 @@
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
         .stat-item h4 { font-size: 56px; color: var(--primary); margin-bottom: 8px; font-family: var(--font-mono); }
         .stat-item p { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 800; }
+        /* Ecosystem visual: challenge / our role */
+        .vz-section { position: relative; overflow: hidden; padding: 96px 0 72px; color: #fff; background: radial-gradient(ellipse 70% 55% at 50% 38%, rgba(46,112,128,.34) 0%, rgba(10,22,40,0) 70%), linear-gradient(180deg, #0A1628 0%, #08121f 100%); }
+        .vz-head { text-align: center; max-width: 820px; margin: 0 auto; }
+        .vz-kicker { display: block; margin-bottom: 18px; color: #8fd3d6; font-size: 12px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; }
+        .vz-head h2 { margin: 0; color: #fff; font-size: clamp(30px, 4.6vw, 52px); }
+        .vz-head p { margin: 18px auto 0; max-width: 680px; color: rgba(255,255,255,.7); font-size: clamp(15px, 1.6vw, 18px); line-height: 1.6; }
+        .vz-net { margin: 36px auto 0; max-width: 1100px; }
+        .vz-net-svg { display: block; width: 100%; height: auto; overflow: visible; }
+        .vz-net-svg text { font-family: var(--font-main); }
+        .vz-orbit-spin { transform-origin: 600px 300px; animation: vz-spin 140s linear infinite; }
+        @keyframes vz-spin { to { transform: rotate(360deg); } }
+        .vz-orbit { fill: none; stroke: rgba(143,211,214,.22); stroke-width: 1.2; }
+        .vz-link { stroke: url(#vz-link-grad); stroke-width: 1.4; }
+        .vz-node rect { fill: rgba(10,22,40,.72); stroke: rgba(143,211,214,.5); stroke-width: 1.3; }
+        .vz-node text { fill: #fff; font-size: 19px; font-weight: 600; text-anchor: middle; dominant-baseline: middle; }
+        .vz-anchor { fill: #8fd3d6; }
+        .vz-dot { fill: var(--gold); }
+        .vz-core .vz-core-ring { fill: none; stroke: rgba(255,204,0,.45); stroke-width: 1.4; transform-origin: 600px 300px; animation: vz-pulse 4.5s ease-out infinite; }
+        @keyframes vz-pulse { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.35); opacity: 0; } }
+        .vz-core rect { fill: #F3F1EA; }
+        .vz-core .vz-core-name { fill: var(--navy); font-size: 40px; font-weight: 800; letter-spacing: -0.02em; text-anchor: middle; }
+        .vz-core .vz-core-sub { fill: #5d6b78; font-family: var(--font-mono); font-size: 13px; font-weight: 500; letter-spacing: .28em; text-anchor: middle; }
+        .vz-chips { display: none; }
+        .vz-valley { position: relative; max-width: 1100px; margin: 8px auto 0; }
+        .vz-valley-svg { display: block; width: 100%; height: auto; overflow: visible; }
+        .vz-curve { fill: none; stroke: #8fd3d6; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+        .vz-valley.active .vz-curve { stroke-dashoffset: 0; transition: stroke-dashoffset 2.4s ease-in-out .2s; }
+        .vz-threshold { stroke: rgba(255,255,255,.75); stroke-width: 3; stroke-dasharray: 11 9; }
+        .vz-gap-label { position: absolute; transform: translateX(-50%); color: #fff; font-size: 14px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; text-shadow: 0 1px 8px rgba(8,18,31,.9); }
+        .vz-stages { display: flex; justify-content: space-between; margin-top: 20px; padding: 0 2%; color: rgba(255,255,255,.55); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+        .vz-note { margin: 22px 0 0; text-align: center; color: rgba(255,255,255,.5); font-size: 13.5px; }
+        .vz-legend { display: none; }
+        @media (max-width: 760px) {
+            .vz-section { padding: 72px 0 56px; }
+            .vz-net-svg { display: none; }
+            .vz-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
+            .vz-chip-core { grid-column: 1 / -1; padding: 18px 16px; border-radius: 999px; background: #F3F1EA; color: var(--navy); text-align: center; box-shadow: 0 0 0 6px rgba(255,204,0,.14); }
+            .vz-chip-core strong { display: block; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+            .vz-chip-core span { display: block; margin-top: 2px; color: #5d6b78; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; }
+            .vz-chip { padding: 14px 12px; border: 1px solid rgba(143,211,214,.45); border-radius: 12px; background: rgba(10,22,40,.6); color: #fff; font-size: 14px; font-weight: 600; text-align: center; }
+            .vz-gap-label { display: none; }
+            .vz-stages { font-size: 9.5px; letter-spacing: .04em; padding: 0; }
+            .vz-legend { display: grid; gap: 10px; margin-top: 22px; }
+            .vz-legend div { padding-left: 16px; border-left: 3px solid var(--gold); color: rgba(255,255,255,.75); font-size: 13.5px; line-height: 1.5; }
+            .vz-legend strong { display: block; color: #fff; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .vz-orbit-spin, .vz-core-ring { animation: none; }
+            .vz-dot { display: none; }
+            .vz-curve { stroke-dashoffset: 0; }
+        }
+
         /* Case study: REWIRE */
         .case-section { padding: 110px 0; background: var(--bg); }
         .case-intro h2 { margin: 0; max-width: 900px; color: var(--navy); font-size: clamp(34px, 5vw, 58px); }
@@ -453,6 +505,62 @@
         </div>
     </header>
     <!-- STATS SECTION -->
+    <!-- ECOSYSTEM VISUAL: CHALLENGE / OUR ROLE -->
+    <section id="challenge" class="vz-section" aria-labelledby="vz-title">
+        <div class="container">
+            <div class="vz-head reveal">
+                <span class="vz-kicker">The challenge / Our role</span>
+                <h2 id="vz-title">Deep technology rarely scales alone.</h2>
+                <p>DeepSync connects the players needed to carry an idea from scientific discovery to market adoption &mdash; across the two gaps where most innovation stalls.</p>
+            </div>
+            <div class="vz-net reveal">
+                <svg class="vz-net-svg" viewBox="0 0 1200 600" role="img" aria-label="DeepSync as the ecosystem connector between research, industry, regions, capital, startups and public institutions">
+                    <defs>
+                        <linearGradient id="vz-link-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8fd3d6" stop-opacity=".55"/><stop offset="1" stop-color="#FFCC00" stop-opacity=".45"/></linearGradient>
+                        <radialGradient id="vz-core-glow"><stop offset="0" stop-color="#FFCC00" stop-opacity=".22"/><stop offset="1" stop-color="#FFCC00" stop-opacity="0"/></radialGradient>
+                    </defs>
+                    <g class="vz-orbit-spin">
+                        <ellipse class="vz-orbit" cx="600" cy="300" rx="470" ry="190" transform="rotate(-28 600 300)"/>
+                        <ellipse class="vz-orbit" cx="600" cy="300" rx="470" ry="190" transform="rotate(28 600 300)"/>
+                        <ellipse class="vz-orbit" cx="600" cy="300" rx="250" ry="285" transform="rotate(8 600 300)"/>
+                    </g>
+                    <circle cx="600" cy="300" r="230" fill="url(#vz-core-glow)"/>
+                    <line class="vz-link" x1="275" y1="102" x2="600" y2="300"/><line class="vz-link" x1="925" y1="102" x2="600" y2="300"/><line class="vz-link" x1="270" y1="286" x2="600" y2="300"/><line class="vz-link" x1="930" y1="306" x2="600" y2="300"/><line class="vz-link" x1="375" y1="450" x2="600" y2="300"/><line class="vz-link" x1="825" y1="450" x2="600" y2="300"/>
+                    <circle class="vz-dot" r="3.2"><animateMotion dur="5.0s" begin="0.0s" repeatCount="indefinite" path="M275,102 L600,300"/></circle><circle class="vz-dot" r="3.2"><animateMotion dur="5.7s" begin="0.9s" repeatCount="indefinite" path="M925,102 L600,300"/></circle><circle class="vz-dot" r="3.2"><animateMotion dur="6.4s" begin="1.8s" repeatCount="indefinite" path="M270,286 L600,300"/></circle><circle class="vz-dot" r="3.2"><animateMotion dur="7.1s" begin="2.7s" repeatCount="indefinite" path="M930,306 L600,300"/></circle><circle class="vz-dot" r="3.2"><animateMotion dur="7.8s" begin="3.6s" repeatCount="indefinite" path="M375,450 L600,300"/></circle><circle class="vz-dot" r="3.2"><animateMotion dur="8.5s" begin="4.5s" repeatCount="indefinite" path="M825,450 L600,300"/></circle>
+                    <g class="vz-node"><rect x="150" y="40" width="250" height="62" rx="12"/><text x="275" y="72">Research &amp; technology</text><circle class="vz-anchor" cx="275" cy="102" r="4"/></g><g class="vz-node"><rect x="800" y="40" width="250" height="62" rx="12"/><text x="925" y="72">Industry &amp; adoption</text><circle class="vz-anchor" cx="925" cy="102" r="4"/></g><g class="vz-node"><rect x="20" y="255" width="250" height="62" rx="12"/><text x="145" y="287">Regions &amp; agencies</text><circle class="vz-anchor" cx="270" cy="286" r="4"/></g><g class="vz-node"><rect x="930" y="275" width="250" height="62" rx="12"/><text x="1055" y="307">Capital &amp; investors</text><circle class="vz-anchor" cx="930" cy="306" r="4"/></g><g class="vz-node"><rect x="250" y="450" width="250" height="62" rx="12"/><text x="375" y="482">Startups &amp; scaleups</text><circle class="vz-anchor" cx="375" cy="450" r="4"/></g><g class="vz-node"><rect x="700" y="450" width="250" height="62" rx="12"/><text x="825" y="482">Public institutions</text><circle class="vz-anchor" cx="825" cy="450" r="4"/></g>
+                    <g class="vz-core">
+                        <rect class="vz-core-ring" x="450" y="245" width="300" height="110" rx="55"/>
+                        <rect x="450" y="245" width="300" height="110" rx="55"/>
+                        <text class="vz-core-name" x="600" y="298">DeepSync</text>
+                        <text class="vz-core-sub" x="600" y="326">ECOSYSTEM CONNECTOR</text>
+                    </g>
+                </svg>
+                <div class="vz-chips" aria-hidden="false">
+                    <div class="vz-chip-core"><strong>DeepSync</strong><span>Ecosystem connector</span></div>
+                    <div class="vz-chip">Research &amp; technology</div><div class="vz-chip">Industry &amp; adoption</div><div class="vz-chip">Regions &amp; agencies</div><div class="vz-chip">Capital &amp; investors</div><div class="vz-chip">Startups &amp; scaleups</div><div class="vz-chip">Public institutions</div>
+                </div>
+            </div>
+            <div class="vz-valley reveal" id="vz-valley">
+                <svg class="vz-valley-svg" viewBox="0 0 1200 300" role="img" aria-label="Innovation journey from research to scale-up with two valleys: the pre-commercialisation gap and the scaling gap">
+                    <defs>
+                        <linearGradient id="vz-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3d6" stop-opacity=".16"/><stop offset="1" stop-color="#8fd3d6" stop-opacity=".02"/></linearGradient>
+                    </defs>
+                    <path d="M0,95 C90,35 170,35 250,95 C330,155 345,225 430,225 C515,225 560,110 650,70 C730,38 800,75 840,135 C880,195 930,230 1010,230 C1090,230 1140,100 1200,88 L1200,300 L0,300 Z" fill="url(#vz-fill)"/>
+                    <path class="vz-curve" pathLength="1" d="M0,95 C90,35 170,35 250,95 C330,155 345,225 430,225 C515,225 560,110 650,70 C730,38 800,75 840,135 C880,195 930,230 1010,230 C1090,230 1140,100 1200,88"/>
+                    <line class="vz-threshold" x1="170" y1="135" x2="545" y2="135"/>
+                    <line class="vz-threshold" x1="785" y1="135" x2="1130" y2="135"/>
+                </svg>
+                <span class="vz-gap-label" style="left:35.8%; top:84%;">Pre-commercialisation gap</span>
+                <span class="vz-gap-label" style="left:84%; top:84%;">Scaling gap</span>
+                <div class="vz-stages"><span>Research</span><span>Prototype</span><span>Market entry</span><span>Growth</span><span>Scale-up</span></div>
+                <div class="vz-legend">
+                    <div><strong>Pre-commercialisation gap</strong>Turning research into validated, fundable propositions.</div>
+                    <div><strong>Scaling gap</strong>Connecting pilots with partners, funding and adoption.</div>
+                </div>
+            </div>
+            <p class="vz-note">Conceptual illustration of the innovation journey.</p>
+        </div>
+    </section>
     <section class="stats">
         <div class="container stats-grid">
             <div class="stat-item reveal">
