@@ -165,7 +165,7 @@
         .about-cooperation a, .about-cooperation button { position: relative; flex: 0 0 auto; padding: 13px 22px; border: 1px solid transparent; border-radius: 12px; background: var(--gold); color: var(--navy); font-family: inherit; font-size: 13px; font-weight: 800; text-decoration: none; cursor: pointer; transition: transform .25s ease, box-shadow .25s ease; }
         .about-cooperation a:hover, .about-cooperation button:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,204,0,.35); }
         /* Stats Section */
-        .stats { padding: 100px 0; background: var(--white); border-bottom: 1px solid #E2DFD5; }
+        .stats { padding: 100px 0; background: var(--bg); }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
         .stat-item h4 { font-size: 56px; color: var(--primary); margin-bottom: 8px; font-family: var(--font-mono); }
         .stat-item p { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 800; }
@@ -218,13 +218,13 @@
         }
 
         /* Services (Expert Support) */
-        .svc-section { padding: 110px 0; background: #fff; }
-        .svc-head { display: grid; grid-template-columns: 1.25fr .75fr; gap: 12px 64px; align-items: end; margin-bottom: 48px; }
-        .svc-head h2 { margin: 0; max-width: 760px; color: var(--navy); font-size: clamp(32px, 4.4vw, 52px); }
-        .svc-head h2 em { font-style: normal; color: var(--navy); background: linear-gradient(transparent 70%, rgba(255,204,0,.55) 70%); }
-        .svc-head p { margin: 0; padding-left: 28px; border-left: 1px solid var(--border); color: var(--muted); font-size: 16px; line-height: 1.7; }
+        .svc-section { padding: 110px 0; background: var(--bg); }
+        .svc-head, .sec-head { display: grid; grid-template-columns: 1.25fr .75fr; gap: 12px 64px; align-items: end; margin-bottom: 48px; }
+        .svc-head h2, .sec-head h2 { margin: 0; max-width: 760px; color: var(--navy); font-size: clamp(32px, 4.4vw, 52px); }
+        .svc-head h2 em, .sec-head h2 em { font-style: normal; color: var(--navy); background: linear-gradient(transparent 70%, rgba(255,204,0,.55) 70%); }
+        .svc-head p, .sec-head p { margin: 0; padding-left: 28px; border-left: 1px solid var(--border); color: var(--muted); font-size: 16px; line-height: 1.7; }
         .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-        .svc-card { position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 32px 34px 28px; border: 1px solid var(--border); border-radius: 26px; background: var(--bg); transition: transform .35s ease, box-shadow .35s ease; }
+        .svc-card { position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 32px 34px 28px; border: 1px solid var(--border); border-radius: 26px; background: #fff; transition: transform .35s ease, box-shadow .35s ease; }
         .svc-card:hover { transform: translateY(-4px); box-shadow: 0 22px 50px rgba(15,31,55,.1); }
         .svc-card-top { position: relative; z-index: 1; display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
         .svc-num { display: grid; place-items: center; min-width: 38px; height: 30px; padding: 0 8px; border-radius: 8px; background: var(--navy); color: var(--gold); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
@@ -243,8 +243,8 @@
         .svc-cta { margin-top: 22px; }
         @media (max-width: 900px) {
             .svc-section { padding: 80px 0; }
-            .svc-head { grid-template-columns: 1fr; gap: 18px; }
-            .svc-head p { padding-left: 0; border-left: 0; }
+            .svc-head, .sec-head { grid-template-columns: 1fr; gap: 18px; }
+            .svc-head p, .sec-head p { padding-left: 0; border-left: 0; }
             .svc-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 560px) {
@@ -256,7 +256,7 @@
         }
 
         /* Case study: REWIRE */
-        .case-section { padding: 110px 0; background: var(--bg); }
+        .case-section { padding: 110px 0; background: #fff; }
         .case-intro h2 { margin: 0; max-width: 900px; color: var(--navy); font-size: clamp(34px, 5vw, 58px); }
         .case-hero-photo { margin: 44px 0 0; }
         .case-hero-photo img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 24px 60px rgba(15,31,55,.14); }
@@ -282,7 +282,7 @@
         }
 
         /* Database Section */
-        .database-section { padding: 100px 0; background: var(--bg); border-bottom: 1px solid #E2DFD5; }
+        .database-section { padding: 100px 0; background: var(--bg); }
         .db-card { background: var(--white); padding: 60px; border-radius: 32px; display: flex; align-items: center; gap: 50px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
         .db-info h2 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 20px; color: var(--navy); }
         .db-tag { display: inline-block; padding: 6px 12px; background: var(--primary); color: white; border-radius: 6px; font-size: 11px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
@@ -341,9 +341,6 @@
         .education-logo-eu { width: 188px; background-size: 718px 167px; background-position: -235px -53px; }
         /* Marquee */
         .network-section { padding: 100px 0; background: #fff; overflow: hidden; }
-        .network-intro { text-align: center; margin-bottom: 46px; }
-        .network-intro h2 { margin-bottom: 12px; font-size: clamp(28px, 5vw, 42px); }
-        .network-intro p { margin: 0 auto; max-width: 680px; color: var(--muted); font-size: 17px; }
         .network-row-label { width: min(1180px, calc(100% - 40px)); margin: 18px auto 9px; color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
         .marquee { display: flex; overflow: hidden; gap: 20px; margin-bottom: 20px; }
         .marquee-content { display: flex; flex: 0 0 max-content; gap: 20px; width: max-content; min-width: max-content; flex-wrap: nowrap; animation: scroll 90s linear infinite; will-change: transform; }
@@ -425,6 +422,10 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
+        /* Section rhythm: one vertical spacing, alternating white / cream backgrounds */
+        .about-section, .svc-section, .case-section, .stats, .network-section, .database-section, .news-wire-section, .contact { padding-top: 104px; padding-bottom: 104px; }
+        .news-wire-section { background: #fff; }
+        @media (max-width: 760px) { .about-section, .svc-section, .case-section, .stats, .network-section, .database-section, .news-wire-section, .contact { padding-top: 72px; padding-bottom: 72px; } }
     </style>
 </head>
 <body>
@@ -477,7 +478,6 @@
             </div>
         </div>
     </header>
-    <!-- STATS SECTION -->
     <!-- ECOSYSTEM VISUAL: CHALLENGE / OUR ROLE -->
     <section id="challenge" class="vz-section" aria-labelledby="vz-title">
         <div class="container">
@@ -572,26 +572,6 @@
             </script>
         </div>
     </section>
-    <section class="stats">
-        <div class="container stats-grid">
-            <div class="stat-item reveal">
-                <h4 class="numbers counter" data-target="150">0</h4>
-                <p>Network Partners<br>(University to Policy)</p>
-            </div>
-            <div class="stat-item reveal">
-                <h4 class="numbers counter" data-target="30">0</h4>
-                <p>Successful Projects</p>
-            </div>
-            <div class="stat-item reveal">
-                <h4 class="numbers counter" data-target="90">0</h4>
-                <p>% Success Rate</p>
-            </div>
-            <div class="stat-item reveal">
-                <h4 class="numbers counter" data-target="10">0</h4>
-                <p>Years Experience</p>
-            </div>
-        </div>
-    </section>
     <!-- ABOUT SECTION -->
     <section id="about" class="about-section">
         <div class="container">
@@ -661,50 +641,6 @@
             </div>
         </div>
     </section>
-    <!-- CASE STUDY: REWIRE -->
-    <section id="case-rewire" class="case-section" aria-labelledby="case-rewire-title">
-        <div class="container">
-            <div class="case-intro reveal">
-                <span class="about-kicker">Selected success story</span>
-                <h2 id="case-rewire-title">From consortium to funded programme</h2>
-            </div>
-            <figure class="case-hero-photo reveal">
-                <img src="/assets/rewire-group.jpg" width="2000" height="1333" loading="lazy" decoding="async" alt="REWIRE participants and programme partners gathered in Lisbon.">
-                <figcaption>REWIRE programme participants and partners, Lisbon, 2025.</figcaption>
-            </figure>
-            <div class="case-body reveal">
-                <div class="case-text">
-                    <div class="case-title-row">
-                        <h3>REWIRE</h3>
-                        <span class="case-status">Funded programme &middot; SPIN: Rise 2025</span>
-                    </div>
-                    <p class="case-subtitle">HealthTech &amp; Wellbeing Commercialisation Lab</p>
-                    <p>A programme helping DeepTech researchers turn HealthTech and wellbeing research into commercial opportunities through IP valorisation, entrepreneurship training and clinical validation.</p>
-                    <span class="about-block-label">Our contribution</span>
-                    <p>DeepSync built the consortium and developed the EIT Digital SPIN: Rise funding application from the ground up. We also supported the programme with EU funding strategy, focusing on EIC and Horizon Europe opportunities.</p>
-                    <span class="about-block-label">The result</span>
-                    <ul class="case-results">
-                        <li>Over 20 scientists from EU academic institutions were selected with breakthrough ideas in Digital Health, MedTech and AI for Wellbeing.</li>
-                        <li>More than 350 guests joined the networking evening in Lisbon.</li>
-                        <li>7 intensive weeks of bootcamps, coaching and hands-on commercialisation work.</li>
-                    </ul>
-                    <span class="about-block-label">Programme partners</span>
-                    <p class="case-partners">Applejack Lab &middot; Instituto Pedro Nunes (IPN) &middot; PitchBob.io &middot; University of Coimbra &middot; Coimbra University Hospital Centre (CHUC)</p>
-                    <div class="case-actions">
-                        <button type="button" class="btn btn-gold connect-trigger" data-connect-tab="work">Discuss your project</button>
-                        <a class="case-link" href="https://28digital.eu/spin/rise/rewire-health-tech-wellbeing-commercialisation-lab/" target="_blank" rel="noopener noreferrer">View programme on 28DIGITAL &#8599;</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- EU FUNDING RADAR -->
-    <section id="database" class="database-section">
-        <div class="container">
-            <div id="deepsync-call-radar" class="reveal" data-src="/data/calls.json"></div>
-        </div>
-    </section>
-    <script src="/widget/deepsync-call-radar.js"></script>
     <!-- SERVICES SECTION -->
     <section id="services" class="svc-section">
         <div class="container">
@@ -782,9 +718,67 @@
             </div>
         </div>
     </section>
+    <!-- CASE STUDY: REWIRE -->
+    <section id="case-rewire" class="case-section" aria-labelledby="case-rewire-title">
+        <div class="container">
+            <div class="case-intro reveal">
+                <span class="about-kicker">Selected success story</span>
+                <h2 id="case-rewire-title">From consortium to funded programme</h2>
+            </div>
+            <figure class="case-hero-photo reveal">
+                <img src="/assets/rewire-group.jpg" width="2000" height="1333" loading="lazy" decoding="async" alt="REWIRE participants and programme partners gathered in Lisbon.">
+                <figcaption>REWIRE programme participants and partners, Lisbon, 2025.</figcaption>
+            </figure>
+            <div class="case-body reveal">
+                <div class="case-text">
+                    <div class="case-title-row">
+                        <h3>REWIRE</h3>
+                        <span class="case-status">Funded programme &middot; SPIN: Rise 2025</span>
+                    </div>
+                    <p class="case-subtitle">HealthTech &amp; Wellbeing Commercialisation Lab</p>
+                    <p>A programme helping DeepTech researchers turn HealthTech and wellbeing research into commercial opportunities through IP valorisation, entrepreneurship training and clinical validation.</p>
+                    <span class="about-block-label">Our contribution</span>
+                    <p>DeepSync built the consortium and developed the EIT Digital SPIN: Rise funding application from the ground up. We also supported the programme with EU funding strategy, focusing on EIC and Horizon Europe opportunities.</p>
+                    <span class="about-block-label">The result</span>
+                    <ul class="case-results">
+                        <li>Over 20 scientists from EU academic institutions were selected with breakthrough ideas in Digital Health, MedTech and AI for Wellbeing.</li>
+                        <li>More than 350 guests joined the networking evening in Lisbon.</li>
+                        <li>7 intensive weeks of bootcamps, coaching and hands-on commercialisation work.</li>
+                    </ul>
+                    <span class="about-block-label">Programme partners</span>
+                    <p class="case-partners">Applejack Lab &middot; Instituto Pedro Nunes (IPN) &middot; PitchBob.io &middot; University of Coimbra &middot; Coimbra University Hospital Centre (CHUC)</p>
+                    <div class="case-actions">
+                        <button type="button" class="btn btn-gold connect-trigger" data-connect-tab="work">Discuss your project</button>
+                        <a class="case-link" href="https://28digital.eu/spin/rise/rewire-health-tech-wellbeing-commercialisation-lab/" target="_blank" rel="noopener noreferrer">View programme on 28DIGITAL &#8599;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- STATS -->
+    <section class="stats">
+        <div class="container stats-grid">
+            <div class="stat-item reveal">
+                <h4 class="numbers counter" data-target="150">0</h4>
+                <p>Network Partners<br>(University to Policy)</p>
+            </div>
+            <div class="stat-item reveal">
+                <h4 class="numbers counter" data-target="30">0</h4>
+                <p>Successful Projects</p>
+            </div>
+            <div class="stat-item reveal">
+                <h4 class="numbers counter" data-target="90">0</h4>
+                <p>% Success Rate</p>
+            </div>
+            <div class="stat-item reveal">
+                <h4 class="numbers counter" data-target="10">0</h4>
+                <p>Years Experience</p>
+            </div>
+        </div>
+    </section>
     <!-- NETWORK SECTION TWO LINES -->
     <section id="network" class="network-section">
-        <div class="container network-intro reveal"><h2>Network Intelligence</h2><p>Over 150 partnerships developed across research, healthcare, public-sector and innovation ecosystems.</p></div>
+        <div class="container sec-head reveal"><div><span class="about-kicker">Our network</span><h2>Network Intelligence</h2></div><p>Over 150 partnerships developed across research, healthcare, public-sector and innovation ecosystems.</p></div>
         <div class="network-row-label">Universities &amp; Research Institutions</div>
         <div class="marquee reveal">
             <div class="marquee-content">
@@ -870,12 +864,19 @@
             <p class="collaboration-disclaimer">Organisation names are shown solely to identify past proposal or consortium work. No endorsement, sponsorship or formal institutional partnership is implied.</p>
         </div>
     </section>
-    <!-- NEWS WIRE SECTION -->
-    <section id="news-wire" class="news-wire-section" style="padding: 100px 0; background: var(--bg);">
+    <!-- EU FUNDING RADAR -->
+    <section id="database" class="database-section">
         <div class="container">
-            <div class="reveal" style="text-align: center; margin-bottom: 50px;">
-                <h2>Deep-Sync News Wire</h2>
-                <p style="font-size: 18px; color: var(--muted); max-width: 640px; margin: 16px auto 0;">EU funding calls, AI Act updates, and deep-tech market news, refreshed daily.</p>
+            <div id="deepsync-call-radar" class="reveal" data-src="/data/calls.json"></div>
+        </div>
+    </section>
+    <script src="/widget/deepsync-call-radar.js"></script>
+    <!-- NEWS WIRE SECTION -->
+    <section id="news-wire" class="news-wire-section">
+        <div class="container">
+            <div class="sec-head reveal">
+                <div><span class="about-kicker">Insights</span><h2>Deep-Sync News Wire</h2></div>
+                <p>EU funding calls, AI Act updates, and deep-tech market news, refreshed daily.</p>
             </div>
             <div id="deepsync-news-wire" class="reveal"></div>
         </div>
@@ -968,10 +969,6 @@
         </div>
     </footer>
     <script>
-        const statsSection = document.querySelector('.stats');
-        const networkSection = document.getElementById('network');
-        if (statsSection && networkSection) statsSection.after(networkSection);
-
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         if (mobileMenuToggle && mobileMenu) {
