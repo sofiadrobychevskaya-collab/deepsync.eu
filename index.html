@@ -259,9 +259,9 @@
         .case-section { padding: 110px 0; background: var(--bg); }
         .case-intro h2 { margin: 0; max-width: 900px; color: var(--navy); font-size: clamp(34px, 5vw, 58px); }
         .case-hero-photo { margin: 44px 0 0; }
-        .case-hero-photo img, .case-side-photo img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 24px 60px rgba(15,31,55,.14); }
+        .case-hero-photo img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 24px 60px rgba(15,31,55,.14); }
         .case-hero-photo figcaption { margin-top: 12px; color: var(--muted); font-size: 12.5px; }
-        .case-body { display: grid; grid-template-columns: minmax(0, 65fr) minmax(0, 35fr); gap: 56px; margin-top: 56px; align-items: start; }
+        .case-body { max-width: 820px; margin-top: 56px; }
         .case-title-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
         .case-title-row h3 { margin: 0; color: var(--navy); font-size: clamp(28px, 3.4vw, 40px); }
         .case-status { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 999px; background: rgba(255,204,0,.2); color: var(--navy); font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
@@ -276,11 +276,9 @@
         .case-actions .btn { padding: 15px 28px; font-size: 15px; }
         .case-link { color: var(--navy); font-size: 14.5px; font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(10,22,40,.3); padding-bottom: 2px; transition: var(--transition); }
         .case-link:hover { border-bottom-color: var(--gold); }
-        .case-side-photo { margin: 0; }
         @media (max-width: 900px) {
             .case-section { padding: 80px 0; }
-            .case-body { grid-template-columns: 1fr; gap: 40px; margin-top: 40px; }
-            .case-side-photo { max-width: 420px; }
+            .case-body { margin-top: 40px; }
         }
 
         /* Database Section */
@@ -697,9 +695,6 @@
                         <a class="case-link" href="https://28digital.eu/spin/rise/rewire-health-tech-wellbeing-commercialisation-lab/" target="_blank" rel="noopener noreferrer">View programme on 28DIGITAL &#8599;</a>
                     </div>
                 </div>
-                <figure class="case-side-photo">
-                    <img src="/assets/rewire-event.jpg" width="800" height="1200" loading="lazy" decoding="async" alt="Conversation at a REWIRE event with SPIN: Rise branding in the background.">
-                </figure>
             </div>
         </div>
     </section>
