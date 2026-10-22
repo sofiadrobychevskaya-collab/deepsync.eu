@@ -181,12 +181,14 @@
         .vz-orbit-spin { transform-origin: 600px 300px; animation: vz-spin 140s linear infinite; }
         @keyframes vz-spin { to { transform: rotate(360deg); } }
         .vz-orbit { fill: none; stroke: rgba(143,211,214,.12); stroke-width: 1.2; }
-        .vz-link { stroke: url(#vz-link-grad); stroke-width: 1.4; }
-        .vz-link-skip { opacity: .3; }
-        .vz-link-ring { stroke-width: 1.9; }
-        .vz-node rect { fill: #0b1a2e; stroke: rgba(143,211,214,.5); stroke-width: 1.3; }
+        .vz-link { stroke: url(#vz-link-grad); stroke-width: 1.2; opacity: .4; transition: opacity .35s, stroke-width .35s; }
+        .vz-link.vz-link-live { stroke: var(--gold); stroke-width: 2.2; opacity: 1; }
+        .vz-sig { fill: var(--gold); filter: drop-shadow(0 0 7px rgba(255,204,0,.95)); }
+        .vz-node { transition: filter .35s; }
+        .vz-node.vz-hit { filter: drop-shadow(0 0 12px rgba(255,204,0,.5)); }
+        .vz-node.vz-hit rect { stroke: var(--gold); fill: #14263f; }
+        .vz-node rect { fill: #0b1a2e; stroke: rgba(143,211,214,.5); stroke-width: 1.3; transition: stroke .35s, fill .35s; }
         .vz-node text { fill: #fff; font-size: 19px; font-weight: 600; text-anchor: middle; dominant-baseline: middle; }
-        .vz-dot { fill: var(--gold); }
         .vz-chips { display: none; }
         .vz-valley { position: relative; max-width: 1100px; margin: 8px auto 0; }
         .vz-valley-svg { display: block; width: 100%; height: auto; overflow: visible; }
@@ -201,7 +203,8 @@
             .vz-section { padding: 72px 0 56px; }
             .vz-net-svg { display: none; }
             .vz-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
-            .vz-chip { padding: 14px 12px; border: 1px solid rgba(143,211,214,.45); border-radius: 12px; background: rgba(10,22,40,.6); color: #fff; font-size: 14px; font-weight: 600; text-align: center; }
+            .vz-chip.vz-hit { border-color: var(--gold); background: rgba(20,38,63,.9); }
+            .vz-chip { transition: border-color .35s, background .35s; padding: 14px 12px; border: 1px solid rgba(143,211,214,.45); border-radius: 12px; background: rgba(10,22,40,.6); color: #fff; font-size: 14px; font-weight: 600; text-align: center; }
             .vz-gap-label { display: none; }
             .vz-stages { font-size: 9.5px; letter-spacing: .04em; padding: 0; }
             .vz-legend { display: grid; gap: 10px; margin-top: 22px; }
@@ -210,8 +213,7 @@
         }
         @media (prefers-reduced-motion: reduce) {
             .vz-orbit-spin { animation: none; }
-            .vz-dot { display: none; }
-            .vz-curve { stroke-dashoffset: 0; }
+                .vz-curve { stroke-dashoffset: 0; }
         }
 
         /* Case study: REWIRE */
@@ -518,9 +520,9 @@
                         <ellipse class="vz-orbit" cx="600" cy="300" rx="250" ry="285" transform="rotate(8 600 300)"/>
                     </g>
                     <circle cx="600" cy="300" r="230" fill="url(#vz-core-glow)"/>
-                    <line class="vz-link vz-link-ring" x1="275" y1="71" x2="925" y2="71"/><line class="vz-link vz-link-ring" x1="925" y1="71" x2="1055" y2="306"/><line class="vz-link vz-link-ring" x1="1055" y1="306" x2="825" y2="481"/><line class="vz-link vz-link-ring" x1="825" y1="481" x2="375" y2="481"/><line class="vz-link vz-link-ring" x1="375" y1="481" x2="145" y2="286"/><line class="vz-link vz-link-ring" x1="145" y1="286" x2="275" y2="71"/><line class="vz-link vz-link-skip" x1="275" y1="71" x2="1055" y2="306"/><line class="vz-link vz-link-skip" x1="925" y1="71" x2="825" y2="481"/><line class="vz-link vz-link-skip" x1="1055" y1="306" x2="375" y2="481"/><line class="vz-link vz-link-skip" x1="825" y1="481" x2="145" y2="286"/><line class="vz-link vz-link-skip" x1="375" y1="481" x2="275" y2="71"/><line class="vz-link vz-link-skip" x1="145" y1="286" x2="925" y2="71"/>
-                    <circle class="vz-dot" r="3.4"><animateMotion dur="5.5s" begin="0.0s" repeatCount="indefinite" path="M275,71 L925,71"/></circle><circle class="vz-dot" r="3.4"><animateMotion dur="6.1s" begin="0.7s" repeatCount="indefinite" path="M925,71 L1055,306"/></circle><circle class="vz-dot" r="3.4"><animateMotion dur="6.7s" begin="1.4s" repeatCount="indefinite" path="M1055,306 L825,481"/></circle><circle class="vz-dot" r="3.4"><animateMotion dur="7.3s" begin="2.1s" repeatCount="indefinite" path="M825,481 L375,481"/></circle><circle class="vz-dot" r="3.4"><animateMotion dur="7.9s" begin="2.8s" repeatCount="indefinite" path="M375,481 L145,286"/></circle><circle class="vz-dot" r="3.4"><animateMotion dur="8.5s" begin="3.5s" repeatCount="indefinite" path="M145,286 L275,71"/></circle><circle class="vz-dot" r="3.4"><animateMotion dur="9.1s" begin="4.2s" repeatCount="indefinite" path="M275,71 L1055,306"/></circle><circle class="vz-dot" r="3.4"><animateMotion dur="9.7s" begin="4.9s" repeatCount="indefinite" path="M925,71 L825,481"/></circle><circle class="vz-dot" r="3.4"><animateMotion dur="10.3s" begin="5.6s" repeatCount="indefinite" path="M1055,306 L375,481"/></circle>
-                    <g class="vz-node"><rect x="150" y="40" width="250" height="62" rx="12"/><text x="275" y="72">Research &amp; technology</text></g><g class="vz-node"><rect x="800" y="40" width="250" height="62" rx="12"/><text x="925" y="72">Industry &amp; adoption</text></g><g class="vz-node"><rect x="930" y="275" width="250" height="62" rx="12"/><text x="1055" y="307">Capital &amp; investors</text></g><g class="vz-node"><rect x="700" y="450" width="250" height="62" rx="12"/><text x="825" y="482">Public institutions</text></g><g class="vz-node"><rect x="250" y="450" width="250" height="62" rx="12"/><text x="375" y="482">Startups &amp; scaleups</text></g><g class="vz-node"><rect x="20" y="255" width="250" height="62" rx="12"/><text x="145" y="287">Regions &amp; agencies</text></g>
+                    <line class="vz-link" data-a="0" data-b="1" x1="275" y1="71" x2="925" y2="71"/><line class="vz-link" data-a="0" data-b="2" x1="275" y1="71" x2="1055" y2="306"/><line class="vz-link" data-a="0" data-b="3" x1="275" y1="71" x2="825" y2="481"/><line class="vz-link" data-a="0" data-b="4" x1="275" y1="71" x2="375" y2="481"/><line class="vz-link" data-a="0" data-b="5" x1="275" y1="71" x2="145" y2="286"/><line class="vz-link" data-a="1" data-b="2" x1="925" y1="71" x2="1055" y2="306"/><line class="vz-link" data-a="1" data-b="3" x1="925" y1="71" x2="825" y2="481"/><line class="vz-link" data-a="1" data-b="4" x1="925" y1="71" x2="375" y2="481"/><line class="vz-link" data-a="1" data-b="5" x1="925" y1="71" x2="145" y2="286"/><line class="vz-link" data-a="2" data-b="3" x1="1055" y1="306" x2="825" y2="481"/><line class="vz-link" data-a="2" data-b="4" x1="1055" y1="306" x2="375" y2="481"/><line class="vz-link" data-a="2" data-b="5" x1="1055" y1="306" x2="145" y2="286"/><line class="vz-link" data-a="3" data-b="4" x1="825" y1="481" x2="375" y2="481"/><line class="vz-link" data-a="3" data-b="5" x1="825" y1="481" x2="145" y2="286"/><line class="vz-link" data-a="4" data-b="5" x1="375" y1="481" x2="145" y2="286"/>
+                    <g id="vz-signals"></g>
+                    <g class="vz-node" data-cx="275" data-cy="71"><rect x="150" y="40" width="250" height="62" rx="12"/><text x="275" y="72">Research &amp; technology</text></g><g class="vz-node" data-cx="925" data-cy="71"><rect x="800" y="40" width="250" height="62" rx="12"/><text x="925" y="72">Industry &amp; adoption</text></g><g class="vz-node" data-cx="1055" data-cy="306"><rect x="930" y="275" width="250" height="62" rx="12"/><text x="1055" y="307">Capital &amp; investors</text></g><g class="vz-node" data-cx="825" data-cy="481"><rect x="700" y="450" width="250" height="62" rx="12"/><text x="825" y="482">Public institutions</text></g><g class="vz-node" data-cx="375" data-cy="481"><rect x="250" y="450" width="250" height="62" rx="12"/><text x="375" y="482">Startups &amp; scaleups</text></g><g class="vz-node" data-cx="145" data-cy="286"><rect x="20" y="255" width="250" height="62" rx="12"/><text x="145" y="287">Regions &amp; agencies</text></g>
                 </svg>
                 <div class="vz-chips" aria-hidden="false">
                     <div class="vz-chip">Research &amp; technology</div><div class="vz-chip">Industry &amp; adoption</div><div class="vz-chip">Regions &amp; agencies</div><div class="vz-chip">Capital &amp; investors</div><div class="vz-chip">Startups &amp; scaleups</div><div class="vz-chip">Public institutions</div>
@@ -546,6 +548,50 @@
             </div>
             <p class="vz-note">Conceptual illustration of the innovation journey.</p>
         </div>
+            <script>
+            (function () {
+                var sec = document.getElementById('challenge');
+                if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                var svg = sec.querySelector('.vz-net-svg'), sig = svg.querySelector('#vz-signals');
+                var nodes = [].slice.call(svg.querySelectorAll('.vz-node'));
+                var pts = nodes.map(function (n) { return { x: +n.dataset.cx, y: +n.dataset.cy }; });
+                var links = {};
+                [].forEach.call(svg.querySelectorAll('.vz-link'), function (l) { links[l.dataset.a + '-' + l.dataset.b] = l; });
+                var chips = [].slice.call(sec.querySelectorAll('.vz-chip'));
+                var visible = false, alive = 0, chipTimer = null;
+                function pulse(el, ms) { el.classList.add('vz-hit'); setTimeout(function () { el.classList.remove('vz-hit'); }, ms); }
+                function hop(from, prev) {
+                    if (!visible) { alive--; return; }
+                    var to;
+                    do { to = Math.floor(Math.random() * nodes.length); } while (to === from || to === prev);
+                    var a = pts[from], b = pts[to], link = links[Math.min(from, to) + '-' + Math.max(from, to)];
+                    var dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    dot.setAttribute('r', 5); dot.setAttribute('class', 'vz-sig'); sig.appendChild(dot);
+                    link.classList.add('vz-link-live');
+                    dot.animate(
+                        [{ transform: 'translate(' + a.x + 'px,' + a.y + 'px)' }, { transform: 'translate(' + b.x + 'px,' + b.y + 'px)' }],
+                        { duration: 650 + Math.random() * 500, easing: 'ease-in-out', fill: 'forwards' }
+                    ).onfinish = function () {
+                        dot.remove(); link.classList.remove('vz-link-live'); pulse(nodes[to], 900);
+                        setTimeout(function () { hop(to, from); }, 120 + Math.random() * 280);
+                    };
+                }
+                function start() {
+                    if (svg.getClientRects().length) {
+                        if (alive > 0) return;
+                        alive = 3;
+                        [0, 2, 4].forEach(function (n, i) { setTimeout(function () { hop(n, -1); }, i * 450); });
+                    } else if (!chipTimer) {
+                        chipTimer = setInterval(function () { pulse(chips[Math.floor(Math.random() * chips.length)], 800); }, 650);
+                    }
+                }
+                function stop() { if (chipTimer) { clearInterval(chipTimer); chipTimer = null; } }
+                new IntersectionObserver(function (e) {
+                    visible = e[0].isIntersecting;
+                    if (visible) start(); else stop();
+                }, { threshold: 0.15 }).observe(sec);
+            })();
+            </script>
     </section>
     <section class="stats">
         <div class="container stats-grid">
