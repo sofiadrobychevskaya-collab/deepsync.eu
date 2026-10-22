@@ -360,35 +360,6 @@
         .education-logo { height: 58px; border: 1px solid #e1e6ed; border-radius: 12px; background-color: #0d1b31; background-image: url('/assets/education-logos-source.png'); background-repeat: no-repeat; box-shadow: 0 8px 20px rgba(15,31,55,.06); }
         .education-logo-london { width: 148px; background-size: 680px 158px; background-position: -54px -51px; }
         .education-logo-eu { width: 188px; background-size: 718px 167px; background-position: -235px -53px; }
-        .investment-bridge { margin-top: 64px; padding: 42px; border-radius: 30px; background: var(--navy); color: white; box-shadow: 0 24px 60px rgba(15,31,55,.14); }
-        .partnership-badge { display: inline-flex; padding: 8px 12px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: var(--gold); font-size: 10px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
-        .investment-bridge h3 { margin: 16px 0 14px; max-width: 640px; color: white; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.15; }
-        .investment-bridge > p { max-width: 600px; margin: 0; color: rgba(255,255,255,.78); font-size: 17px; line-height: 1.7; }
-        .bridge-paths { display: grid; grid-template-columns: 1fr 56px 1fr; align-items: stretch; gap: 18px; margin-top: 34px; }
-        .bridge-card { padding: 28px; border: 1px solid rgba(255,255,255,.14); border-radius: 20px; background: rgba(255,255,255,.06); }
-        .bridge-card small { color: var(--gold); font-size: 10px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
-        .bridge-card strong { display: block; margin: 10px 0; color: white; font-size: 18px; line-height: 1.3; }
-        .bridge-card p { margin: 0; color: rgba(255,255,255,.7); font-size: 15px; line-height: 1.6; }
-        .bridge-arrow { display: grid; place-items: center; color: var(--gold); font-size: 25px; }
-        .bridge-source { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; color: rgba(255,255,255,.7); font-size: 12px; font-weight: 650; text-decoration: none; }
-        .bridge-source:hover { color: white; }
-        .contact-form-wrap form { background: white; padding: 48px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .contact-form-wrap input, .contact-form-wrap textarea, .contact-form-wrap select { width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid #ddd; background: white; color: var(--navy); font-family: var(--font-main); font-size: 16px; outline: none; }
-        /* Connect dialog */
-        .connect-dialog { width: min(1040px, calc(100% - 32px)); max-height: min(880px, calc(100vh - 32px)); padding: 0; border: 0; border-radius: 28px; background: var(--bg); color: var(--text); box-shadow: 0 30px 100px rgba(3,15,31,.35); overflow: auto; }
-        .connect-dialog::backdrop { background: rgba(3,15,31,.72); backdrop-filter: blur(7px); }
-        .connect-shell { padding: 30px; }
-        .connect-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
-        .connect-header h2 { margin: 4px 0 0; font-size: clamp(27px, 4vw, 40px); }
-        .connect-header p { margin: 0; color: var(--primary); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
-        .connect-close { display: grid; flex: 0 0 auto; place-items: center; width: 42px; height: 42px; border: 1px solid #dce2e9; border-radius: 50%; background: white; color: var(--navy); font-size: 24px; cursor: pointer; }
-        .connect-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; padding: 6px; border-radius: 16px; background: #e7e9e6; }
-        .connect-tab { padding: 14px 18px; border: 0; border-radius: 11px; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; }
-        .connect-tab[aria-selected="true"] { background: white; color: var(--navy); box-shadow: 0 5px 18px rgba(15,31,55,.08); }
-        .connect-panel[hidden] { display: none; }
-        .connect-dialog .contact-form-wrap { max-width: 720px; margin: 0 auto; }
-        .connect-dialog .contact-form-wrap form { padding: 36px; border: 1px solid #e1e6ed; box-shadow: none; }
-        .connect-dialog .investment-bridge { margin: 0; padding: 34px; border-radius: 22px; box-shadow: none; }
         /* Marquee */
         .network-section { padding: 100px 0; background: #fff; overflow: hidden; }
         .network-intro { text-align: center; margin-bottom: 46px; }
@@ -430,6 +401,9 @@
         .footer-col h4 { color: rgba(255,255,255,.5); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px; font-weight: 800; }
         .footer-col a, .footer-col button { display: block; width: 100%; text-align: left; padding: 0; border: 0; background: none; color: rgba(255,255,255,.72); text-decoration: none; font-family: inherit; font-size: 14px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
         .footer-col a:hover, .footer-col button:hover { color: var(--gold); }
+        #footer-contact { border-radius: 14px; }
+        #footer-contact.contact-flash { animation: contact-flash 2.4s ease; }
+        @keyframes contact-flash { 0%, 100% { background: transparent; box-shadow: 0 0 0 12px transparent; } 15%, 70% { background: rgba(255,204,0,.14); box-shadow: 0 0 0 12px rgba(255,204,0,.14); } }
         .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; flex-wrap: wrap; gap: 12px; font-size: 13px; color: rgba(255,255,255,.5); }
         .footer-bottom a { color: rgba(255,255,255,.5); text-decoration: none; }
         .footer-bottom a:hover { color: var(--white); }
@@ -457,8 +431,6 @@
             .mobile-menu .connect-trigger[data-connect-tab="work"] { color: var(--navy); border-bottom: 0; }
             .program-card { flex-direction: column; text-align: center; }
             .founder-header { justify-content: center; text-align: left; }
-            .bridge-paths { grid-template-columns: 1fr; text-align: left; }
-            .bridge-arrow { transform: rotate(90deg); }
             .hero-actions { grid-template-columns: 1fr; max-width: 520px; }
             .about-mission-sectors { grid-template-columns: 1fr; gap: 32px; }
             .who-row { flex-direction: column; align-items: flex-start; }
@@ -471,10 +443,6 @@
             .founder-header { align-items: flex-start; }
             .founder-photo { width: 92px; height: 116px; border-radius: 18px; }
             .founder-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .connect-dialog { width: calc(100% - 16px); max-height: calc(100vh - 16px); border-radius: 20px; }
-            .connect-shell { padding: 18px; }
-            .connect-dialog .contact-form-wrap form, .connect-dialog .investment-bridge { padding: 24px; }
-            .connect-tabs { grid-template-columns: 1fr; }
                 }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -1008,160 +976,9 @@
                         </div>
                     </div>
                 </div>
-<div class="contact-form-wrap reveal">
-    <div class="contact-card-visual">
-        <form onsubmit="event.preventDefault(); const subject=encodeURIComponent('DeepSync enquiry: '+this.querySelector('[name=interest]').value); const body=encodeURIComponent('Name: '+this.querySelector('[name=name]').value+'\nOrganisation: '+this.querySelector('[name=organisation]').value+'\n\n'+this.querySelector('[name=message]').value); window.location.href='mailto:sofia@deep-sync.eu?subject='+subject+'&body='+body;">
-            <p class="founder-kicker">Start a conversation</p>
-            <h3 style="margin: 0 0 22px; font-size: 25px;">How can we work together?</h3>
-            <select name="interest" aria-label="Type of enquiry" required>
-                <option value="" disabled selected>Select an opportunity</option>
-                <option value="VC / CVC partnership">VC / CVC partnership</option>
-                <option value="Startup referral and follow-on funding">Startup referral &amp; follow-on funding</option>
-                <option value="EU funding support">EU funding support</option>
-                <option value="Consortium partnership">Consortium partnership</option>
-            </select>
-            <input name="name" type="text" placeholder="Full name" required>
-            <input name="organisation" type="text" placeholder="Organisation" required>
-            <textarea name="message" placeholder="Tell us what you are looking for" rows="5" required></textarea>
-            <button type="submit" class="btn btn-gold btn-contact-style">
-                Contact DeepSync
-            </button>
-        </form>
-    </div>
-</div>
         </div>
-            <div class="investment-bridge reveal" id="investment-partnerships">
-                <span class="partnership-badge">Investment partnership</span>
-                <h3>Building the bridge from EU funding to private capital.</h3>
-                <p>Europe's innovation “valley of death” hits when grants alone can't scale a company. Brussels wants stronger venture capital and a faster route from lab to market — DeepSync builds that bridge, in both directions.</p>
-                <div class="bridge-paths">
-                    <div class="bridge-card">
-                        <small>For VC &amp; CVC funds</small>
-                        <strong>Qualified European innovation deal flow</strong>
-                        <p>Grant-backed DeepTech companies we know first-hand from proposal and programme work — funding history, tech maturity and scale-up needs, explained.</p>
-                    </div>
-                    <div class="bridge-arrow" aria-hidden="true">↔</div>
-                    <div class="bridge-card">
-                        <small>For portfolio companies</small>
-                        <strong>EU funding fit before the next round</strong>
-                        <p>We check which portfolio companies fit Horizon Europe, EIC or Digital Europe, flag evidence gaps, and map the right funding pathway.</p>
-                    </div>
-                </div>
-                <a class="bridge-source" href="https://commission.europa.eu/news-and-media/news/choose-europe-your-startup-and-scaleup-2025-05-28_en" target="_blank" rel="noopener noreferrer">European Commission · EU Startup and Scaleup Strategy <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="investment-bridge reveal" id="ecosystem-partnerships">
-                <span class="partnership-badge">ECOSYSTEM PARTNERSHIP</span>
-                <h3>Building the bridge from acceleration programmes to EU funding pipelines.</h3>
-                <p>Brussels wants better-connected innovation ecosystems so ventures don't stall once a programme ends. Accelerators build the venture — DeepSync builds the funding pathway that keeps it moving.</p>
-                <div class="bridge-paths">
-                    <div class="bridge-card">
-                        <small>FOR ACCELERATORS &amp; INCUBATORS</small>
-                        <strong>A funding layer for your portfolio</strong>
-                        <p>We add an EU-funding track to your programme — eligibility screening through full proposal support — so graduates leave with more than a pitch deck.</p>
-                    </div>
-                    <div class="bridge-arrow" aria-hidden="true">↔</div>
-                    <div class="bridge-card">
-                        <small>FOR PROGRAMME STARTUPS</small>
-                        <strong>EU funding readiness from day one</strong>
-                        <p>We match your stage to the right Horizon Europe, EIC or Digital Europe instrument and map a pathway you can act on after graduation.</p>
-                    </div>
-                </div>
-                <a class="bridge-source" href="https://research-and-innovation.ec.europa.eu/strategy/support-policy-making/shaping-eu-research-and-innovation-policy/new-european-innovation-agenda/roadmap_en" target="_blank" rel="noopener noreferrer">European Commission · New European Innovation Agenda <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="investment-bridge reveal" id="institutional-partnerships">
-                <span class="partnership-badge">INSTITUTIONAL PARTNERSHIP</span>
-                <h3>Building the bridge from national mandates to EU-level delivery.</h3>
-                <p>National Contact Points drive application quality, but hands-on delivery capacity for complex deep tech consortia is often stretched thin. DeepSync steps in as that delivery partner.</p>
-                <div class="bridge-paths">
-                    <div class="bridge-card">
-                        <small>FOR NATIONAL &amp; REGIONAL AGENCIES</small>
-                        <strong>Delivery capacity, not just guidance</strong>
-                        <p>We work alongside NCPs and development agencies on proposal development, consortium building and evaluator-level review — for the applicants your team refers.</p>
-                    </div>
-                    <div class="bridge-arrow" aria-hidden="true">↔</div>
-                    <div class="bridge-card">
-                        <small>FOR REFERRED APPLICANTS</small>
-                        <strong>From referral to fundable proposal</strong>
-                        <p>We take referred applicants from concept to submission-ready proposal, using the same evaluation logic your NCP already applies.</p>
-                    </div>
-                </div>
-                <a class="bridge-source" href="https://horizoneuropencpportal.eu/" target="_blank" rel="noopener noreferrer">Horizon Europe · National Contact Point Network <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="investment-bridge reveal" id="research-partnerships">
-                <span class="partnership-badge">RESEARCH PARTNERSHIP</span>
-                <h3>Building the bridge from lab result to fundable venture.</h3>
-                <p>The EU calls it a second valley of death: the gap between early research (TRL 1–3) and a working prototype (TRL 4–7). DeepSync works with Technology Transfer Offices to close it.</p>
-                <div class="bridge-paths">
-                    <div class="bridge-card">
-                        <small>FOR TECHNOLOGY TRANSFER OFFICES</small>
-                        <strong>A funding pathway for your spin-outs</strong>
-                        <p>We assess spin-out and licensing candidates for EU funding fit and turn research results into a fundable project — before incorporation.</p>
-                    </div>
-                    <div class="bridge-arrow" aria-hidden="true">↔</div>
-                    <div class="bridge-card">
-                        <small>FOR RESEARCHERS &amp; SPIN-OUT FOUNDERS</small>
-                        <strong>From lab result to fundable proposal</strong>
-                        <p>We show researchers what evaluators actually look for, build the right consortium, and turn results into a competitive proposal.</p>
-                    </div>
-                </div>
-                <a class="bridge-source" href="https://research-and-innovation.ec.europa.eu/research-area/industrial-research-and-innovation/eu-valorisation-policy_en" target="_blank" rel="noopener noreferrer">European Commission · EU Valorisation Policy <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="investment-bridge reveal" id="corporate-partnerships">
-                <span class="partnership-badge">CORPORATE PARTNERSHIP</span>
-                <h3>Building the bridge from industrial roadmaps to EU consortium projects.</h3>
-                <p>Horizon Europe's co-programmed Partnerships align EU funding directly with corporate R&amp;I roadmaps. DeepSync turns that alignment into fundable, deliverable consortium projects.</p>
-                <div class="bridge-paths">
-                    <div class="bridge-card">
-                        <small>FOR CORPORATES &amp; INDUSTRY PARTNERS</small>
-                        <strong>Consortium roles, not cold outreach</strong>
-                        <p>We find where your R&amp;I roadmap overlaps with open EU calls, and build the consortium around the gaps you can't fill alone.</p>
-                    </div>
-                    <div class="bridge-arrow" aria-hidden="true">↔</div>
-                    <div class="bridge-card">
-                        <small>FOR CONSORTIUM PARTNERS</small>
-                        <strong>Credible industrial anchors for your proposal</strong>
-                        <p>We connect deep tech SMEs and researchers with corporate partners who bring the market pull and scale evaluators look for.</p>
-                    </div>
-                </div>
-                <a class="bridge-source" href="https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe/european-partnerships-horizon-europe/european-partnerships-under-horizon-europe-strategic-plan-2025-2027_en" target="_blank" rel="noopener noreferrer">European Commission · European Partnerships in Horizon Europe <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="investment-bridge reveal" id="media-partnerships">
-                <span class="partnership-badge">MEDIA PARTNERSHIP</span>
-                <h3>Building the bridge from Brussels policy signal to founder-ready intelligence.</h3>
-                <p>Deep tech founders need to see where EU policy is heading before it shapes the next call. DeepSync's EU Insights Hub already tracks that shift — a media partnership extends the signal both ways.</p>
-                <div class="bridge-paths">
-                    <div class="bridge-card">
-                        <small>FOR MEDIA &amp; THINK TANKS</small>
-                        <strong>Deep tech signal from the ground</strong>
-                        <p>Practitioner-level analysis — evaluator patterns, call intelligence, consortium trends — from active proposal work most coverage can't access.</p>
-                    </div>
-                    <div class="bridge-arrow" aria-hidden="true">↔</div>
-                    <div class="bridge-card">
-                        <small>FOR DEEPSYNC'S AUDIENCE</small>
-                        <strong>Policy context before it becomes a call</strong>
-                        <p>Founders get earlier signal on where EU priorities are heading, through co-published analysis on the EU Insights Hub.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
-    <dialog id="connect-dialog" class="connect-dialog" aria-labelledby="connect-title">
-        <div class="connect-shell">
-            <div class="connect-header">
-                <div>
-                    <p>Connect with DeepSync</p>
-                    <h2 id="connect-title">Choose how we can work together</h2>
-                </div>
-                <button type="button" class="connect-close" aria-label="Close">×</button>
-            </div>
-            <div class="connect-tabs" role="tablist" aria-label="Ways to work with DeepSync">
-                <button type="button" class="connect-tab" role="tab" aria-selected="true" aria-controls="connect-partnerships" data-connect-tab="partnerships">Partnerships</button>
-                <button type="button" class="connect-tab" role="tab" aria-selected="false" aria-controls="connect-work" data-connect-tab="work">Work with us</button>
-            </div>
-            <div id="connect-partnerships" class="connect-panel" role="tabpanel"></div>
-            <div id="connect-work" class="connect-panel" role="tabpanel" hidden></div>
-        </div>
-    </dialog>
     <section class="final-cta">
         <div class="final-cta-bg"></div>
         <div class="final-cta-overlay"></div>
@@ -1201,7 +1018,7 @@
                     <a href="https://digital-strategy.ec.europa.eu/en/activities/digital-programme" target="_blank" rel="noopener noreferrer">Digital Europe</a>
                     <a href="https://eit.europa.eu/" target="_blank" rel="noopener noreferrer">EIT</a>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" id="footer-contact">
                     <h4>Contact</h4>
                     <a href="mailto:sofia@deep-sync.eu">sofia@deep-sync.eu</a>
                     <a href="https://www.linkedin.com/company/deepsync-eu/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -1221,29 +1038,6 @@
         const networkSection = document.getElementById('network');
         if (statsSection && networkSection) statsSection.after(networkSection);
 
-        const connectDialog = document.getElementById('connect-dialog');
-        const partnershipPanel = document.getElementById('connect-partnerships');
-        const workPanel = document.getElementById('connect-work');
-        const partnershipCards = document.querySelectorAll('.investment-bridge');
-        const workContent = document.querySelector('.contact-form-wrap');
-        partnershipCards.forEach(card => {
-            card.classList.add('active');
-            partnershipPanel.appendChild(card);
-        });
-        if (workContent) {
-            workContent.classList.add('active');
-            workPanel.appendChild(workContent);
-        }
-
-        function selectConnectTab(tabName) {
-            const showPartnerships = tabName === 'partnerships';
-            partnershipPanel.hidden = !showPartnerships;
-            workPanel.hidden = showPartnerships;
-            connectDialog.querySelectorAll('.connect-tab').forEach(tab => {
-                tab.setAttribute('aria-selected', String(tab.dataset.connectTab === tabName));
-            });
-        }
-
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         if (mobileMenuToggle && mobileMenu) {
@@ -1261,19 +1055,14 @@
             mobileMenu.querySelectorAll('a, button').forEach(el => el.addEventListener('click', closeMobileMenu));
         }
 
+        const footerContact = document.getElementById('footer-contact');
         document.querySelectorAll('.connect-trigger').forEach(trigger => {
             trigger.addEventListener('click', event => {
                 event.preventDefault();
-                selectConnectTab(trigger.dataset.connectTab || 'work');
-                connectDialog.showModal();
+                footerContact.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                footerContact.classList.add('contact-flash');
+                setTimeout(() => footerContact.classList.remove('contact-flash'), 2400);
             });
-        });
-        connectDialog.querySelectorAll('.connect-tab').forEach(tab => {
-            tab.addEventListener('click', () => selectConnectTab(tab.dataset.connectTab));
-        });
-        connectDialog.querySelector('.connect-close').addEventListener('click', () => connectDialog.close());
-        connectDialog.addEventListener('click', event => {
-            if (event.target === connectDialog) connectDialog.close();
         });
 
         document.querySelectorAll('.marquee-content').forEach(track => {
