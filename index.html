@@ -169,6 +169,31 @@
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
         .stat-item h4 { font-size: 56px; color: var(--primary); margin-bottom: 8px; font-family: var(--font-mono); }
         .stat-item p { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 800; }
+        /* Case study: REWIRE */
+        .case-section { padding: 110px 0; background: var(--bg); }
+        .case-intro h2 { margin: 0; max-width: 900px; color: var(--navy); font-size: clamp(34px, 5vw, 58px); }
+        .case-hero-photo { margin: 44px 0 0; }
+        .case-hero-photo img, .case-side-photo img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 24px 60px rgba(15,31,55,.14); }
+        .case-hero-photo figcaption { margin-top: 12px; color: var(--muted); font-size: 12.5px; }
+        .case-body { display: grid; grid-template-columns: minmax(0, 65fr) minmax(0, 35fr); gap: 56px; margin-top: 56px; align-items: start; }
+        .case-title-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+        .case-title-row h3 { margin: 0; color: var(--navy); font-size: clamp(28px, 3.4vw, 40px); }
+        .case-status { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 999px; background: rgba(255,204,0,.2); color: var(--navy); font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+        .case-subtitle { margin: 8px 0 22px; color: var(--navy); font-size: 18px; font-weight: 700; }
+        .case-text p { margin: 0 0 14px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+        .case-text .about-block-label { margin-top: 28px; }
+        .case-partners { color: var(--text) !important; font-weight: 600; }
+        .case-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; margin-top: 34px; }
+        .case-actions .btn { padding: 15px 28px; font-size: 15px; }
+        .case-link { color: var(--navy); font-size: 14.5px; font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(10,22,40,.3); padding-bottom: 2px; transition: var(--transition); }
+        .case-link:hover { border-bottom-color: var(--gold); }
+        .case-side-photo { margin: 0; }
+        @media (max-width: 900px) {
+            .case-section { padding: 80px 0; }
+            .case-body { grid-template-columns: 1fr; gap: 40px; margin-top: 40px; }
+            .case-side-photo { max-width: 420px; }
+        }
+
         /* Proposal Evaluator Section */
         .evaluator-section { padding: 56px 0; background: var(--white); border-bottom: 1px solid #E2DFD5; }
         .evaluator-frame-wrap { border-radius: 24px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #E2DFD5; }
@@ -520,6 +545,42 @@
                     <p>We welcome collaboration with universities, innovation agencies, public authorities, accelerators, VC and CVC funds, companies and expert networks seeking to connect European funding with real deployment and follow-on investment.</p>
                 </div>
                 <button type="button" class="connect-trigger" data-connect-tab="partnerships">Explore cooperation →</button>
+            </div>
+        </div>
+    </section>
+    <!-- CASE STUDY: REWIRE -->
+    <section id="case-rewire" class="case-section" aria-labelledby="case-rewire-title">
+        <div class="container">
+            <div class="case-intro reveal">
+                <span class="about-kicker">Selected success story</span>
+                <h2 id="case-rewire-title">From consortium to funded programme</h2>
+            </div>
+            <figure class="case-hero-photo reveal">
+                <img src="/assets/rewire-group.jpg" width="2000" height="1333" loading="lazy" decoding="async" alt="REWIRE participants and programme partners gathered in Lisbon.">
+                <figcaption>REWIRE programme participants and partners, Lisbon, 2025.</figcaption>
+            </figure>
+            <div class="case-body reveal">
+                <div class="case-text">
+                    <div class="case-title-row">
+                        <h3>REWIRE</h3>
+                        <span class="case-status">Funded programme &middot; SPIN: Rise 2025</span>
+                    </div>
+                    <p class="case-subtitle">HealthTech &amp; Wellbeing Commercialisation Lab</p>
+                    <p>A programme helping DeepTech researchers turn HealthTech and wellbeing research into commercial opportunities through IP valorisation, entrepreneurship training and clinical validation.</p>
+                    <span class="about-block-label">Our contribution</span>
+                    <p>DeepSync built the consortium and developed the EIT Digital SPIN: Rise funding application from the ground up. We also supported the programme with EU funding strategy, focusing on EIC and Horizon Europe opportunities.</p>
+                    <span class="about-block-label">The result</span>
+                    <p>The programme secured funding under SPIN: Rise 2025 and completed its first cohort with a bootcamp and Demo Day in Lisbon.</p>
+                    <span class="about-block-label">Programme partners</span>
+                    <p class="case-partners">Applejack Lab &middot; Instituto Pedro Nunes (IPN) &middot; PitchBob.io &middot; University of Coimbra &middot; Coimbra University Hospital Centre (CHUC)</p>
+                    <div class="case-actions">
+                        <button type="button" class="btn btn-gold connect-trigger" data-connect-tab="work">Discuss your project</button>
+                        <a class="case-link" href="https://28digital.eu/spin/rise/rewire-health-tech-wellbeing-commercialisation-lab/" target="_blank" rel="noopener noreferrer">View programme on 28DIGITAL &#8599;</a>
+                    </div>
+                </div>
+                <figure class="case-side-photo">
+                    <img src="/assets/rewire-event.jpg" width="800" height="1200" loading="lazy" decoding="async" alt="Conversation at a REWIRE event with SPIN: Rise branding in the background.">
+                </figure>
             </div>
         </div>
     </section>
