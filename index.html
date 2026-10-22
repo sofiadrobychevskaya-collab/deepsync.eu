@@ -155,7 +155,7 @@
         .who-cta { flex: 0 0 auto; padding: 15px 22px; font-size: 14px; }
         .who-note { margin: 16px 0 0; color: var(--muted); font-size: 12.5px; }
         /* About */
-        .about-section { padding: 110px 0; background: #fff; }
+        .about-section { padding: 110px 0; background: var(--bg); }
         .about-kicker { display: inline-flex; align-items: center; margin-bottom: 20px; padding: 8px 14px; border: 1px solid rgba(10,22,40,.14); border-radius: 999px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
         .about-intro h2 { margin: 0; max-width: 900px; font-size: clamp(34px, 5vw, 58px); }
         .about-cooperation { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 18px; padding: 30px 34px; border-radius: 22px; background: linear-gradient(135deg, var(--navy) 0%, #0d1f38 100%); color: white; box-shadow: 0 24px 60px rgba(15,31,55,.18); }
@@ -165,7 +165,7 @@
         .about-cooperation a, .about-cooperation button { position: relative; flex: 0 0 auto; padding: 13px 22px; border: 1px solid transparent; border-radius: 12px; background: var(--gold); color: var(--navy); font-family: inherit; font-size: 13px; font-weight: 800; text-decoration: none; cursor: pointer; transition: transform .25s ease, box-shadow .25s ease; }
         .about-cooperation a:hover, .about-cooperation button:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,204,0,.35); }
         /* Stats Section */
-        .stats { padding: 100px 0; background: var(--bg); }
+        .stats { padding: 100px 0; background: #fff; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
         .stat-item h4 { font-size: 56px; color: var(--primary); margin-bottom: 8px; font-family: var(--font-mono); }
         .stat-item p { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 800; }
@@ -218,29 +218,29 @@
         }
 
         /* Services (Expert Support) */
-        .svc-section { padding: 110px 0; background: var(--bg); }
-        .svc-head, .sec-head { display: grid; grid-template-columns: 1.25fr .75fr; gap: 12px 64px; align-items: end; margin-bottom: 48px; }
+        .svc-section { padding: 110px 0; background: #fff; }
+        .svc-head, .sec-head { display: grid; grid-template-columns: 1.25fr .75fr; gap: 12px 64px; align-items: end; margin-bottom: 32px; }
         .svc-head h2, .sec-head h2 { margin: 0; max-width: 760px; color: var(--navy); font-size: clamp(32px, 4.4vw, 52px); }
         .svc-head h2 em, .sec-head h2 em { font-style: normal; color: var(--navy); background: linear-gradient(transparent 70%, rgba(255,204,0,.55) 70%); }
         .svc-head p, .sec-head p { margin: 0; padding-left: 28px; border-left: 1px solid var(--border); color: var(--muted); font-size: 16px; line-height: 1.7; }
-        .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-        .svc-card { position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 32px 34px 28px; border: 1px solid var(--border); border-radius: 26px; background: #fff; transition: transform .35s ease, box-shadow .35s ease; }
+        .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .svc-card { position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 22px 24px 20px; border: 1px solid var(--border); border-radius: 20px; background: var(--bg); transition: transform .35s ease, box-shadow .35s ease; }
         .svc-card:hover { transform: translateY(-4px); box-shadow: 0 22px 50px rgba(15,31,55,.1); }
-        .svc-card-top { position: relative; z-index: 1; display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
-        .svc-num { display: grid; place-items: center; min-width: 38px; height: 30px; padding: 0 8px; border-radius: 8px; background: var(--navy); color: var(--gold); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
-        .svc-for { color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-        .svc-watermark { position: absolute; top: 18px; right: 26px; color: var(--navy); font-size: 120px; opacity: .06; pointer-events: none; }
-        .svc-card h3 { position: relative; z-index: 1; max-width: 460px; margin: 0 0 14px; color: var(--navy); font-size: clamp(24px, 2.6vw, 31px); }
-        .svc-desc { position: relative; z-index: 1; max-width: 520px; margin: 0 0 28px; color: var(--muted); font-size: 15px; line-height: 1.65; }
-        .svc-get { display: flex; align-items: center; gap: 16px; margin-top: auto; min-height: 128px; padding-top: 22px; border-top: 1px solid var(--border); }
-        .svc-get-icon { display: grid; place-items: center; flex: 0 0 auto; width: 52px; height: 52px; border-radius: 14px; background: var(--navy); color: var(--gold); font-size: 20px; }
+        .svc-card-top { position: relative; z-index: 1; display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .svc-num { display: grid; place-items: center; min-width: 34px; height: 26px; padding: 0 7px; border-radius: 7px; background: var(--navy); color: var(--gold); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
+        .svc-for { color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .svc-watermark { position: absolute; top: 14px; right: 20px; color: var(--navy); font-size: 78px; opacity: .06; pointer-events: none; }
+        .svc-card h3 { position: relative; z-index: 1; max-width: 460px; margin: 0 0 8px; color: var(--navy); font-size: clamp(19px, 1.9vw, 23px); }
+        .svc-desc { position: relative; z-index: 1; max-width: 520px; margin: 0 0 16px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+        .svc-get { display: flex; align-items: center; gap: 16px; margin-top: auto; min-height: 104px; padding-top: 14px; border-top: 1px solid var(--border); }
+        .svc-get-icon { display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 12px; background: var(--navy); color: var(--gold); font-size: 17px; }
         .svc-get-text { flex: 1 1 auto; min-width: 0; }
         .svc-get-label { display: block; margin-bottom: 4px; color: var(--navy); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
-        .svc-get-text p { margin: 0; color: var(--text); font-size: 13.5px; line-height: 1.5; }
-        .svc-explore { display: inline-flex; align-items: center; flex: 0 0 auto; gap: 10px; padding: 0; border: 0; background: none; color: var(--navy); font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
-        .svc-explore-arrow { display: grid; place-items: center; width: 38px; height: 38px; border: 1.5px solid var(--navy); border-radius: 50%; font-size: 15px; transition: background .25s, color .25s, transform .25s; }
+        .svc-get-text p { margin: 0; color: var(--text); font-size: 12.5px; line-height: 1.45; }
+        .svc-explore { display: inline-flex; align-items: center; flex: 0 0 auto; gap: 8px; padding: 0; border: 0; background: none; color: var(--navy); font-family: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+        .svc-explore-arrow { display: grid; place-items: center; width: 32px; height: 32px; border: 1.5px solid var(--navy); border-radius: 50%; font-size: 13px; transition: background .25s, color .25s, transform .25s; }
         .svc-explore:hover .svc-explore-arrow { background: var(--gold); border-color: var(--gold); transform: translateX(3px); }
-        .svc-cta { margin-top: 22px; }
+        .svc-cta { margin-top: 16px; padding: 22px 28px; }
         @media (max-width: 900px) {
             .svc-section { padding: 80px 0; }
             .svc-head, .sec-head { grid-template-columns: 1fr; gap: 18px; }
@@ -248,15 +248,15 @@
             .svc-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 560px) {
-            .svc-card { padding: 26px 22px 22px; }
+            .svc-card { padding: 20px 18px 18px; }
             .svc-get { flex-wrap: wrap; min-height: 0; }
-            .svc-get-text { flex-basis: calc(100% - 70px); }
-            .svc-explore { margin-left: 68px; }
+            .svc-get-text { flex-basis: calc(100% - 60px); }
+            .svc-explore { margin-left: 58px; }
             .svc-watermark { font-size: 90px; right: 14px; }
         }
 
         /* Case study: REWIRE */
-        .case-section { padding: 110px 0; background: #fff; }
+        .case-section { padding: 110px 0; background: var(--bg); }
         .case-intro h2 { margin: 0; max-width: 900px; color: var(--navy); font-size: clamp(34px, 5vw, 58px); }
         .case-hero-photo { margin: 44px 0 0; }
         .case-hero-photo img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 24px 60px rgba(15,31,55,.14); }
@@ -572,6 +572,94 @@
             </script>
         </div>
     </section>
+    <!-- NETWORK SECTION TWO LINES -->
+    <section id="network" class="network-section">
+        <div class="container sec-head reveal"><div><span class="about-kicker">Our network</span><h2>Network Intelligence</h2></div><p>Over 150 partnerships developed across research, healthcare, public-sector and innovation ecosystems.</p></div>
+        <div class="network-row-label">Universities &amp; Research Institutions</div>
+        <div class="marquee reveal">
+            <div class="marquee-content">
+                <div class="partner-pill">RWTH Aachen University 🇩🇪</div>
+                <div class="partner-pill">Forschungszentrum Jülich 🇩🇪</div>
+                <div class="partner-pill">University of Münster 🇩🇪</div>
+                <div class="partner-pill">MEET Battery Research Center 🇩🇪</div>
+                <div class="partner-pill">HAW Hamburg 🇩🇪</div>
+                <div class="partner-pill">Coburg University of Applied Sciences 🇩🇪</div>
+                <div class="partner-pill">University of Bologna 🇮🇹</div>
+                <div class="partner-pill">University of Lisbon / FCiências.ID 🇵🇹</div>
+                <div class="partner-pill">University of Coimbra 🇵🇹</div>
+                <div class="partner-pill">Instituto Pedro Nunes (IPN) 🇵🇹</div>
+                <div class="partner-pill">Agricultural University of Athens 🇬🇷</div>
+                <div class="partner-pill">University of Thessaly 🇬🇷</div>
+                <div class="partner-pill">University of West Attica 🇬🇷</div>
+                <div class="partner-pill">University of Tartu 🇪🇪</div>
+                <div class="partner-pill">Tallinn University of Technology (TalTech) 🇪🇪</div>
+                <div class="partner-pill">Riga Technical University 🇱🇻</div>
+                <div class="partner-pill">Lund University 🇸🇪</div>
+                <div class="partner-pill">Karolinska Institutet 🇸🇪</div>
+                <div class="partner-pill">University of Oulu 🇫🇮</div>
+                <div class="partner-pill">Durham University 🇬🇧</div>
+                <div class="partner-pill">HES-SO University of Applied Sciences and Arts Western Switzerland 🇨🇭</div>
+                <div class="partner-pill">Yerevan State Medical University 🇦🇲</div>
+                <div class="partner-pill">Kenya Medical Research Institute (KEMRI) 🇰🇪</div>
+                <div class="partner-pill">CYENS Centre of Excellence 🇨🇾</div>
+            </div>
+        </div>
+        <div class="network-row-label">Healthcare &amp; Clinical Partners</div>
+        <div class="marquee reveal"><div class="marquee-content" style="animation-direction: reverse;">
+            <div class="partner-pill">Coimbra University Hospital Centre (CHUC) 🇵🇹</div>
+            <div class="partner-pill">NOVA National School of Public Health 🇵🇹</div>
+            <div class="partner-pill">Hospital del Mar 🇪🇸</div>
+            <div class="partner-pill">Holbæk Hospital 🇩🇰</div>
+            <div class="partner-pill">Slagelse Hospital 🇩🇰</div>
+            <div class="partner-pill">NCD Alliance Kenya 🇰🇪</div>
+            <div class="partner-pill">Danish Hypertension Society 🇩🇰</div>
+            <div class="partner-pill">Danish Heart Foundation 🇩🇰</div>
+            <div class="partner-pill">NET-CARE.CH 🇨🇭</div>
+        </div></div>
+        <div class="network-row-label">Public Authorities, Policy &amp; European Networks</div>
+        <div class="marquee reveal"><div class="marquee-content">
+            <div class="partner-pill">ICLEI – Local Governments for Sustainability 🇪🇺</div>
+            <div class="partner-pill">EURADA – European Association of Development Agencies 🇪🇺</div>
+            <div class="partner-pill">Gorj County Council 🇷🇴</div>
+            <div class="partner-pill">EVBB – European Association of Institutes for Vocational Training 🇧🇪</div>
+            <div class="partner-pill">28DIGITAL / EIT Digital Network 🇪🇺</div>
+            <div class="partner-pill">Energy Storage Europe Association 🇪🇺</div>
+            <div class="partner-pill">Association for Vertical Farming 🇩🇪</div>
+            <div class="partner-pill">Impact Hub Lisbon 🇵🇹</div>
+            <div class="partner-pill">Malta Innovation Hub 🇲🇹</div>
+        </div></div>
+        <div class="network-row-label">Scientific, Industry &amp; Innovation Partners</div>
+        <div class="marquee reveal"><div class="marquee-content" style="animation-direction: reverse;">
+            <div class="partner-pill">Infineon Technologies Austria AG 🇦🇹</div>
+            <div class="partner-pill">Austrian Society for Artificial Intelligence 🇦🇹</div>
+            <div class="partner-pill">Austrian Society for Cybernetics (ÖSGK) 🇦🇹</div>
+            <div class="partner-pill">Software Competence Center Hagenberg 🇦🇹</div>
+            <div class="partner-pill">SYNYO 🇦🇹</div>
+            <div class="partner-pill">Nokia 🇫🇮</div>
+            <div class="partner-pill">Gcore 🇱🇺</div>
+            <div class="partner-pill">MeOut Group 🇭🇺</div>
+            <div class="partner-pill">Sploro 🇪🇸</div>
+        </div></div>
+        <div class="collaboration-proof reveal">
+            <h3>Selected proposal collaborations</h3>
+            <p>Organisations supported through proposal development, consortium building and EU funding strategy.</p>
+            <div class="wordmark-grid" aria-label="Selected organisations supported by DeepSync">
+                <div class="wordmark">NOKIA<small>Technology</small></div>
+                <div class="wordmark">MeOut Group<small>Innovation ecosystem</small></div>
+                <div class="wordmark">Infineon<small>Semiconductors</small></div>
+                <div class="wordmark">Gcore<small>Cloud &amp; AI infrastructure</small></div>
+                <div class="wordmark">RWTH Aachen<small>University</small></div>
+                <div class="wordmark">University of Bologna<small>Research</small></div>
+                <div class="wordmark">Karolinska Institutet<small>Medical research</small></div>
+                <div class="wordmark">Fraunhofer<small>Applied research</small></div>
+                <div class="wordmark">ICLEI<small>Public policy &amp; local government</small></div>
+                <div class="wordmark">Sploro<small>Innovation funding</small></div>
+                <div class="wordmark">28DIGITAL<small>European digital ecosystem</small></div>
+                <div class="wordmark">Energy Storage Europe Association<small>European industry &amp; policy network</small></div>
+            </div>
+            <p class="collaboration-disclaimer">Organisation names are shown solely to identify past proposal or consortium work. No endorsement, sponsorship or formal institutional partnership is implied.</p>
+        </div>
+    </section>
     <!-- ABOUT SECTION -->
     <section id="about" class="about-section">
         <div class="container">
@@ -774,94 +862,6 @@
                 <h4 class="numbers counter" data-target="10">0</h4>
                 <p>Years Experience</p>
             </div>
-        </div>
-    </section>
-    <!-- NETWORK SECTION TWO LINES -->
-    <section id="network" class="network-section">
-        <div class="container sec-head reveal"><div><span class="about-kicker">Our network</span><h2>Network Intelligence</h2></div><p>Over 150 partnerships developed across research, healthcare, public-sector and innovation ecosystems.</p></div>
-        <div class="network-row-label">Universities &amp; Research Institutions</div>
-        <div class="marquee reveal">
-            <div class="marquee-content">
-                <div class="partner-pill">RWTH Aachen University 🇩🇪</div>
-                <div class="partner-pill">Forschungszentrum Jülich 🇩🇪</div>
-                <div class="partner-pill">University of Münster 🇩🇪</div>
-                <div class="partner-pill">MEET Battery Research Center 🇩🇪</div>
-                <div class="partner-pill">HAW Hamburg 🇩🇪</div>
-                <div class="partner-pill">Coburg University of Applied Sciences 🇩🇪</div>
-                <div class="partner-pill">University of Bologna 🇮🇹</div>
-                <div class="partner-pill">University of Lisbon / FCiências.ID 🇵🇹</div>
-                <div class="partner-pill">University of Coimbra 🇵🇹</div>
-                <div class="partner-pill">Instituto Pedro Nunes (IPN) 🇵🇹</div>
-                <div class="partner-pill">Agricultural University of Athens 🇬🇷</div>
-                <div class="partner-pill">University of Thessaly 🇬🇷</div>
-                <div class="partner-pill">University of West Attica 🇬🇷</div>
-                <div class="partner-pill">University of Tartu 🇪🇪</div>
-                <div class="partner-pill">Tallinn University of Technology (TalTech) 🇪🇪</div>
-                <div class="partner-pill">Riga Technical University 🇱🇻</div>
-                <div class="partner-pill">Lund University 🇸🇪</div>
-                <div class="partner-pill">Karolinska Institutet 🇸🇪</div>
-                <div class="partner-pill">University of Oulu 🇫🇮</div>
-                <div class="partner-pill">Durham University 🇬🇧</div>
-                <div class="partner-pill">HES-SO University of Applied Sciences and Arts Western Switzerland 🇨🇭</div>
-                <div class="partner-pill">Yerevan State Medical University 🇦🇲</div>
-                <div class="partner-pill">Kenya Medical Research Institute (KEMRI) 🇰🇪</div>
-                <div class="partner-pill">CYENS Centre of Excellence 🇨🇾</div>
-            </div>
-        </div>
-        <div class="network-row-label">Healthcare &amp; Clinical Partners</div>
-        <div class="marquee reveal"><div class="marquee-content" style="animation-direction: reverse;">
-            <div class="partner-pill">Coimbra University Hospital Centre (CHUC) 🇵🇹</div>
-            <div class="partner-pill">NOVA National School of Public Health 🇵🇹</div>
-            <div class="partner-pill">Hospital del Mar 🇪🇸</div>
-            <div class="partner-pill">Holbæk Hospital 🇩🇰</div>
-            <div class="partner-pill">Slagelse Hospital 🇩🇰</div>
-            <div class="partner-pill">NCD Alliance Kenya 🇰🇪</div>
-            <div class="partner-pill">Danish Hypertension Society 🇩🇰</div>
-            <div class="partner-pill">Danish Heart Foundation 🇩🇰</div>
-            <div class="partner-pill">NET-CARE.CH 🇨🇭</div>
-        </div></div>
-        <div class="network-row-label">Public Authorities, Policy &amp; European Networks</div>
-        <div class="marquee reveal"><div class="marquee-content">
-            <div class="partner-pill">ICLEI – Local Governments for Sustainability 🇪🇺</div>
-            <div class="partner-pill">EURADA – European Association of Development Agencies 🇪🇺</div>
-            <div class="partner-pill">Gorj County Council 🇷🇴</div>
-            <div class="partner-pill">EVBB – European Association of Institutes for Vocational Training 🇧🇪</div>
-            <div class="partner-pill">28DIGITAL / EIT Digital Network 🇪🇺</div>
-            <div class="partner-pill">Energy Storage Europe Association 🇪🇺</div>
-            <div class="partner-pill">Association for Vertical Farming 🇩🇪</div>
-            <div class="partner-pill">Impact Hub Lisbon 🇵🇹</div>
-            <div class="partner-pill">Malta Innovation Hub 🇲🇹</div>
-        </div></div>
-        <div class="network-row-label">Scientific, Industry &amp; Innovation Partners</div>
-        <div class="marquee reveal"><div class="marquee-content" style="animation-direction: reverse;">
-            <div class="partner-pill">Infineon Technologies Austria AG 🇦🇹</div>
-            <div class="partner-pill">Austrian Society for Artificial Intelligence 🇦🇹</div>
-            <div class="partner-pill">Austrian Society for Cybernetics (ÖSGK) 🇦🇹</div>
-            <div class="partner-pill">Software Competence Center Hagenberg 🇦🇹</div>
-            <div class="partner-pill">SYNYO 🇦🇹</div>
-            <div class="partner-pill">Nokia 🇫🇮</div>
-            <div class="partner-pill">Gcore 🇱🇺</div>
-            <div class="partner-pill">MeOut Group 🇭🇺</div>
-            <div class="partner-pill">Sploro 🇪🇸</div>
-        </div></div>
-        <div class="collaboration-proof reveal">
-            <h3>Selected proposal collaborations</h3>
-            <p>Organisations supported through proposal development, consortium building and EU funding strategy.</p>
-            <div class="wordmark-grid" aria-label="Selected organisations supported by DeepSync">
-                <div class="wordmark">NOKIA<small>Technology</small></div>
-                <div class="wordmark">MeOut Group<small>Innovation ecosystem</small></div>
-                <div class="wordmark">Infineon<small>Semiconductors</small></div>
-                <div class="wordmark">Gcore<small>Cloud &amp; AI infrastructure</small></div>
-                <div class="wordmark">RWTH Aachen<small>University</small></div>
-                <div class="wordmark">University of Bologna<small>Research</small></div>
-                <div class="wordmark">Karolinska Institutet<small>Medical research</small></div>
-                <div class="wordmark">Fraunhofer<small>Applied research</small></div>
-                <div class="wordmark">ICLEI<small>Public policy &amp; local government</small></div>
-                <div class="wordmark">Sploro<small>Innovation funding</small></div>
-                <div class="wordmark">28DIGITAL<small>European digital ecosystem</small></div>
-                <div class="wordmark">Energy Storage Europe Association<small>European industry &amp; policy network</small></div>
-            </div>
-            <p class="collaboration-disclaimer">Organisation names are shown solely to identify past proposal or consortium work. No endorsement, sponsorship or formal institutional partnership is implied.</p>
         </div>
     </section>
     <!-- EU FUNDING RADAR -->
