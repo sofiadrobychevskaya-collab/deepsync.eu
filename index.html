@@ -182,6 +182,9 @@
         .case-subtitle { margin: 8px 0 22px; color: var(--navy); font-size: 18px; font-weight: 700; }
         .case-text p { margin: 0 0 14px; color: var(--muted); font-size: 16px; line-height: 1.7; }
         .case-text .about-block-label { margin-top: 28px; }
+        .case-results { display: flex; flex-direction: column; gap: 10px; margin: 0 0 14px; padding: 0; list-style: none; }
+        .case-results li { position: relative; padding-left: 17px; color: var(--muted); font-size: 16px; line-height: 1.6; }
+        .case-results li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; background: var(--gold); }
         .case-partners { color: var(--text) !important; font-weight: 600; }
         .case-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; margin-top: 34px; }
         .case-actions .btn { padding: 15px 28px; font-size: 15px; }
@@ -570,7 +573,11 @@
                     <span class="about-block-label">Our contribution</span>
                     <p>DeepSync built the consortium and developed the EIT Digital SPIN: Rise funding application from the ground up. We also supported the programme with EU funding strategy, focusing on EIC and Horizon Europe opportunities.</p>
                     <span class="about-block-label">The result</span>
-                    <p>The programme secured funding under SPIN: Rise 2025 and completed its first cohort with a bootcamp and Demo Day in Lisbon.</p>
+                    <ul class="case-results">
+                        <li>Over 20 scientists from EU academic institutions were selected with breakthrough ideas in Digital Health, MedTech and AI for Wellbeing.</li>
+                        <li>More than 350 guests joined the networking evening in Lisbon.</li>
+                        <li>7 intensive weeks of bootcamps, coaching and hands-on commercialisation work.</li>
+                    </ul>
                     <span class="about-block-label">Programme partners</span>
                     <p class="case-partners">Applejack Lab &middot; Instituto Pedro Nunes (IPN) &middot; PitchBob.io &middot; University of Coimbra &middot; Coimbra University Hospital Centre (CHUC)</p>
                     <div class="case-actions">
