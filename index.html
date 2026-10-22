@@ -289,25 +289,6 @@
         .db-info h2 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 20px; color: var(--navy); }
         .db-tag { display: inline-block; padding: 6px 12px; background: var(--primary); color: white; border-radius: 6px; font-size: 11px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         /* Services */
-        .services-section { padding: 120px 0; background: var(--bg); }
-        .services-intro { max-width: 720px; margin: 0 auto 48px; text-align: center; }
-        .services-intro span { color: var(--primary); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
-        .services-intro h2 { margin: 12px 0 14px; color: var(--navy); font-size: clamp(36px, 6vw, 58px); }
-        .services-intro p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.65; }
-        .service-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
-        .service-card { display: flex; flex-direction: column; min-height: 510px; padding: 42px; border: 1px solid #dde2e9; border-radius: 28px; background: white; box-shadow: 0 18px 45px rgba(15,31,55,.06); }
-        .service-card-dark { border-color: var(--navy); background: var(--navy); color: white; }
-        .service-card-number { margin-bottom: 56px; color: var(--primary); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
-        .service-card-dark .service-card-number { color: var(--gold); }
-        .service-card h3 { margin: 0 0 14px; color: var(--navy); font-size: 34px; }
-        .service-card-dark h3 { color: white; }
-        .service-card > p { margin: 0 0 26px; color: var(--muted); font-size: 14px; line-height: 1.6; }
-        .service-card-dark > p { color: rgba(255,255,255,.68); }
-        .service-list { display: grid; gap: 0; margin: 0 0 34px; padding: 0; list-style: none; }
-        .service-list li { padding: 12px 0; border-bottom: 1px solid #e7ebf0; color: var(--navy); font-size: 15px; font-weight: 700; }
-        .service-card-dark .service-list li { border-color: rgba(255,255,255,.14); color: white; }
-        .service-card .service-explore { align-self: flex-start; margin-top: auto; padding: 13px 17px; border: 1px solid var(--navy); border-radius: 11px; background: var(--navy); color: white; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
-        .service-card-dark .service-explore { border-color: white; background: white; color: var(--navy); }
         /* EU Roadmap */
         .lc-phase-group { margin-bottom: 50px; width: 100%; }
         .lc-phase-label { font-size: 11px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; color: #0A1628; background: rgba(10,22,40,0.07); padding: 5px 12px; border-radius: 4px; display: inline-block; margin-bottom: 25px; }
@@ -464,8 +445,6 @@
             .who-row { flex-direction: column; align-items: flex-start; }
             .who-cta { width: 100%; justify-content: center; }
             .about-cooperation { align-items: flex-start; flex-direction: column; text-align: left; }
-            .service-card-grid { grid-template-columns: 1fr; }
-            .service-card { min-height: 0; }
         }
         @media (max-width: 560px) {
             .founder-header { align-items: flex-start; }
@@ -837,46 +816,6 @@
                     <p>Whether you&rsquo;re developing an EU-funded initiative, expanding your innovation ecosystem or bringing technology to market, we can help you move forward.</p>
                 </div>
                 <button type="button" class="connect-trigger" data-connect-tab="work">Discuss Your Needs &rarr;</button>
-            </div>
-        </div>
-    </section>
-    <!-- REPORTING SECTION -->
-    <section id="reporting" class="services-section">
-        <div class="container">
-            <div class="services-intro reveal">
-                <span>Delivery &amp; compliance</span>
-                <h2>Reporting that keeps funded projects on track.</h2>
-                <p>Once a grant is signed, we run the financial and project reporting it takes to stay compliant and keep funds flowing — for national RIF grants and for EU Commission programmes.</p>
-            </div>
-            <div class="service-card-grid">
-                <article class="service-card reveal">
-                    <span class="service-card-number">CYPRUS / NATIONAL</span>
-                    <h3>RIF Grants</h3>
-                    <p>End-to-end administrative and financial monitoring for projects funded by Cyprus's Research and Innovation Foundation (RIF), so implementation runs without delays.</p>
-                    <ul class="service-list">
-                        <li>Interim &amp; final progress reports</li>
-                        <li>Technical &amp; financial reporting</li>
-                        <li>Expenditure eligibility checks</li>
-                        <li>Budget monitoring</li>
-                        <li>Budget revisions &amp; reallocations</li>
-                        <li>Authority coordination &amp; documentation</li>
-                    </ul>
-                    <button type="button" class="service-explore connect-trigger" data-connect-tab="work">Explore RIF Reporting →</button>
-                </article>
-                <article class="service-card service-card-dark reveal">
-                    <span class="service-card-number">EU COMMISSION</span>
-                    <h3>Horizon Europe &amp; Digital Europe</h3>
-                    <p>The management and reporting structure we run once the Grant Agreement is signed and the project moves into implementation.</p>
-                    <ul class="service-list">
-                        <li>Project set-up &amp; implementation plan</li>
-                        <li>Monthly consortium management</li>
-                        <li>Deliverables, milestones &amp; KPIs</li>
-                        <li>Technical &amp; financial reporting</li>
-                        <li>Quality, risk &amp; change management</li>
-                        <li>Funding &amp; Tenders Portal support</li>
-                    </ul>
-                    <button type="button" class="service-explore connect-trigger" data-connect-tab="work">Explore EU Reporting →</button>
-                </article>
             </div>
         </div>
     </section>
