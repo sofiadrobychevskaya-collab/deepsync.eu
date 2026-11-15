@@ -1,6 +1,60 @@
 {
-  "generated_at": "2026-10-14T12:00:00.000Z",
+  "generated_at": "2026-11-15T12:00:00.000Z",
   "items": [
+    {
+      "category": "HORIZON EUROPE",
+      "date_label": "10 NOV 2026",
+      "headline": "Parliament committee wants €200bn for the next Horizon Europe",
+      "body": "The European Parliament's industry and research committee (ITRE) adopted its position on Horizon Europe 2028–2034 on 10 November by 67 votes to 1, with 18 abstentions. MEPs ask for an overall budget of €200 billion in current prices, against the €175 billion the Commission proposed. Parliament also wants new 'Horizon Europe Pathway actions' to take research results into deployment, commercialisation and scale-up.",
+      "what_it_means": "This is Parliament's opening position before talks with the Council, not the final budget. For research-driven clients, the signal is that the next programme is likely to be larger and more focused on getting results to market — worth building exploitation and scale-up plans into 2027 proposals now.",
+      "source_name": "European Parliament (via Lovguiden)",
+      "source_url": "https://www.lovguiden.dk/en/det-offentlige/europa-parlamentet/2026-11-10-horizon-europe-2028-2034-ep-committee-seeks-200bn-research-budget"
+    },
+    {
+      "category": "HORIZON EUROPE",
+      "date_label": "10 NOV 2026",
+      "headline": "MEPs back a €264bn European Competitiveness Fund and €91bn for CEF",
+      "body": "On the same day, ITRE adopted its position on the European Competitiveness Fund (ECF) by 61 votes to 13, with 12 abstentions. From 2028 to 2034 the Fund would pool 14 existing EU funding instruments, and the committee also wants a dedicated defence research programme. Separately, ITRE and TRAN asked for €91.28 billion for the Connecting Europe Facility 2028–2034. Both mandates still need approval in the 23–26 November plenary.",
+      "what_it_means": "The 2028–2034 funding map is taking shape: many programmes clients use today (including parts of Digital Europe and the EIC) would sit inside the ECF. Nothing changes for current calls, but long-term funding roadmaps should now plan for the ECF structure.",
+      "source_name": "European Parliament (via Lovguiden)",
+      "source_url": "https://www.lovguiden.dk/en/det-offentlige/europa-parlamentet/2026-11-10-ep-industry-committee-wants-competitiveness-fund-raised-to-264-billion"
+    },
+    {
+      "category": "EIC",
+      "date_label": "05 NOV 2026",
+      "headline": "EIC 2027 Work Programme adopted: €1.8bn, the last under Horizon Europe",
+      "body": "The Commission adopted the European Innovation Council's 2027 Work Programme, making €1.8 billion available for deep-tech researchers and companies. It is the final EIC package under Horizon Europe 2021–2027 and completes the €1 billion Scaleup Europe Fund, with €200 million for defence investments and €25 million for the Advanced Innovation Challenges pilot. EIC Accelerator cut-offs in 2027 are 20 January, 17 March, 1 September and 4 November; the first EIC Pathfinder deadline is 25 February 2027.",
+      "what_it_means": "Only four Accelerator cut-offs next year, so timing matters more: teams aiming for 20 January need their short application through now. The EIC online info day on 19 November is the place to check the scheme changes.",
+      "source_name": "European Commission (via Lovguiden)",
+      "source_url": "https://www.lovguiden.dk/en/det-offentlige/den-europaeiske-union/2026-11-05-european-innovation-council-allocates-1-8-billion-to-deep-tech-companies-in-2027"
+    },
+    {
+      "category": "DIGITAL EUROPE",
+      "date_label": "04 NOV 2026",
+      "headline": "EU launches €525M European Chip Design Platform",
+      "body": "The Commission launched the European Chip Design Platform (EuroCDP) under the Chips Act. It mobilises €525 million: €440 million in grants of up to €16 million for chip design companies, and €85 million for the platform's infrastructure, support services and open-source design tools. €285 million comes from the EU budget and €240 million from Chips Joint Undertaking participating states. Grant applications are open on the platform's website.",
+      "what_it_means": "A direct, non-dilutive route for semiconductor start-ups and SMEs, alongside access to design tools, IP blocks and manufacturing capacity. Hardware clients should check eligibility now while the first grant rounds are open.",
+      "source_name": "European Commission (via Lovguiden)",
+      "source_url": "https://www.lovguiden.dk/en/det-offentlige/europa-kommissionen-press-corner/2026-11-04-eu-launches-525-million-chip-design-platform-for-start-ups-and-smes"
+    },
+    {
+      "category": "AI ACT",
+      "date_label": "DEADLINE 2 DEC 2026",
+      "headline": "AI Act: grace period for AI-content marking ends 2 December",
+      "body": "Under the Digital Omnibus on AI, generative AI systems already on the market before 2 August 2026 have until 2 December 2026 to meet the Article 50(2) duty to mark synthetic output in a machine-readable format. Systems placed on the market from 2 August 2026 get no grace period, and the other Article 50 transparency duties, such as chatbot disclosure and deepfake labelling, already apply.",
+      "what_it_means": "Clients with generative AI products on the market before August have about two weeks left to build marking in. Newer products need it from launch, and it is worth confirming the exact wording against the Official Journal text.",
+      "source_name": "Cloud Security Alliance",
+      "source_url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-eu-ai-act-article50-watermarking-deadline/"
+    },
+    {
+      "category": "DEEP TECH",
+      "date_label": "10 NOV 2026",
+      "headline": "redalpine closes $250M early-stage science fund",
+      "body": "Zurich-founded pan-European VC redalpine closed its early-stage fund redalpine capital VIII at $250 million on 10 November 2026.",
+      "what_it_means": "Early-stage capital for science-based companies is still being raised. For EU grant holders, a strong Horizon or EIC result is a useful signal to bring into conversations with funds like these.",
+      "source_name": "HackerNoon",
+      "source_url": "https://hackernoon.com/redalpine-closes-oversubscribed-$250m-fund-to-back-the-science-defining-the-next-decade"
+    },
     {
       "category": "DEEP TECH",
       "date_label": "09 SEP 2026",
@@ -20,24 +74,6 @@
       "source_url": "https://eqtgroup.com/news/eqts-scaleup-europe-fund-makes-first-investment-co-leads-1-billion-funding-round-in-iceye-europes-leader-in-sovereign-intelligence-from-space-2026-08-05"
     },
     {
-      "category": "EIC",
-      "date_label": "04 NOV 2026",
-      "headline": "EIC Accelerator: 4 November is the last 2026 cut-off",
-      "body": "The EIC Accelerator's final full-proposal cut-off of 2026 is 4 November at 17:00 Brussels time. Only companies whose short application has already received a GO can submit a full proposal for it; short applications are batched monthly with no fixed deadline, and results take about 4–6 weeks. Separately, the EIC STEP Scale Up Defence call (€100m indicative, €10–30m equity per company) closes on 28 October.",
-      "what_it_means": "For a short application submitted now, the result will most likely come after 4 November, so the next realistic full-proposal window is in 2027. Teams without a GO should plan for the first 2027 cut-off; defence and dual-use companies with a lead investor should look at STEP Scale Up Defence now.",
-      "source_name": "European Innovation Council",
-      "source_url": "https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en"
-    },
-    {
-      "category": "AI ACT",
-      "date_label": "02 DEC 2026",
-      "headline": "AI Act: grace period for AI-content marking ends 2 December",
-      "body": "Under the Digital Omnibus on AI, generative AI systems already on the market before 2 August 2026 have until 2 December 2026 to meet the Article 50(2) duty to mark synthetic output in a machine-readable format. Systems placed on the market from 2 August 2026 get no grace period, and the other Article 50 transparency duties, such as chatbot disclosure and deepfake labelling, already apply.",
-      "what_it_means": "Clients with generative AI products on the market before August have about seven weeks left to build marking in. Newer products need it from launch, and it is worth confirming the exact wording against the Official Journal text.",
-      "source_name": "Cloud Security Alliance",
-      "source_url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-eu-ai-act-article50-watermarking-deadline/"
-    },
-    {
       "category": "AI ACT",
       "date_label": "27 JUL 2026",
       "headline": "Digital Omnibus on AI enters into force",
@@ -45,78 +81,6 @@
       "what_it_means": "Deep-tech clients building Annex III high-risk systems — employment, education, critical infrastructure — get genuine breathing room on compliance, and those embedding high-risk AI in regulated products now have until August 2028; but the 2 August transparency duties still apply regardless of either extension, so it's worth flagging all three clocks separately. Also a timely compliance-relief note for any client who was scrambling ahead of the original 2 August deadline.",
       "source_name": "European Commission",
       "source_url": "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force"
-    },
-    {
-      "category": "AI ACT",
-      "date_label": "07 JUL 2026",
-      "headline": "Commission unveils AI Action Plan on cybersecurity",
-      "body": "The European Commission presented a Cybersecurity and AI action plan setting out a coordinated approach to help member states, businesses and public authorities manage cybersecurity and resilience risks from the most advanced AI models. As part of the plan, the Commission will launch a call to boost EU capacity to evaluate AI models before they reach the market, with the new evaluation function expected to be operational by 2027.",
-      "what_it_means": "A new EU-level AI model evaluation and certification capability is coming, which could become a reference point for pre-market risk assessment and open new advisory and testing opportunities for specialist providers.",
-      "source_name": "European Commission",
-      "source_url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai"
-    },
-    {
-      "category": "AI ACT",
-      "date_label": "29 JUN 2026",
-      "headline": "Council finalises AI Act simplification package",
-      "body": "The Council of the EU gave its final green light to a regulation simplifying and streamlining AI Act rules, following the European Parliament's endorsement on 16 June. The package defers the high-risk AI system compliance deadline (originally 2 August 2026) by roughly 16 months, while adding a new prohibition on AI systems that generate non-consensual intimate imagery or CSAM, effective 2 December 2026, and pushing the deadline for national AI regulatory sandboxes to August 2027.",
-      "what_it_means": "Founders building standalone high-risk AI products get significant breathing room on compliance, but general-purpose AI transparency and chatbot-disclosure duties still apply from August 2026 regardless of the delay — don't confuse the two compliance clocks.",
-      "source_name": "Council of the EU",
-      "source_url": "https://www.consilium.europa.eu/en/press/press-releases/2026/06/29/artificial-intelligence-council-gives-final-green-light-to-simplify-and-streamline-rules/"
-    },
-    {
-      "category": "EIC",
-      "date_label": "WEEK OF 13 JUL 2026",
-      "headline": "EIC Accelerator moves to bimonthly deadlines, opens to dual-use",
-      "body": "Following the 17 June 2026 EIC Work Programme amendment, the Accelerator call is now open to dual-use innovation for the first time, alongside its existing civilian remit. Full-proposal cut-offs have also shifted from two to six per year, batched roughly every two months (January, March, May, July, September, November), with the fourth 2026 window closing on 8 July.",
-      "what_it_means": "Defence-adjacent deep-tech founders now have a route into Accelerator grant and equity funding, and the shorter gap between cut-offs lowers the cost of missing a given deadline — but readiness, not speed, should now drive submission timing.",
-      "source_name": "European Innovation Council",
-      "source_url": "https://eic.ec.europa.eu/eic-frequently-asked-questions/faqs-eic-accelerator_en"
-    },
-    {
-      "category": "EIC",
-      "date_label": "01 JUL 2026",
-      "headline": "EIC STEP Scale Up Defence call opens for applications",
-      "body": "The European Innovation Council opened its STEP Scale Up Defence call, offering up to €30 million in direct equity to accelerate scale-up of industrial capabilities in areas such as air and missile defence, drones and counter-drone systems. The EIC will co-invest in larger funding rounds typically worth €50-150 million or more, with total round size expected to be three to five times the EIC's contribution. Applications are open until 28 October 2026.",
-      "what_it_means": "This is a dedicated growth-equity channel for European defence and dual-use deep-tech scale-ups that need to unlock much larger private co-investment rounds than typical EIC grants allow.",
-      "source_name": "European Innovation Council",
-      "source_url": "https://eic.ec.europa.eu/news/eic-step-scale-defence-call-opens-today-2026-07-01_en"
-    },
-    {
-      "category": "HORIZON EUROPE",
-      "date_label": "16 JUL 2026",
-      "headline": "EU and India agree to start Horizon Europe association talks",
-      "body": "The EU and India agreed to open formal negotiations on India's association with Horizon Europe, broadening bilateral ties beyond their recently agreed free trade deal. The two sides aim to conclude the talks before year-end on India's association with the roughly €95.5 billion research and innovation programme, which would give Indian universities, research institutes and companies access to collaborative projects with European partners.",
-      "what_it_means": "If concluded, Indian entities could soon join Horizon Europe consortia on equal terms with associated countries, widening the pool of potential partners and competitors for EU-funded research and innovation projects.",
-      "source_name": "Bloomberg",
-      "source_url": "https://www.bloomberg.com/news/articles/2026-07-16/eu-india-move-to-expand-ties-beyond-landmark-free-trade-deal"
-    },
-    {
-      "category": "DEEP TECH",
-      "date_label": "WEEK OF 13 JUL 2026",
-      "headline": "European tech funding tops €2.8bn in a single week",
-      "body": "Tech.eu's weekly tracker recorded more than 70 funding deals worth over €2.8 billion across Europe last week, plus more than five exits and M&A transactions. Clouds (€790.8 million), fintech (€660 million) and energy (€471.4 million) were the top-raising sectors, with the UK leading at country level (€1.7 billion), ahead of Germany (€511.9 million) and France (€258.4 million).",
-      "what_it_means": "Weekly deal volumes remain strong heading into H2 2026, with UK-based cloud and fintech companies continuing to pull in the largest share of European venture capital.",
-      "source_name": "tech.eu",
-      "source_url": "https://tech.eu/2026/07/13/european-tech-weekly-recap-more-than-70-tech-funding-deals-worth-over-eur28b/"
-    },
-    {
-      "category": "DEEP TECH",
-      "date_label": "07 JUL 2026",
-      "headline": "Munich fusion startup Proxima Fusion raises €411m",
-      "body": "Proxima Fusion closed a €411 million financing round at a €2.4 billion valuation, led by XTX Ventures and East X Ventures, with RWE and Google joining as strategic investors. The Munich-headquartered company, which also has offices in Zurich and Oxford and around 200 staff, is developing commercial stellarator fusion power plants building on the Wendelstein 7-X research programme, with a net-energy demonstrator targeted for the early 2030s.",
-      "what_it_means": "The round underlines continued appetite for mega-rounds in European fusion energy and the growing role of strategic corporate investors like Google and utilities such as RWE in de-risking capital-intensive deep-tech bets.",
-      "source_name": "Raising Europe",
-      "source_url": "https://raisingeurope.substack.com/p/european-tech-dealflow-highlights-fbb"
-    },
-    {
-      "category": "DEEP TECH",
-      "date_label": "WEEK OF 13 JUL 2026",
-      "headline": "European tech funding: €2.8B+ across 70+ deals in one week",
-      "body": "Per industry tracker Tech.eu's weekly recap, European tech startups raised over €2.8 billion across more than 70 disclosed deals in the week of 13 July 2026.",
-      "what_it_means": "A single-week pulse check, not a trend by itself — useful as a \"the market is still moving fast\" data point, best paired with H1 macro numbers.",
-      "source_name": "tech.eu",
-      "source_url": "https://tech.eu"
     }
   ]
 }
