@@ -343,9 +343,9 @@
         .founder-education { margin: 0 0 24px; }
         .founder-education-label { margin: 0 0 10px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
         .education-logos { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .education-logo { height: 58px; border: 1px solid #e1e6ed; border-radius: 12px; background-color: #0d1b31; background-image: url('/assets/education-logos-source.png'); background-repeat: no-repeat; box-shadow: 0 8px 20px rgba(15,31,55,.06); }
-        .education-logo-london { width: 148px; background-size: 680px 158px; background-position: -54px -51px; }
-        .education-logo-eu { width: 188px; background-size: 718px 167px; background-position: -235px -53px; }
+        .education-logo { display: block; height: 58px; width: auto; border: 1px solid #e1e6ed; border-radius: 12px; box-shadow: 0 8px 20px rgba(15,31,55,.06); }
+        .education-logo-london { background: #fff; }
+        .education-logo-eu { background: #0d1b31; }
         /* Marquee */
         .network-section { padding: 100px 0; background: #fff; overflow: hidden; }
         .network-row-label { width: min(1180px, calc(100% - 40px)); margin: 18px auto 9px; color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
@@ -727,6 +727,7 @@
                 <div class="wordmark">Sploro<small>Innovation funding</small></div>
                 <div class="wordmark">28DIGITAL<small>European digital ecosystem</small></div>
                 <div class="wordmark">Energy Storage Europe Association<small>European industry &amp; policy network</small></div>
+                <div class="wordmark">EVBB<small>European vocational training network</small></div>
             </div>
             <p class="collaboration-disclaimer">Organisation names are shown solely to identify past proposal or consortium work. No endorsement, sponsorship or formal institutional partnership is implied.</p>
         </div>
@@ -977,8 +978,8 @@
                     <div class="founder-education" aria-label="Education">
                         <p class="founder-education-label">Education</p>
                         <div class="education-logos">
-                            <div class="education-logo education-logo-london" role="img" aria-label="London Metropolitan University"></div>
-                            <div class="education-logo education-logo-eu" role="img" aria-label="EU Business School"></div>
+                            <img class="education-logo education-logo-london" src="/assets/images/edu-london-met.png" alt="London Metropolitan University" width="212" height="91">
+                            <img class="education-logo education-logo-eu" src="/assets/images/edu-eu-business-school.png" alt="EU Business School" width="320" height="110">
                         </div>
                     </div>
                 </div>
